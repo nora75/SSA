@@ -2,6 +2,7 @@ package com.example.ssa
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -10,6 +11,10 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.util.Log
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_write.*
 
@@ -23,6 +28,25 @@ class write : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
+
+        hozon_button.setOnClickListener(View.OnClickListener {
+            var content_id = findViewById(R.id.Memo_Content) as EditText
+            var title_id = findViewById(R.id.title) as EditText
+
+            Log.d("debug","contens before")
+            // get string contents of EditText
+            val contents = content_id.text.toString()
+            val title = title_id.text.toString()
+
+            Log.d("debug","contens after")
+
+            if (!contents.isEmpty()&&!title.isEmpty()) {
+                saveFile(title, contents)
+                Toast.makeText(this, "保存に成功しました", Toast.LENGTH_LONG).show()
+                finish()
+            } else {
+                Toast.makeText(this, "保存に失敗しました", Toast.LENGTH_LONG).show()            }
+        })
     }
 
     override fun onResume() {
@@ -38,6 +62,7 @@ class write : AppCompatActivity() {
                 }
             } ?: Toast.makeText(this, "カメラを扱うアプリがありません", Toast.LENGTH_LONG).show()
         }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -73,5 +98,16 @@ class write : AppCompatActivity() {
                 takePicture()
             }
         }
+    }
+
+    private fun saveFile(file: String, str: String) {
+
+        applicationContext.openFileOutput(file, Context.MODE_PRIVATE).use {
+            it.write(str.toByteArray())
+        }
+
+        //File(applicationContext.filesDir, file).writer().use {
+        //    it.write(str)
+        //}
     }
 }

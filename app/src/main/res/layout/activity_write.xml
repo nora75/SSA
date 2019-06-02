@@ -23,8 +23,10 @@
                     android:layout_height="wrap_content"
                     android:text="タイトル"/>
             <EditText
+                    android:id="@+id/title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
+
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
@@ -55,14 +57,21 @@
                     android:layout_height="wrap_content"
                     android:text="メモ"/>
             <EditText
+                    android:id="@+id/Memo_Content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:inputType="textMultiLine|text|textImeMultiLine"
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine|text|textImeMultiLine"
                     android:lines="5"/>
         </LinearLayout>
         <Button
+                android:id="@+id/hozon_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="保存"/>
+        <TextView
+                android:id="@+id/test"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
