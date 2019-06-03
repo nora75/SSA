@@ -6,6 +6,7 @@ class GetFile {
     private val name = GetName()
     private var talkDirCheck: Boolean = false
     private var writeDirCheck: Boolean = false
+    private var pictDirCheck: Boolean = false
 
     /*
     * 話す(talk)画面用
@@ -30,6 +31,15 @@ class GetFile {
         }
         return fl.absolutePath
     }
+
+    fun getPict(filesDir: File): String {
+        val fl = File("$filesDir/Pict", "Pict" + name.get())
+        if (!pictDirCheck) {
+            pictDirCheck = checkDir(fl)
+        }
+        return fl.absolutePath
+    }
+
 
     /*
     * 書き込む親dirを確認して、無ければ作成する。
