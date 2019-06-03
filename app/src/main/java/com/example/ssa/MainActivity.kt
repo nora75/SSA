@@ -11,6 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+<<<<<<< HEAD
         //書く画面への画面遷移用のリスナ―設定
         Write_Button.setOnClickListener {
             val write_intent = Intent(this, write::class.java)
@@ -35,5 +36,13 @@ class MainActivity : AppCompatActivity() {
             startActivity(listen_intet)
         }
 
+=======
+        button1.setOnClickListener{
+            val intent = Intent(this,Talk::class.java)
+            startActivity(intent)
+        }
+>>>>>>> master
     }
+
 }
+
