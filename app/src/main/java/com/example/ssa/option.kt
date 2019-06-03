@@ -19,7 +19,7 @@ class option : AppCompatActivity() {
             var makegroup_intent = Intent(this,add_group::class.java)
             startActivity(makegroup_intent)
             //↓のやつは新規登録画面に飛ぶためにテスト時に作成しました
-            //var test = Intent(this,Register::class.java)
+            //var test = Intent(this,login::class.java)
             //startActivity(test)
         }
     }
