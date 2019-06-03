@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SSA</string>
+    <string name="string_talk">話す</string>
+    <string name="alert_talk">録音中</string>
+    <string name="string_write">書く</string>
+    <string name="string_listen">聞く</string>
 </resources>
