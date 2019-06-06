@@ -17,10 +17,10 @@ class option : AppCompatActivity() {
         }
         make_group.setOnClickListener{
             var makegroup_intent = Intent(this,add_group::class.java)
-            startActivity(makegroup_intent)
+            //startActivity(makegroup_intent)
             //↓のやつは新規登録画面に飛ぶためにテスト時に作成しました
-            //var test = Intent(this,login::class.java)
-            //startActivity(test)
+            var test = Intent(this,login::class.java)
+            startActivity(test)
         }
     }
 }

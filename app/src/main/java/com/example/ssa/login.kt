@@ -1,6 +1,9 @@
 package com.example.ssa
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -21,11 +24,26 @@ class login : AppCompatActivity() {
             if(checknum != NumCheck()){
                 Toast.makeText(this, "パスワードを数字4桁で指定してください", Toast.LENGTH_LONG).show()
             }
-            else{
-                Toast.makeText(this, "Dbに登録させに行きたい", Toast.LENGTH_LONG).show()
+            else {
+                Toast.makeText(this, "Dbに確認させに行きたい", Toast.LENGTH_LONG).show()
                 //dbにアクセスするためのコードを書く
-            }
+                if (checknum != CompareAddress(GetMailAddress())) {
+                    Toast.makeText(this, "アドレスが一致しません", Toast.LENGTH_LONG).show()
+                }
+                if (checknum != CompareNumber(GetPassWord())) {
+                    Toast.makeText(this, "パスワードが一致しません", Toast.LENGTH_LONG).show()
+                } else {
+                    val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
+                    val editor = dataStore.edit()
+                    editor.putString("Address",GetMailAddress())
+                    editor.putString("Pass",GetPassWord())
+                    editor.commit()
+                    Toast.makeText(this, "Dbに確認させに行きたい２", Toast.LENGTH_LONG).show()
 
+                }
+                Toast.makeText(this, "外", Toast.LENGTH_LONG).show()
+
+            }
         }
 
         Register_button.setOnClickListener{
@@ -58,9 +76,25 @@ class login : AppCompatActivity() {
         var pass = GetPassWord()
 
         if(pass.length!=4){
-            return 1
+            return 1 //error
         }
-        return 0
+        return 0 //true
+    }
+
+    private fun CompareNumber(password: String): Int{
+        val pass = "1234"
+        if(pass.equals(password)){
+            return 0 //true
+        }
+        return 1 //error
+    }
+
+    private fun CompareAddress(value: String): Int{
+        val text = "uemura_a@a.a"
+        if(value.equals(text)){
+            return 0 //true
+        }
+        return 1 //error
     }
 
 }

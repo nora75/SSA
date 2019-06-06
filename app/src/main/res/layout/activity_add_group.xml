@@ -12,16 +12,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
-        <EditText
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:text="GroupID"
-                android:ems="10"
-                android:id="@+id/add_group_id"/>
+                android:text="グループID"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                    android:layout_width="323dp"
+                    android:layout_height="31dp"
+                    android:id="@+id/add_group_id"
+                    android:hint="ここにIDが表示されます"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="発行"
+                    android:id="@+id/change_button"/>
+        </LinearLayout>
         <Button
                 android:text="グループ作成"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/add_groupid_button"/>
+                android:layout_height="wrap_content"
+                android:id="@+id/add_groupid_button"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
