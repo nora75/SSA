@@ -1,0 +1,20 @@
+sample code for mongoDB
+
+use SSA
+db.User.insert({user_id:"aaa",user_name:"AAA",mail:"aaa@com.com",password:"qwerty",group_id:"qwerty"});
+db.User.insert({user_id:"bbb",user_name:"BBB",mail:"bbb@com.com",password:"qwerty",group_id:"asdfgh"});
+db.User.insert({user_id:"ccc",user_name:"CCC",mail:"ccc@com.com",password:"qwerty",group_id:"qwerty"});
+db.User.insert({user_id:"ddd",user_name:"DDD",mail:"ddd@com.com",password:"qwerty",group_id:null});
+db.User.insert({user_id:"eee",user_name:"EEE",mail:"eee@com.com",password:"qwerty",group_id:"zxcvbn"});
+
+db.Talk.insert({group_id:"qwerty",user_name:"AAA",date:"2019-6-5 12:00:00",audio_name:"Record_id_2019-06-05_12-00-00.wav"});
+db.Talk.insert({group_id:"qwerty",user_name:"CCC",date:"2019-6-5 12:01:00",audio_name:"Record_id_2019-06-05_12-01-00.wav"});
+db.Talk.insert({group_id:"qwerty",user_name:"AAA",date:"2019-6-5 12:03:00",audio_name:"Record_id_2019-06-05_12-03-00.wav"});
+db.Talk.insert({group_id:"qwerty",user_name:"AAA",date:"2019-6-5 12:03:00",audio_name:"Record_id_2019-06-05_12-03-00.wav"});
+db.Talk.insert({group_id:"qwerty",user_name:"AAA",date:"2019-6-6 00:03:00",audio_name:"Record_id_2019-06-06_01-03-00.wav"});
+db.Talk.insert({group_id:"qwerty",user_name:"CCC",date:"2019-6-6 00:05:00",audio_name:"Record_id_2019-06-06_01-05-00.wav"});
+db.Talk.insert({group_id:"qwerty",user_name:"CCC",date:"2019-6-6 00:08:00",audio_name:"Record_id_2019-06-06_01-08-00.wav"});
+
+db.Diary.insert({group_id:"qwerty",user_name:"CCC",date:"2019-6-5 05:00:00",tile:"起きた",img_name:null,text:"気持ちいい目覚め"});
+db.Diary.insert({group_id:"qwerty",user_name:"CCC",date:"2019-6-5 12:00:00",tile:"ランチ",img_name:"lunch.png",text:"おいしい"});
+db.Diary.insert({group_id:"qwerty",user_name:"CCC",date:"2019-6-6 15:00:00",tile:"おでかけ",img_name:"prius.png",text:"逝ってきます"});
