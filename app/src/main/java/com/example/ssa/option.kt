@@ -13,7 +13,9 @@ class option : AppCompatActivity() {
 
         account_info_button.setOnClickListener{
             var info_intent = Intent(this,account_info::class.java)
-            startActivity(info_intent)
+            //startActivity(info_intent)
+            var regi = Intent(this,Register::class.java)
+            startActivity(regi)
         }
         make_group.setOnClickListener{
             var makegroup_intent = Intent(this,add_group::class.java)

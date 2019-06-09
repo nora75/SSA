@@ -56,6 +56,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_password"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="パスワード"/>
+            <EditText
+                    android:maxLength="4"
+                    android:hint="4文字のパスワードを入力してください"
+                    android:inputType="numberPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/user_password_confirm"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"

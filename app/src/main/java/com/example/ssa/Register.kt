@@ -2,9 +2,13 @@ package com.example.ssa
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_account_info.*
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
+import kotlinx.android.synthetic.main.activity_register.user_password
 
 class Register : AppCompatActivity() {
 
@@ -19,6 +23,9 @@ class Register : AppCompatActivity() {
             }
             if(checknum != NumCheck()){
                 Toast.makeText(this, "パスワードを数字4桁で指定してください", Toast.LENGTH_LONG).show()
+            }
+            if(checknum !=PassCheck()){
+                Toast.makeText(this, "パスワードが同一じゃない", Toast.LENGTH_LONG).show()
             }
             else{
                 Toast.makeText(this, "Dbに登録させに行きたい", Toast.LENGTH_LONG).show()
@@ -42,6 +49,11 @@ class Register : AppCompatActivity() {
     private fun GetPassWord(): String {
         var user_pass = findViewById(R.id.user_password) as EditText
         return user_pass.text.toString()
+    }
+
+    private fun GetPassWordConfirm() :String{
+        var user_pass2 = findViewById(R.id.user_password_confirm) as EditText
+        return user_pass2.text.toString()
     }
 
     //グループIDの入力欄に入力されているモノを取得する
@@ -69,5 +81,16 @@ class Register : AppCompatActivity() {
             return 1
         }
         return 0
+    }
+
+    private fun PassCheck(): Int{
+        //不一致
+        if(!GetPassWord().equals(GetPassWordConfirm())){
+            Toast.makeText(this,"パスチェック",Toast.LENGTH_LONG).show()
+            return 1
+        }
+        //一致
+        else
+            return 0
     }
 }
