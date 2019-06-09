@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.ssa">
+
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-feature android:name="android.hardware.microphone" android:required="true" />
+
+    <uses-feature
+            android:name="android.hardware.microphone"
+            android:required="true"/>
 
     <uses-permission android:name="android.permission.CAMERA"/>
 
@@ -13,6 +17,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".Look">
+        </activity>
         <activity android:name=".add_group">
         </activity>
         <activity android:name=".account_info">

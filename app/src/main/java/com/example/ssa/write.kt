@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -14,15 +15,20 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_write.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class write : AppCompatActivity() {
 
     companion object {
         private val CAMERA_REQUEST_CODE = 1
-        private val  CAMERA_PERMISSION_REQUEST_CODE = 2
+        private val CAMERA_PERMISSION_REQUEST_CODE = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,20 +38,22 @@ class write : AppCompatActivity() {
         hozon_button.setOnClickListener(View.OnClickListener {
             var content_id = findViewById(R.id.Memo_Content) as EditText
             var title_id = findViewById(R.id.title) as EditText
+            var iamge_id = findViewById(R.id.imageView) as ImageView
 
-            Log.d("debug","contens before")
-            // get string contents of EditText
+            //エディットテキストからテキストを得る
             val contents = content_id.text.toString()
             val title = title_id.text.toString()
+            //val image = (imageView.drawable as BitmapDrawable).bitmap
 
-            Log.d("debug","contens after")
-
-            if (!contents.isEmpty()&&!title.isEmpty()) {
-                saveFile(title, contents)
-                Toast.makeText(this, "保存に成功しました", Toast.LENGTH_LONG).show()
+            if (!contents.isEmpty() && !title.isEmpty()) {
+                saveFile(GetFile().getWrite(filesDir), contents)
+                saveFile(GetFile().getTitle(filesDir),title)
+                saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
+                Toast.makeText(this, "テキストの保存に成功しました", Toast.LENGTH_LONG).show()
                 finish()
             } else {
-                Toast.makeText(this, "保存に失敗しました", Toast.LENGTH_LONG).show()            }
+                Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
+            }
         })
     }
 
@@ -67,7 +75,7 @@ class write : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-                data?.extras?.get("data")?.let {
+            data?.extras?.get("data")?.let {
                 imageView.setImageBitmap(it as Bitmap)
             }
         }
@@ -86,28 +94,52 @@ class write : AppCompatActivity() {
 
 
     private fun grantCameraPermission() =
-        ActivityCompat.requestPermissions(this,
+        ActivityCompat.requestPermissions(
+            this,
             arrayOf(Manifest.permission.CAMERA),
-            CAMERA_PERMISSION_REQUEST_CODE)
+            CAMERA_PERMISSION_REQUEST_CODE
+        )
 
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() &&
-                grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                grantResults[0] == PackageManager.PERMISSION_GRANTED
+            ) {
                 takePicture()
             }
         }
     }
 
-    private fun saveFile(file: String, str: String) {
+    //テキストファイルの保存
+    private fun saveFile(filename: String, content: String) {
+        val FILENAME = filename
+        // ファイルの書き込み
+        val writeFile = File(FILENAME)
+        writeFile.writeText(content)
+    }
 
-        applicationContext.openFileOutput(file, Context.MODE_PRIVATE).use {
-            it.write(str.toByteArray())
+    //画像ファイルの保存
+    private fun saveImage(bmp: Bitmap, outputFileName: String, context: Context) {
+        try{
+            val FILENAME = outputFileName
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val SaveImage = File(FILENAME)
+
+            bmp!!.compress(Bitmap.CompressFormat.JPEG, 100,byteArrayOutputStream)
+            SaveImage.writeBytes(byteArrayOutputStream.toByteArray())
         }
-
-        //File(applicationContext.filesDir, file).writer().use {
-        //    it.write(str)
-        //}
+        catch (e:Exception){
+            e.printStackTrace()
+        }
+        /*try {
+            val byteArrOutputStream = ByteArrayOutputStream()
+            val fileOutputStream: FileOutputStream = context.openFileOutput(outputFileName, Context.MODE_PRIVATE)
+            bmp!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrOutputStream)
+            fileOutputStream.write(byteArrOutputStream.toByteArray())
+            fileOutputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }*/
     }
 }

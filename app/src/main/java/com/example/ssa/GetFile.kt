@@ -32,6 +32,14 @@ class GetFile {
         return fl.absolutePath
     }
 
+    fun getTitle(filesDir: File): String {
+        val fl = File("$filesDir/Title", "Title" + name.get())
+        if (!writeDirCheck) {
+            writeDirCheck = checkDir(fl)
+        }
+        return fl.absolutePath
+    }
+
     fun getPict(filesDir: File): String {
         val fl = File("$filesDir/Pict", "Pict" + name.get())
         if (!pictDirCheck) {
