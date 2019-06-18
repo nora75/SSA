@@ -2,10 +2,12 @@ package com.example.ssa
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.CharArrayBuffer
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
-abstract class DBHelper(var mContext : Context?) : SQLiteOpenHelper(mContext,"sampleDB",null,1) {
+abstract class DBController(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",null,1) {
     fun createTable(db: SQLiteDatabase) {
         val sb = StringBuilder()
         var sqlText : String
@@ -40,33 +42,65 @@ abstract class DBHelper(var mContext : Context?) : SQLiteOpenHelper(mContext,"sa
     }
 }
 
-class Add(mContext: Context?){
-    fun addUserRecord(user_id : Int, group_id : Int, flag : Boolean){
+class InsertData(){
+    fun insertUserRecord(user_id : Int, user_name : String, mail : String, group_id : String){
         val values = ContentValues()
 
         values.put("user_id",user_id)
+        values.put("user_name",user_name)
+        values.put("mail",mail)
         values.put("group_id",group_id)
-        values.put("flag",flag)
     }
 
-    fun addTalkRecord(group_id : String, user_name : String, date : Int, audio_name : String){
+    fun insertTalkRecord(date : Int, audio_name : String, data_type : Int){
         val values = ContentValues()
 
-        values.put("group_id",group_id)
-        values.put("user_name",user_name)
         values.put("date",date)     //Date型対応してねぇ！
         values.put("audio_name",audio_name)
+        values.put("data_type",data_type)
     }
 
-    fun addDiaryRecord(group_id : String, user_name : String, date : Int, title : String, img_name : String, text : String){
+    fun insertDiaryRecord(date : Int, title : String, img_name : String, text : String, data_type : Int){
         val values = ContentValues()
 
-        values.put("group_id",group_id)
-        values.put("user_name",user_name)
         values.put("date",date)
         values.put("title",title)
         values.put("img_name",img_name)
         values.put("text",text)
+        values.put("data_type",data_type)
     }
 }
 
+class DataList(){
+    var result : CharArrayBuffer?
+
+    init{
+        result = null
+    }
+
+    fun dataList(db : SQLiteDatabase) : CharArrayBuffer?{
+        var sqlText = "SELECT * FROM Talk INNER JOIN Diary"
+
+        val c : Cursor = db.rawQuery(sqlText , null)
+
+        c.moveToFirst()     //カーソル初期化
+
+        var i = 0
+        while(true) {
+            while (i < 6) {
+                c.copyStringToBuffer(i, result)
+
+                i++     //列移動
+            }
+
+            if (c.isLast == true) {     //最終行まで見た？
+                break
+            }else{
+                c.moveToNext()       //行移動
+
+                i = 0
+            }
+        }
+        return result
+    }
+}
