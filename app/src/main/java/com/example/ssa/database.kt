@@ -40,27 +40,29 @@ abstract class DBController(var mContext : Context?) : SQLiteOpenHelper(mContext
         sqlText = sb.toString()
         db.execSQL(sqlText)     //Diaryテーブルつくる
     }
-}
 
-class InsertData(){
-    fun insertUserRecord(user_id : Int, user_name : String, mail : String, group_id : String){
+    fun insertUserRecord(user_id : Int, user_name : String, mail : String, group_id : String,db: SQLiteDatabase){
         val values = ContentValues()
 
         values.put("user_id",user_id)
         values.put("user_name",user_name)
         values.put("mail",mail)
         values.put("group_id",group_id)
+
+        db.insert("User",null,values)
     }
 
-    fun insertTalkRecord(date : Int, audio_name : String, data_type : Int){
+    fun insertTalkRecord(date : Int, audio_name : String, data_type : Int,db: SQLiteDatabase){
         val values = ContentValues()
 
         values.put("date",date)     //Date型対応してねぇ！
         values.put("audio_name",audio_name)
         values.put("data_type",data_type)
+
+        db.insert("Talk",null,values)
     }
 
-    fun insertDiaryRecord(date : Int, title : String, img_name : String, text : String, data_type : Int){
+    fun insertDiaryRecord(date : Int, title : String, img_name : String, text : String, data_type : Int,db: SQLiteDatabase){
         val values = ContentValues()
 
         values.put("date",date)
@@ -68,6 +70,8 @@ class InsertData(){
         values.put("img_name",img_name)
         values.put("text",text)
         values.put("data_type",data_type)
+
+        db.insert("Diary",null,values)
     }
 }
 
@@ -104,3 +108,4 @@ class DataList(){
         return result
     }
 }
+
