@@ -21,12 +21,11 @@ class Database(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",n
         db.execSQL(sqlText)     //Userテーブルつくる
 
         sb.append("CREATE TABLE Data(")
-        sb.append("group_id TEXT")
-        sb.append("user_name TEXT")
         sb.append("date DATE")
         sb.append("title TEXT")
         sb.append("path_name TEXT")
         sb.append("text TEXT")
+        sb.append("data_type INT")
         sb.append(");")
         sqlText = sb.toString()
         db.execSQL(sqlText)
@@ -47,20 +46,17 @@ class Database(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",n
         db.insert("User",null,values)
     }
 
-    fun insertDataRecord(date : Int, title : String, path_name : String, text : String, data_type : Int,db: SQLiteDatabase){
+    fun insertDataRecord(date : Int, title : String, text : String, data_type : Int,db: SQLiteDatabase){
         val values = ContentValues()
 
         values.put("date",date)
         values.put("title",title)
-        values.put("path_name",path_name)
         values.put("text",text)
-        values.put("data_type",data_type)
+        values.put("data_type",data_type)   //data_type : 音声0,日記1
 
-        db.insert("Diary",null,values)
+        db.insert("Data",null,values)
     }
 }
-
-    /* data_type : 音声0,日記1 */
 
 class DBController(mContext: Context){
     val db: SQLiteDatabase
@@ -75,27 +71,38 @@ class DBController(mContext: Context){
         db = DB.writableDatabase    //DB作成!
     }
 
-    fun getData(data_type0 : Int = 0,data_type1 : Int = 1) : CharArrayBuffer?{
-        var sqlText = "SELECT * FROM Data"
-        var i = 0
+    fun getData(data_type0 : Int = 0,data_type1 : Int = 1) : RetArray{
+        var retDate : String = ""
+        var retTitle : String = ""
+        var retText : String = ""
+        var retDataType : String = ""
+
+        var sqlText = "SELECT * FROM Data WHERE data_type = ? or ?"
 
         val c : Cursor = db.rawQuery(
             sqlText,    //一度SQL文実行して
-            arrayOf(data_type0.toString(),data_type1.toString())    //data_type0と1で検索
+            arrayOf(data_type0.toString(),data_type1.toString())    // data_type = 0 or 1で検索
             /* これで全部吐き出す...ハズ */
         )
 
-        c.moveToFirst() //1行目
-
-        while(c.moveToNext()){
-            c.copyStringToBuffer(i,result)  //i行目をresultにぶち込む
-
-            i++
+        if(c.moveToNext()){     //次の行ある？
+            retDate = c.getString(c.getColumnIndex("date"))     // c.getColumnIndex()内の列を代入
+            retTitle = c.getString(c.getColumnIndex("title"))
+            retText = c.getString(c.getColumnIndex("text"))
+            retDataType = c.getString(c.getColumnIndex("data_type"))
         }
 
         c.close()   //クローズ大事
+
+        var result = RetArray(retDate,retTitle,retText,retDataType)
 
         return result
     }
 }
 
+data class RetArray(
+    var date : String,
+    var title : String,
+    var text : String,
+    var datatype : String
+)
