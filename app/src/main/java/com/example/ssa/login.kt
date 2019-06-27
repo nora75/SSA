@@ -39,7 +39,7 @@ class login : AppCompatActivity() {
                     editor.putString("Pass",GetPassWord())
                     editor.commit()
                     Toast.makeText(this, "Dbに確認させに行きたい２", Toast.LENGTH_LONG).show()
-
+                    finish()
                 }
                 Toast.makeText(this, "外", Toast.LENGTH_LONG).show()
 

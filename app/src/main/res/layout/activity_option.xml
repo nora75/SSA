@@ -21,5 +21,13 @@
                 android:text="グループ作成"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/make_group"/>
+        <Button
+                android:text="ヘルプ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/help"/>
+        <Button
+                android:text="ログアウト"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/logout"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

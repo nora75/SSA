@@ -18,6 +18,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.github.kittinunf.fuel.Fuel
 import kotlinx.android.synthetic.main.activity_write.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -50,7 +51,10 @@ class write : AppCompatActivity() {
                 saveFile(GetFile().getTitle(filesDir),title)
                 saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
                 Toast.makeText(this, "テキストの保存に成功しました", Toast.LENGTH_LONG).show()
-                finish()
+                //finish()
+                //通信関連
+                //var list = listOf("id" to "","" to "")
+                //Fuel.post("",)
             } else {
                 Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
             }
@@ -132,14 +136,5 @@ class write : AppCompatActivity() {
         catch (e:Exception){
             e.printStackTrace()
         }
-        /*try {
-            val byteArrOutputStream = ByteArrayOutputStream()
-            val fileOutputStream: FileOutputStream = context.openFileOutput(outputFileName, Context.MODE_PRIVATE)
-            bmp!!.compress(Bitmap.CompressFormat.JPEG, 100, byteArrOutputStream)
-            fileOutputStream.write(byteArrOutputStream.toByteArray())
-            fileOutputStream.close()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }*/
     }
 }

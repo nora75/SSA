@@ -5,10 +5,18 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_account_info.*
-import kotlinx.android.synthetic.main.activity_login.*
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.fuel.core.FuelError
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.result.Result
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_register.*
-import kotlinx.android.synthetic.main.activity_register.user_password
+import java.nio.charset.Charset
 
 class Register : AppCompatActivity() {
 
@@ -30,6 +38,56 @@ class Register : AppCompatActivity() {
             else{
                 Toast.makeText(this, "Dbに登録させに行きたい", Toast.LENGTH_LONG).show()
                 //dbにアクセスするためのコードを書く
+                //通信
+                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                val requestAdapter = moshi.adapter(SampleRequest::class.java)
+                val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
+
+                val sampleRequest = SampleRequest(
+                    user_name = GetName(),
+                    password = GetPassWord(),
+                    mail = GetMailAddress(),
+                    group_id = GetGroupID()
+                )
+
+                "http://10.0.2.2:8000/Registration"
+                    .httpPost()
+
+                    .header(header)
+                    .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())
+                    .responseString { request, response, result ->
+                        when (result) {
+                            is Result.Failure -> {
+                                val ex = result.getException()
+                                Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                            }
+                            is Result.Success -> {
+                                val data = result.get()
+                                Toast.makeText(this,"seikou",Toast.LENGTH_LONG).show()
+                                //Toast.makeText(this,requestAdapter.fromJson(data), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                    /*"http://localhost:8000/"
+                    .httpGet()
+                    .responseString { request, response, result ->
+                        when (result) {
+                            is Result.Failure -> {
+                                val ex = result.getException()
+                            }
+                            is Result.Success -> {
+                                val data = result.get()
+                            }
+                        }
+                    }*/
+                //Fuel.post("/Registration").body(requestAdapter.toJson(sampleRequest)).responseString{ request: Request, response: Response, result: Result<String, FuelError> ->
+                //   Log.d("d","real fuck")
+                //}
+
+                //Fuel.get("http://10.0.2.2:8000/Login")
+                //val(data,_) = result
+                //val res = requestAdapter.fromJson(data)
+                Toast.makeText(this, "finish", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -94,3 +152,26 @@ class Register : AppCompatActivity() {
             return 0
     }
 }
+
+
+data class SampleRequest(
+    val user_name: String,
+    val password: String,
+    val mail: String,
+    val group_id: String
+    )
+
+data class ResponseData(
+    val meta: Meta,
+    val id_data: IdData
+)
+
+data class Meta(
+    val status: Int,
+    val message: String
+)
+
+data class IdData(
+    val id: Int,
+    val group_id: String
+)
