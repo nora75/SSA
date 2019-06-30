@@ -40,19 +40,18 @@ class Register : AppCompatActivity() {
                 //dbにアクセスするためのコードを書く
                 //通信
                 val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                val requestAdapter = moshi.adapter(SampleRequest::class.java)
+                val requestAdapter = moshi.adapter(RegisterRequest::class.java)
                 val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
 
-                val sampleRequest = SampleRequest(
+                val sampleRequest = RegisterRequest(
                     user_name = GetName(),
                     password = GetPassWord(),
-                    mail = GetMailAddress(),
-                    group_id = GetGroupID()
+                    mail = GetMailAddress()
+                    //group_id = GetGroupID()
                 )
 
                 "http://10.0.2.2:8000/Registration"
                     .httpPost()
-
                     .header(header)
                     .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())
                     .responseString { request, response, result ->
@@ -63,30 +62,14 @@ class Register : AppCompatActivity() {
                             }
                             is Result.Success -> {
                                 val data = result.get()
-                                Toast.makeText(this,"seikou",Toast.LENGTH_LONG).show()
-                                //Toast.makeText(this,requestAdapter.fromJson(data), Toast.LENGTH_LONG).show()
+                                val res = moshi.adapter(RegisterRespone::class.java).fromJson(data)
+                                Toast.makeText(this,res?.group_id.toString(),Toast.LENGTH_LONG).show()
+                                Toast.makeText(this,"アカウント作成成功",Toast.LENGTH_LONG).show()
+                                finish()
                             }
                         }
                     }
-                    /*"http://localhost:8000/"
-                    .httpGet()
-                    .responseString { request, response, result ->
-                        when (result) {
-                            is Result.Failure -> {
-                                val ex = result.getException()
-                            }
-                            is Result.Success -> {
-                                val data = result.get()
-                            }
-                        }
-                    }*/
-                //Fuel.post("/Registration").body(requestAdapter.toJson(sampleRequest)).responseString{ request: Request, response: Response, result: Result<String, FuelError> ->
-                //   Log.d("d","real fuck")
-                //}
 
-                //Fuel.get("http://10.0.2.2:8000/Login")
-                //val(data,_) = result
-                //val res = requestAdapter.fromJson(data)
                 Toast.makeText(this, "finish", Toast.LENGTH_LONG).show()
             }
         }
@@ -152,26 +135,3 @@ class Register : AppCompatActivity() {
             return 0
     }
 }
-
-
-data class SampleRequest(
-    val user_name: String,
-    val password: String,
-    val mail: String,
-    val group_id: String
-    )
-
-data class ResponseData(
-    val meta: Meta,
-    val id_data: IdData
-)
-
-data class Meta(
-    val status: Int,
-    val message: String
-)
-
-data class IdData(
-    val id: Int,
-    val group_id: String
-)

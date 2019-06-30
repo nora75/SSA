@@ -9,6 +9,12 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
+import com.example.ssa.DataTransmission
+import com.github.kittinunf.fuel.httpPost
+import com.github.kittinunf.result.Result
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import java.nio.charset.Charset
 
 class login : AppCompatActivity() {
 
@@ -27,12 +33,57 @@ class login : AppCompatActivity() {
             else {
                 Toast.makeText(this, "Dbに確認させに行きたい", Toast.LENGTH_LONG).show()
                 //dbにアクセスするためのコードを書く
-                if (checknum != CompareAddress(GetMailAddress())) {
+                /*if (checknum != CompareAddress(GetMailAddress())) {
                     Toast.makeText(this, "アドレスが一致しません", Toast.LENGTH_LONG).show()
                 }
                 if (checknum != CompareNumber(GetPassWord())) {
                     Toast.makeText(this, "パスワードが一致しません", Toast.LENGTH_LONG).show()
-                } else {
+                }*/
+                val dataTransmisson = DataTransmission()
+                val loginRequest = LoginRequest(
+                    mail = GetMailAddress(),
+                    password = GetPassWord()
+                )
+                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                //header:ヘッダー
+                val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
+                //url:基本的なURL
+                val requestAdapter = moshi.adapter(LoginRequest::class.java)
+                "http://10.0.2.2:8000/Login"
+                    .httpPost()
+                    .header(header)
+                    .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())
+                    .responseString { request, response, result ->
+                        when (result) {
+                            is Result.Failure -> {
+                                val ex = result.getException()
+                                Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                            }
+                            is Result.Success -> {
+                                val data = result.get()
+                                Toast.makeText(this,"正常",Toast.LENGTH_LONG).show()
+                                val res = data.toBoolean()
+                                Toast.makeText(this,res.toString(),Toast.LENGTH_LONG).show()
+                                //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
+                                if(!res){
+                                    val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
+                                    val editor = dataStore.edit()
+                                    editor.putString("Address",GetMailAddress())
+                                    editor.putString("Pass",GetPassWord())
+                                    editor.commit()
+                                    Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG).show()
+                                    //finish()
+
+                                }
+                                else {
+                                    Toast.makeText(this,"なんか間違ってるからログインできないよ",Toast.LENGTH_LONG).show()
+                                }
+                                //Toast.makeText(, "seikou", Toast.LENGTH_LONG).show()
+                                //Toast.makeText(this,requestAdapter.fromJson(data), Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
+                /*else {
                     val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
                     val editor = dataStore.edit()
                     editor.putString("Address",GetMailAddress())
@@ -40,7 +91,7 @@ class login : AppCompatActivity() {
                     editor.commit()
                     Toast.makeText(this, "Dbに確認させに行きたい２", Toast.LENGTH_LONG).show()
                     finish()
-                }
+                }*/
                 Toast.makeText(this, "外", Toast.LENGTH_LONG).show()
 
             }
