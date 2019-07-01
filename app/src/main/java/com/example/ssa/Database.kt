@@ -10,11 +10,11 @@ import android.database.sqlite.SQLiteOpenHelper
 class Database(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",null,1) {
     override fun onCreate(db: SQLiteDatabase) {
         val sb = StringBuilder()
-        var sqlText : String
+        var sqlText: String
 
         sb.append("CREATE TABLE User (")
         sb.append("user_id INT PRIMARY kEY,")
-        sb.append("group_id INT," )
+        sb.append("group_id INT,")
         sb.append("flag Boolean")
         sb.append(");")
         sqlText = sb.toString()
@@ -34,28 +34,6 @@ class Database(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",n
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
-
-    fun insertUserRecord(user_id : Int, user_name : String, mail : String, group_id : String,db: SQLiteDatabase){
-        val values = ContentValues()
-
-        values.put("user_id",user_id)
-        values.put("user_name",user_name)
-        values.put("mail",mail)
-        values.put("group_id",group_id)
-
-        db.insert("User",null,values)
-    }
-
-    fun insertDataRecord(date : Int, title : String, text : String, data_type : Int,db: SQLiteDatabase){
-        val values = ContentValues()
-
-        values.put("date",date)
-        values.put("title",title)
-        values.put("text",text)
-        values.put("data_type",data_type)   //data_type : 音声0,日記1
-
-        db.insert("Data",null,values)
-    }
 }
 
 class DBController(mContext: Context){
@@ -71,11 +49,36 @@ class DBController(mContext: Context){
         db = DB.writableDatabase    //DB作成!
     }
 
-    fun getData(data_type0 : Int = 0,data_type1 : Int = 1) : RetArray{
+    fun insertUserRecord(user_id : Int, user_name : String, mail : String, group_id : String){
+        val values = ContentValues()
+
+        values.put("user_id",user_id)
+        values.put("user_name",user_name)
+        values.put("mail",mail)
+        values.put("group_id",group_id)
+
+        db.insert("User",null,values)
+    }
+
+    fun insertDataRecord(date : Int, title : String, text : String, data_type : Int){
+        val values = ContentValues()
+
+        values.put("date",date)
+        values.put("title",title)
+        values.put("text",text)
+        values.put("data_type",data_type)   //data_type : 音声0,日記1
+
+        db.insert("Data",null,values)
+    }
+
+    fun getData() : RetArray{
         var retDate : String = ""
         var retTitle : String = ""
         var retText : String = ""
         var retDataType : String = ""
+
+        var data_type0 = 0
+        var data_type1 = 1
 
         var sqlText = "SELECT * FROM Data WHERE data_type = ? or ?"
 
