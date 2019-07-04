@@ -1,5 +1,6 @@
 package com.example.ssa
 
+import android.database.CharArrayBuffer
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.support.v7.app.AppCompatActivity
@@ -10,8 +11,11 @@ import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     lateinit var dbc : DBController
+    lateinit var capData : RetArray
+
     override fun onCreate(savedInstanceState: Bundle?) {
         dbc = DBController(this)
+
         try {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
@@ -25,6 +29,9 @@ class MainActivity : AppCompatActivity() {
             dbc.insertDataRecord(1,"aaa","hoge.png","hoge",0)
             dbc.insertDataRecord(2,"bbb","piyo.png","piyo",1)
             dbc.insertDataRecord(3,"ccc","fuga.png","fuga",1)
+
+            capData = dbc.getData()
+            textView.setText(capData.toString())
 
         }catch(err : SQLiteException){
             textView.setText(err.toString())

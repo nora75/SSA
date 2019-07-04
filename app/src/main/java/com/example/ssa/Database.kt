@@ -29,10 +29,10 @@ class DBController(mContext: Context) {
     var db: SQLiteDatabase
     var DB : Database
 
-    //var result: CharArrayBuffer?
+    var result: CharArrayBuffer?
 
     init {
-        //result = null
+        result = null
 
         DB = Database(mContext)
         db = DB.writableDatabase    //DB作成
@@ -49,42 +49,52 @@ class DBController(mContext: Context) {
             "INSERT INTO Data VALUES(" + date + "," + "'" + title + "','" + path_name + "','" + text + "'," + data_type + ");"
         )
     }
+
+    fun updateUserRecord(user_id: Int, mail: String, group_id: String){
+        db.execSQL(
+            "UPDATE Data SET group_id ='" + group_id +"';"
+        )
+    }
+
+    fun deleteUserRecord(user_id: Int){
+        db.execSQL(
+            "DELETE FROM User WHERE user_id = " + user_id + ";"
+        )
+    }
+
+    fun getData() : RetArray{
+        var retDate : String = ""
+        var retTitle : String = ""
+        var retText : String = ""
+        var retDataType : String = ""
+
+        var data_type0 = 0
+        var data_type1 = 1
+
+        var sqlText = "SELECT * FROM Data WHERE data_type = ? or ?;"
+
+        val c : Cursor = db.rawQuery(
+            sqlText,    //一度SQL文実行して
+            arrayOf(data_type0.toString(),data_type1.toString())    // data_type = 0 or 1で検索
+            /* これで全部吐き出す...ハズ */
+        )
+
+        if(c.moveToNext()){     //次の行ある？
+            retDate = c.getString(c.getColumnIndex("date"))     // c.getColumnIndex()内の列を代入
+            retTitle = c.getString(c.getColumnIndex("title"))
+            retText = c.getString(c.getColumnIndex("text"))
+            retDataType = c.getString(c.getColumnIndex("data_type"))
+        }
+
+        c.close()   //クローズ大事
+
+        return RetArray(retDate,retTitle,retText,retDataType)   //一行しか出力されない
+    }
 }
-//    fun getData() : RetArray{
-//        var retDate : String = ""
-//        var retTitle : String = ""
-//        var retText : String = ""
-//        var retDataType : String = ""
-//
-//        var data_type0 = 0
-//        var data_type1 = 1
-//
-//        var sqlText = "SELECT * FROM Data WHERE data_type = ? or ?"
-//
-//        val c : Cursor = db.rawQuery(
-//            sqlText,    //一度SQL文実行して
-//            arrayOf(data_type0.toString(),data_type1.toString())    // data_type = 0 or 1で検索
-//            /* これで全部吐き出す...ハズ */
-//        )
-//
-//        if(c.moveToNext()){     //次の行ある？
-//            retDate = c.getString(c.getColumnIndex("date"))     // c.getColumnIndex()内の列を代入
-//            retTitle = c.getString(c.getColumnIndex("title"))
-//            retText = c.getString(c.getColumnIndex("text"))
-//            retDataType = c.getString(c.getColumnIndex("data_type"))
-//        }
-//
-//        c.close()   //クローズ大事
-//
-//        var result = RetArray(retDate,retTitle,retText,retDataType)
-//
-//        return result
-//    }
-//}
-//
-//data class RetArray(
-//    var date : String,
-//    var title : String,
-//    var text : String,
-//    var datatype : String
-//)
+
+data class RetArray(
+    var date : String,
+    var title : String,
+    var text : String,
+    var datatype : String
+)
