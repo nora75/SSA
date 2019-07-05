@@ -42,6 +42,12 @@ class DBController(mContext: Context) {
         )
     }
 
+    fun updateUserRecord(user_id: Int,group_id: String){
+        db.execSQL(
+            "UPDATE User SET user_id = " + group_id + " WHERE user_id = '" + user_id + "';"
+        )
+    }
+
     fun insertDataRecord(diary_id: Int,date: Int, title: String,path_name: String, text: String, data_type: Int) {
         db.execSQL(
             "INSERT INTO Data VALUES(" + diary_id + "," + date + "," + "'" + title + "','" + path_name + "','" + text + "'," + data_type + ");"
@@ -49,9 +55,9 @@ class DBController(mContext: Context) {
     }
 
     fun getData(diary_id: Int) : RetArray{
-        var retTitle : String = ""
-        var retPath : String = ""
-        var retText : String = ""
+        var retTitle = ""
+        var retPath =  ""
+        var retText = ""
 
         var sqlText = "SELECT * FROM Data WHERE diary_id = ?;"  // ?のところに引数
 
@@ -60,11 +66,9 @@ class DBController(mContext: Context) {
             arrayOf(diary_id.toString())    // id指定
         )
 
-        if(c.moveToNext()){     //次の行ある？
-            retTitle = c.getString(c.getColumnIndex("title"))     // c.getColumnIndex()内の列を代入
-            retPath = c.getString(c.getColumnIndex("path_name"))
-            retText = c.getString(c.getColumnIndex("text"))
-        }
+        retTitle = c.getString(c.getColumnIndex("title"))     // c.getColumnIndex()内の列を代入
+        retPath = c.getString(c.getColumnIndex("path_name"))
+        retText = c.getString(c.getColumnIndex("text"))
 
         c.close()   //クローズ大事
 

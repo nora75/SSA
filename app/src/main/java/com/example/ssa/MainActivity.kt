@@ -22,13 +22,13 @@ class MainActivity : AppCompatActivity() {
 
             Database(this).writableDatabase //DB作成
 
-//            dbc.insertUserRecord(1,  "aaa","aaa@hoge.com","abc")
-//            dbc.insertUserRecord(2,  "bbb","bbb@hoge.com","def")
-//            dbc.insertUserRecord(3,  "ccc","ccc@hoge.com","abc")
+            dbc.insertUserRecord(1,  "aaa","aaa@hoge.com","abc")
+            dbc.insertUserRecord(2,  "bbb","bbb@hoge.com","def")
+            dbc.insertUserRecord(3,  "ccc","ccc@hoge.com","abc")
 
-//            dbc.insertDataRecord(1,19990909,"aaa","hoge.png","hoge",0)
-//            dbc.insertDataRecord(2,20000101,"bbb","piyo.png","piyo",1)
-//            dbc.insertDataRecord(3,20200220,"ccc","fuga.png","fuga",1)
+            dbc.insertDataRecord(1,19990909,"aaa","hoge.png","hoge",0)
+            dbc.insertDataRecord(2,20000101,"bbb","piyo.png","piyo",1)
+            dbc.insertDataRecord(3,20200220,"ccc","fuga.png","fuga",1)
 
             capData = dbc.getData(2)    //検索するid
             var(title,path,text) = capData  //戻り値を分解宣言
