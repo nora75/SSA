@@ -14,7 +14,7 @@ class Database(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",n
         )
 
         db.execSQL(
-            "CREATE TABLE IF NOT EXISTS Data (date INT PRIMARY KEY,title VARCHAR(20),path_name VARCHAR(100),text VARCHAR(140),data_type INT);"
+            "CREATE TABLE IF NOT EXISTS Data (diary_id INT PRIMARY KEY,date INT,title VARCHAR(20),path_name VARCHAR(100),text VARCHAR(140),data_type INT);"
         )
 
         /* 改行入れるとダメっぽい */
@@ -29,11 +29,9 @@ class DBController(mContext: Context) {
     var db: SQLiteDatabase
     var DB : Database
 
-    var result: CharArrayBuffer?
+    lateinit var result: RetArray
 
     init {
-        result = null
-
         DB = Database(mContext)
         db = DB.writableDatabase    //DB作成
     }
@@ -44,57 +42,38 @@ class DBController(mContext: Context) {
         )
     }
 
-    fun insertDataRecord(date: Int, title: String,path_name: String, text: String, data_type: Int) {
+    fun insertDataRecord(diary_id: Int,date: Int, title: String,path_name: String, text: String, data_type: Int) {
         db.execSQL(
-            "INSERT INTO Data VALUES(" + date + "," + "'" + title + "','" + path_name + "','" + text + "'," + data_type + ");"
+            "INSERT INTO Data VALUES(" + diary_id + "," + date + "," + "'" + title + "','" + path_name + "','" + text + "'," + data_type + ");"
         )
     }
 
-    fun updateUserRecord(user_id: Int, mail: String, group_id: String){
-        db.execSQL(
-            "UPDATE Data SET group_id ='" + group_id +"';"
-        )
-    }
-
-    fun deleteUserRecord(user_id: Int){
-        db.execSQL(
-            "DELETE FROM User WHERE user_id = " + user_id + ";"
-        )
-    }
-
-    fun getData() : RetArray{
-        var retDate : String = ""
+    fun getData(diary_id: Int) : RetArray{
         var retTitle : String = ""
+        var retPath : String = ""
         var retText : String = ""
-        var retDataType : String = ""
 
-        var data_type0 = 0
-        var data_type1 = 1
-
-        var sqlText = "SELECT * FROM Data WHERE data_type = ? or ?;"
+        var sqlText = "SELECT * FROM Data WHERE diary_id = ?;"  // ?のところに引数
 
         val c : Cursor = db.rawQuery(
             sqlText,    //一度SQL文実行して
-            arrayOf(data_type0.toString(),data_type1.toString())    // data_type = 0 or 1で検索
-            /* これで全部吐き出す...ハズ */
+            arrayOf(diary_id.toString())    // id指定
         )
 
         if(c.moveToNext()){     //次の行ある？
-            retDate = c.getString(c.getColumnIndex("date"))     // c.getColumnIndex()内の列を代入
-            retTitle = c.getString(c.getColumnIndex("title"))
+            retTitle = c.getString(c.getColumnIndex("title"))     // c.getColumnIndex()内の列を代入
+            retPath = c.getString(c.getColumnIndex("path_name"))
             retText = c.getString(c.getColumnIndex("text"))
-            retDataType = c.getString(c.getColumnIndex("data_type"))
         }
 
         c.close()   //クローズ大事
 
-        return RetArray(retDate,retTitle,retText,retDataType)   //一行しか出力されない
+        return RetArray(retTitle,retPath,retText)  //一行しかreturnできない
     }
 }
 
 data class RetArray(
     var date : String,
     var title : String,
-    var text : String,
-    var datatype : String
+    var text : String
 )

@@ -20,21 +20,25 @@ class MainActivity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.activity_main)
 
-            Database(this).writableDatabase
+            Database(this).writableDatabase //DB作成
 
-            dbc.insertUserRecord(1,  "aaa","aaa@hoge.com","abc")
-            dbc.insertUserRecord(2,  "bbb","bbb@hoge.com","def")
-            dbc.insertUserRecord(3,  "ccc","ccc@hoge.com","abc")
+//            dbc.insertUserRecord(1,  "aaa","aaa@hoge.com","abc")
+//            dbc.insertUserRecord(2,  "bbb","bbb@hoge.com","def")
+//            dbc.insertUserRecord(3,  "ccc","ccc@hoge.com","abc")
 
-            dbc.insertDataRecord(1,"aaa","hoge.png","hoge",0)
-            dbc.insertDataRecord(2,"bbb","piyo.png","piyo",1)
-            dbc.insertDataRecord(3,"ccc","fuga.png","fuga",1)
+//            dbc.insertDataRecord(1,19990909,"aaa","hoge.png","hoge",0)
+//            dbc.insertDataRecord(2,20000101,"bbb","piyo.png","piyo",1)
+//            dbc.insertDataRecord(3,20200220,"ccc","fuga.png","fuga",1)
 
-            capData = dbc.getData()
-            textView.setText(capData.toString())
+            capData = dbc.getData(2)    //検索するid
+            var(title,path,text) = capData  //戻り値を分解宣言
+
+            textView.setText(title) // 受け取ったデータ表示
+            textView2.setText(path)
+            textView3.setText(text)
 
         }catch(err : SQLiteException){
-            textView.setText(err.toString())
+            textView4.setText(err.toString())
         }
     }
 }
