@@ -56,9 +56,9 @@ class DataTransmission(){
                     }
                     is Result.Success -> {
                         val data = result.get()
-                        val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
-                        if(res?.boolean!!){
-                        }
+                        //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
+                        //if(res?.boolean!!){
+                        //}
                         //Toast.makeText(, "seikou", Toast.LENGTH_LONG).show()
                         //Toast.makeText(this,requestAdapter.fromJson(data), Toast.LENGTH_LONG).show()
                     }

@@ -4,8 +4,8 @@ package com.example.ssa
 data class RegisterRequest(
     val user_name: String,
     val password: String,
-    val mail: String
-    //val group_id: String
+    val mail: String,
+    val group_id: String
 )
 
 data class LoginRequest(
@@ -13,3 +13,8 @@ data class LoginRequest(
     val password: String
 )
 
+data class WriteRequest(
+    val id:String,
+    val data_name:String,
+    val data_type:String
+)

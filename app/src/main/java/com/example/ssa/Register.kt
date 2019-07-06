@@ -46,8 +46,8 @@ class Register : AppCompatActivity() {
                 val sampleRequest = RegisterRequest(
                     user_name = GetName(),
                     password = GetPassWord(),
-                    mail = GetMailAddress()
-                    //group_id = GetGroupID()
+                    mail = GetMailAddress(),
+                    group_id = GetGroupID()
                 )
 
                 "http://10.0.2.2:8000/Registration"

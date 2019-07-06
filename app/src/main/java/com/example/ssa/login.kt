@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
-import com.example.ssa.DataTransmission
 import com.github.kittinunf.fuel.httpPost
 import com.github.kittinunf.result.Result
 import com.squareup.moshi.Moshi
@@ -65,7 +64,7 @@ class login : AppCompatActivity() {
                                 val res = data.toBoolean()
                                 Toast.makeText(this,res.toString(),Toast.LENGTH_LONG).show()
                                 //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
-                                if(!res){
+                                if(res){
                                     val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
                                     val editor = dataStore.edit()
                                     editor.putString("Address",GetMailAddress())
