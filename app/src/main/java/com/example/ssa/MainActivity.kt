@@ -11,7 +11,7 @@ import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     lateinit var dbc : DBController
-    lateinit var capData : RetArray
+    lateinit var capData : RetDiaryArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         dbc = DBController(this)
@@ -26,11 +26,11 @@ class MainActivity : AppCompatActivity() {
             dbc.insertUserRecord(2,  "bbb","bbb@hoge.com","def")
             dbc.insertUserRecord(3,  "ccc","ccc@hoge.com","abc")
 
-            dbc.insertDataRecord(1,19990909,"aaa","hoge.png","hoge",0)
+            dbc.insertDataRecord(1,19990909,"aaa","hoge.png","hoge",1)
             dbc.insertDataRecord(2,20000101,"bbb","piyo.png","piyo",1)
             dbc.insertDataRecord(3,20200220,"ccc","fuga.png","fuga",1)
 
-            capData = dbc.getData(2)    //検索するid
+            capData = dbc.getDiary(1)    //検索する行
             var(title,path,text) = capData  //戻り値を分解宣言
 
             textView.setText(title) // 受け取ったデータ表示
