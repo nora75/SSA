@@ -42,40 +42,48 @@ class DBController(mContext: Context) {
         )
     }
 
-    fun updateGroupId(user_id: Int,group_id: String){
+    fun updateGroupId(group_id: String){
         db.execSQL(
-            "UPDATE User SET user_id = " + group_id + " WHERE user_id = '" + user_id + "';"
+            "UPDATE User SET group_id = '" + group_id + "';"
         )
     }
 
-    fun insertDataRecord(data_id: Int,date: Int, title: String,path_name: String, text: String, data_type: Int) {
+    fun updateMail(mail: String){
+        db.execSQL(
+            "UPDATE User SET mail = '" + mail + "';"
+        )
+    }
+
+    fun insertDataRecord(data_id: Int,date: Int, title: String?,path_name: String, text: String?, data_type: Int) {
         db.execSQL(
             "INSERT INTO Data VALUES(" + data_id + "," + date + "," + "'" + title + "','" + path_name + "','" + text + "'," + data_type + ");"
         )
     }
 
-//    fun getUser(user_id: Int) : RetUserArray{
-//        var retId  = ""
-//        var retName = ""
-//        var retMail = ""
-//        var retGroup = ""
-//
-//        var sqlText = "SELECT * FROM User WHERE user_id = ?;"   // ?のところに引数
-//
-//        val c : Cursor = db.rawQuery(
-//            sqlText,    //一度SQL文実行して
-//            arrayOf(user_id.toString())
-//        )
-//
-//        retId = c.getString(c.getColumnIndex("user_id"))     // c.getColumnIndex()内の列を代入
-//        retName = c.getString(c.getColumnIndex("user_name"))
-//        retMail = c.getString(c.getColumnIndex("mail"))
-//        retGroup = c.getString(c.getColumnIndex("group_id"))
-//
-//        c.close()
-//
-//        return RetUserArray(retId,retName,retMail,retGroup)   //一行しかreturnできない
-//    }
+    fun getUser() : RetUserArray{
+        var retId  = ""
+        var retName = ""
+        var retMail = ""
+        var retGroup = ""
+
+        val sqlText = "SELECT * FROM User;"   // ?のところに引数
+
+        val c : Cursor = db.rawQuery(
+            sqlText,    //一度SQL文実行して
+            null
+        )
+
+        c.moveToFirst()
+
+        retId = c.getString(c.getColumnIndex("user_id"))     // c.getColumnIndex()内の列を代入
+        retName = c.getString(c.getColumnIndex("user_name"))
+        retMail = c.getString(c.getColumnIndex("mail"))
+        retGroup = c.getString(c.getColumnIndex("group_id"))
+
+        c.close()
+
+        return RetUserArray(retId,retName,retMail,retGroup)   //一行しかreturnできない
+    }
 
     fun getDiary(rowNum: Int) : RetDiaryArray{  //Userとやること同じ
         var retTitle = ""
@@ -126,9 +134,9 @@ data class RetDiaryArray(
     var text : String
 )
 
-//data class RetUserArray(
-//    var user_id : String,
-//    var user_name : String,
-//    var mail : String,
-//    var group_id : String
-//)
+data class RetUserArray(
+    var user_id : String,
+    var user_name : String,
+    var mail : String,
+    var group_id : String
+)

@@ -11,6 +11,7 @@ import java.util.logging.Logger
 
 class MainActivity : AppCompatActivity() {
     lateinit var dbc : DBController
+    lateinit var capUser : RetUserArray
     lateinit var capData : RetDiaryArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,23 +23,31 @@ class MainActivity : AppCompatActivity() {
 
             Database(this).writableDatabase //DB作成
 
-            dbc.insertUserRecord(1,  "aaa","aaa@hoge.com","abc")
-            dbc.insertUserRecord(2,  "bbb","bbb@hoge.com","def")
-            dbc.insertUserRecord(3,  "ccc","ccc@hoge.com","abc")
+            dbc.insertUserRecord(1,"aaa","aaa@hoge.com","abc")
+            dbc.updateGroupId("hoge")
+            dbc.updateMail("hoge@hoge.com")
 
-            dbc.insertDataRecord(1,19990909,"aaa","hoge.png","hoge",1)
-            dbc.insertDataRecord(2,20000101,"bbb","piyo.png","piyo",1)
-            dbc.insertDataRecord(3,20200220,"ccc","fuga.png","fuga",1)
+            dbc.insertDataRecord(1,19990909,"aaa","Flower.png","flower is pritty",1)
+            dbc.insertDataRecord(2,20000101,"bbb","Bird.png","fried chickin",1)
+            dbc.insertDataRecord(3,20200220,"ccc","Moon.png","Grapefruit Moon",1)
+            dbc.insertDataRecord(4,20111111,null,"Voice1.png",null,0)
+            dbc.insertDataRecord(5,20121212,null,"Voice2.png",null,0)
+            dbc.insertDataRecord(6,20130303,null,"Voice3.png",null,0)
 
-            capData = dbc.getDiary(1)    //検索する行
+            capUser = dbc.getUser()    //検索するid
+            var(user_id,user_name,mail,group_id) = capUser
+
+            capData = dbc.getDiary(2)    //検索する行
             var(title,path,text) = capData  //戻り値を分解宣言
 
-            textView.setText(title) // 受け取ったデータ表示
-            textView2.setText(path)
-            textView3.setText(text)
+            var audioPath = dbc.getAudio(1)
+
+            textView.setText(title + "|" + path + "|" + text) // 受け取ったデータ表示
+            textView2.setText(user_id + "|" + user_name + "|" + mail + "|" + group_id)
+            textView4.setText(audioPath)
 
         }catch(err : SQLiteException){
-            textView4.setText(err.toString())
+            textView3.setText(err.toString())
         }
     }
 }
