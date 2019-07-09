@@ -1,12 +1,9 @@
 package com.example.ssa
 
-import android.content.ContentValues
 import android.content.Context
-import android.database.CharArrayBuffer
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.renderscript.ScriptIntrinsicColorMatrix
 
 class Database(var mContext : Context?) : SQLiteOpenHelper(mContext,"insideDB",null,1) {
     override fun onCreate(db: SQLiteDatabase) {
@@ -61,11 +58,6 @@ class DBController(mContext: Context) {
     }
 
     fun getUser() : RetUserArray{
-        var retId  = ""
-        var retName = ""
-        var retMail = ""
-        var retGroup = ""
-
         val sqlText = "SELECT * FROM User;"   // ?のところに引数
 
         val c : Cursor = db.rawQuery(
@@ -75,21 +67,48 @@ class DBController(mContext: Context) {
 
         c.moveToFirst()
 
-        retId = c.getString(c.getColumnIndex("user_id"))     // c.getColumnIndex()内の列を代入
-        retName = c.getString(c.getColumnIndex("user_name"))
-        retMail = c.getString(c.getColumnIndex("mail"))
-        retGroup = c.getString(c.getColumnIndex("group_id"))
+        var retId = c.getString(c.getColumnIndex("user_id"))     // c.getColumnIndex()内の列を代入
+        var retName = c.getString(c.getColumnIndex("user_name"))
+        var retMail = c.getString(c.getColumnIndex("mail"))
+        var retGroup = c.getString(c.getColumnIndex("group_id"))
 
         c.close()
 
         return RetUserArray(retId,retName,retMail,retGroup)   //一行しかreturnできない
     }
 
-    fun getDiary(rowNum: Int) : RetDiaryArray{  //Userとやること同じ
-        var retTitle = ""
-        var retPath =  ""
-        var retText = ""
+    fun dataList() : Array<RetDataArray>{
+        var sqlText = "SELECT * FROM Data;"
 
+        var c : Cursor = db.rawQuery(
+            sqlText,
+            null
+        )
+
+        var dataArray : Array<RetDataArray> = arrayOf(
+            RetDataArray("","",""),
+            RetDataArray("","",""),
+            RetDataArray("","","")
+        )
+
+        var i = 0
+        while(i < 3){
+            c.moveToPosition(i)
+
+            var retTitle = c.getString(c.getColumnIndex("title"))
+            var retPath = c.getString(c.getColumnIndex("path_name"))
+            var retText = c.getString(c.getColumnIndex("text"))
+
+            dataArray[i] = RetDataArray(retTitle,retPath,retText)
+
+            i++
+        }
+        c.close()
+
+        return dataArray
+    }
+
+    fun getDiary(rowNum: Int) : RetDataArray{  //Userとやること同じ
         var sqlText = "SELECT * FROM Data WHERE data_type = 1;"
 
         val c : Cursor = db.rawQuery(
@@ -99,18 +118,16 @@ class DBController(mContext: Context) {
 
         c.moveToPosition(rowNum)   //引数の数の絶対行指定
 
-        retTitle = c.getString(c.getColumnIndex("title"))
-        retPath = c.getString(c.getColumnIndex("path_name"))
-        retText = c.getString(c.getColumnIndex("text"))
+        var retTitle = c.getString(c.getColumnIndex("title"))
+        var retPath = c.getString(c.getColumnIndex("path_name"))
+        var retText = c.getString(c.getColumnIndex("text"))
 
         c.close()   //クローズ大事
 
-        return RetDiaryArray(retTitle,retPath,retText)
+        return RetDataArray(retTitle,retPath,retText)
     }
 
     fun getAudio(rowNum: Int) : String{  //data_type = 0(音声ファイル)を取り出し
-        var retPath =  ""
-
         var sqlText = "SELECT * FROM Data WHERE data_type = 0;"
 
         val c : Cursor = db.rawQuery(
@@ -120,7 +137,7 @@ class DBController(mContext: Context) {
 
         c.moveToPosition(rowNum)
 
-        retPath = c.getString(c.getColumnIndex("path_name"))
+        var retPath = c.getString(c.getColumnIndex("path_name"))
 
         c.close()
 
@@ -128,7 +145,7 @@ class DBController(mContext: Context) {
     }
 }
 
-data class RetDiaryArray(
+data class RetDataArray(
     var title : String,
     var path : String,
     var text : String
