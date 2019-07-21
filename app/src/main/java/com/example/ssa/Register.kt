@@ -68,7 +68,7 @@ class Register : AppCompatActivity() {
                             }
                         }
                     }
-                Toast.makeText(this, "finish", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "finish", Toast.LENGTH_LONG).show()
             }
         }
     }

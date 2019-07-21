@@ -17,6 +17,9 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.FileDataPart
+import com.github.kittinunf.fuel.httpUpload
+import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_write.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -40,18 +43,35 @@ class write : AppCompatActivity() {
             //エディットテキストからテキストを得る
             val contents = content_id.text.toString()
             val title = title_id.text.toString()
+            val group_id = 1
             //val image = (imageView.drawable as BitmapDrawable).bitmap
 
             if (!contents.isEmpty() && !title.isEmpty()) {
-                saveFile(GetFile().getWrite(filesDir), contents)
-                saveFile(GetFile().getTitle(filesDir),title)
-                saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
+                val Contents = saveFile(GetFile().getWrite(filesDir), contents)
+                val image = saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
+                val info = listOf(
+                    "data_name" to "${Contents.name}",
+                    "data_type" to "1",
+                    "title" to "$title",
+                    "user_id" to "111",
+                    "image_name" to "$image.name")
                 Toast.makeText(this, "テキストの保存に成功しました", Toast.LENGTH_LONG).show()
-                //finish()
-                //通信関連
-                //var list = listOf("id" to "","" to "")
-                //Fuel.post("",)
 
+                "http://34.83.80.2:8000/group/$group_id"
+                    .httpUpload(parameters = info)
+                    .add((FileDataPart(File(Contents.path),name = Contents.name)))
+                    .add(FileDataPart(File(image?.path),name = image?.name!!))
+                    .response{result ->
+                        when(result){
+                            is Result.Failure -> {
+                                Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
+                            }
+                            is Result.Success -> {
+                                val ex = result.get()
+                                Toast.makeText(this,"成功しました",Toast.LENGTH_LONG).show()
+                            }
+                        }
+                    }
             } else {
                 Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
             }

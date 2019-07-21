@@ -27,3 +27,7 @@ data class MultSampleRequest(
     val title:String,
     val user_id:String
 )
+
+data class DataRequest(
+    val user_id: String
+)
