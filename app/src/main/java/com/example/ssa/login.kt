@@ -48,7 +48,7 @@ class login : AppCompatActivity() {
                 val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
                 //url:基本的なURL
                 val requestAdapter = moshi.adapter(LoginRequest::class.java)
-                "http://10.0.2.2:8000/Login"
+                "http://34.83.80.2:8000/Login"
                     .httpPost()
                     .header(header)
                     .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())
@@ -64,35 +64,21 @@ class login : AppCompatActivity() {
                                 val res = data.toBoolean()
                                 Toast.makeText(this,res.toString(),Toast.LENGTH_LONG).show()
                                 //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
-                                if(res){
+                                if(!res){
                                     val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
                                     val editor = dataStore.edit()
                                     editor.putString("Address",GetMailAddress())
                                     editor.putString("Pass",GetPassWord())
                                     editor.commit()
                                     Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG).show()
-                                    //finish()
-
+                                    finish()
                                 }
                                 else {
-                                    Toast.makeText(this,"なんか間違ってるからログインできないよ",Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this,"ログインに失敗しました。再度入力してください",Toast.LENGTH_LONG).show()
                                 }
-                                //Toast.makeText(, "seikou", Toast.LENGTH_LONG).show()
-                                //Toast.makeText(this,requestAdapter.fromJson(data), Toast.LENGTH_LONG).show()
                             }
                         }
                     }
-                /*else {
-                    val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
-                    val editor = dataStore.edit()
-                    editor.putString("Address",GetMailAddress())
-                    editor.putString("Pass",GetPassWord())
-                    editor.commit()
-                    Toast.makeText(this, "Dbに確認させに行きたい２", Toast.LENGTH_LONG).show()
-                    finish()
-                }*/
-                Toast.makeText(this, "外", Toast.LENGTH_LONG).show()
-
             }
         }
 

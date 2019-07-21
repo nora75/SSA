@@ -12,18 +12,14 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.github.kittinunf.fuel.Fuel
 import kotlinx.android.synthetic.main.activity_write.*
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 
 class write : AppCompatActivity() {
 
@@ -55,6 +51,7 @@ class write : AppCompatActivity() {
                 //通信関連
                 //var list = listOf("id" to "","" to "")
                 //Fuel.post("",)
+
             } else {
                 Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
             }
@@ -116,15 +113,16 @@ class write : AppCompatActivity() {
     }
 
     //テキストファイルの保存
-    private fun saveFile(filename: String, content: String) {
+    private fun saveFile(filename: String, content: String): File {
         val FILENAME = filename
         // ファイルの書き込み
         val writeFile = File(FILENAME)
         writeFile.writeText(content)
+        return writeFile
     }
 
     //画像ファイルの保存
-    private fun saveImage(bmp: Bitmap, outputFileName: String, context: Context) {
+    private fun saveImage(bmp: Bitmap, outputFileName: String, context: Context) : File? {
         try{
             val FILENAME = outputFileName
             val byteArrayOutputStream = ByteArrayOutputStream()
@@ -132,9 +130,11 @@ class write : AppCompatActivity() {
 
             bmp!!.compress(Bitmap.CompressFormat.JPEG, 100,byteArrayOutputStream)
             SaveImage.writeBytes(byteArrayOutputStream.toByteArray())
+            return SaveImage
         }
         catch (e:Exception){
             e.printStackTrace()
         }
+        return null
     }
 }

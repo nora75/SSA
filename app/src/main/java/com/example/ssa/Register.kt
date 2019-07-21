@@ -36,7 +36,6 @@ class Register : AppCompatActivity() {
                 Toast.makeText(this, "パスワードが同一じゃない", Toast.LENGTH_LONG).show()
             }
             else{
-                Toast.makeText(this, "Dbに登録させに行きたい", Toast.LENGTH_LONG).show()
                 //dbにアクセスするためのコードを書く
                 //通信
                 val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
@@ -50,17 +49,17 @@ class Register : AppCompatActivity() {
                     group_id = GetGroupID()
                 )
 
-                "http://10.0.2.2:8000/Registration"
+                "http://34.83.80.2:8000/Registration"
                     .httpPost()
                     .header(header)
                     .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())
                     .responseString { request, response, result ->
                         when (result) {
-                            is Result.Failure -> {
+                            is Result.Failure<*> -> {
                                 val ex = result.getException()
                                 Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                             }
-                            is Result.Success -> {
+                            is Result.Success<*> -> {
                                 val data = result.get()
                                 val res = moshi.adapter(RegisterRespone::class.java).fromJson(data)
                                 Toast.makeText(this,res?.group_id.toString(),Toast.LENGTH_LONG).show()
@@ -69,7 +68,6 @@ class Register : AppCompatActivity() {
                             }
                         }
                     }
-
                 Toast.makeText(this, "finish", Toast.LENGTH_LONG).show()
             }
         }
