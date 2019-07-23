@@ -2,6 +2,7 @@ package com.example.ssa
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -31,6 +32,16 @@ class option : AppCompatActivity() {
         make_group.setOnClickListener{
             var makegroup_intent = Intent(this,add_group::class.java)
             startActivity(makegroup_intent)
+        }
+        help.setOnClickListener {
+        }
+        logout.setOnClickListener {
+            val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
+            val editor = dataStore.edit()
+            editor.putString("Address","")
+            editor.putString("Pass","")
+            editor.commit()
+            finish()
         }
 
         sample.setOnClickListener{

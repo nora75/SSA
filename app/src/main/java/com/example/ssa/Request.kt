@@ -1,8 +1,5 @@
 package com.example.ssa
 
-import java.io.File
-
-
 data class RegisterRequest(
     val user_name: String,
     val password: String,

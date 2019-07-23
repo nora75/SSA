@@ -30,13 +30,6 @@ class login : AppCompatActivity() {
                 Toast.makeText(this, "パスワードを数字4桁で指定してください", Toast.LENGTH_LONG).show()
             }
             else {
-                //dbにアクセスするためのコードを書く
-                /*if (checknum != CompareAddress(GetMailAddress())) {
-                    Toast.makeText(this, "アドレスが一致しません", Toast.LENGTH_LONG).show()
-                }
-                if (checknum != CompareNumber(GetPassWord())) {
-                    Toast.makeText(this, "パスワードが一致しません", Toast.LENGTH_LONG).show()
-                }*/
                 val loginRequest = LoginRequest(
                     mail = GetMailAddress(),
                     password = GetPassWord()
@@ -113,22 +106,6 @@ class login : AppCompatActivity() {
             return 1 //error
         }
         return 0 //true
-    }
-
-    private fun CompareNumber(password: String): Int{
-        val pass = "1234"
-        if(pass.equals(password)){
-            return 0 //true
-        }
-        return 1 //error
-    }
-
-    private fun CompareAddress(value: String): Int{
-        val text = "uemura_a@a.a"
-        if(value.equals(text)){
-            return 0 //true
-        }
-        return 1 //error
     }
 
 }

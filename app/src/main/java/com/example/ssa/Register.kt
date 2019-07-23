@@ -125,7 +125,6 @@ class Register : AppCompatActivity() {
     private fun PassCheck(): Int{
         //不一致
         if(!GetPassWord().equals(GetPassWordConfirm())){
-            Toast.makeText(this,"パスチェック",Toast.LENGTH_LONG).show()
             return 1
         }
         //一致
