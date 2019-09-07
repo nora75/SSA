@@ -108,4 +108,17 @@ class login : AppCompatActivity() {
         return 0 //true
     }
 
+    private fun MailCheck() {
+        var CorrectMail = "@"
+        var MailAddress = GetMailAddress()
+
+
+        /*if(MailAddress.matches(".*" + CorrectMail + ".*")){
+            return 0
+        }
+        else{
+            return 1
+        }*/
+    }
+
 }

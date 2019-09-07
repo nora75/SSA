@@ -34,6 +34,7 @@ class option : AppCompatActivity() {
             startActivity(makegroup_intent)
         }
         help.setOnClickListener {
+
         }
         logout.setOnClickListener {
             val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
