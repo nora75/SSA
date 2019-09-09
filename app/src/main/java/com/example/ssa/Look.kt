@@ -16,14 +16,12 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_look.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
 import android.widget.ListAdapter as ListAdapter1
-import com.example.ssa.ViewHolder as ViewHolder1
-import com.example.ssa.ViewHolder as ViewHolder2
 
 class Look : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look)
-
+//テストデータ
         val names = listOf(
             "おじいちゃん",
             "おばあちゃん",
@@ -47,14 +45,20 @@ class Look : AppCompatActivity() {
             "9/5",
             "9/6"
         )
-
+//リストにデータを入れる
         val test = List(names.size){i ->ProttypeData(names[i],title[i],date[i])}
+//アダプターをせいせいし、viewにセットする
         val adapter = SampleListAdapter(this,test)
         myListView.adapter = adapter
 
+//viewクリックの時のリスナ
         myListView.setOnItemClickListener{adapterView,view,postion,id ->
             val name = view.findViewById<TextView>(R.id.text1).text
             Toast.makeText(this,"$name",Toast.LENGTH_LONG).show()
+        }
+//更新ボタンクリックのリスナ
+        renewButton.setOnClickListener {
+            Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
         }
     }
 }
