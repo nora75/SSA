@@ -45,10 +45,10 @@ class MainActivity : AppCompatActivity() {
 
         val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
         val pass = dataStore.getString("Pass","")
-            if(pass.equals("")){
-                val intent = Intent(this,login::class.java)
-                startActivity(intent)
-            }
+        if(pass.equals("")){
+            val intent = Intent(this,login::class.java)
+            startActivity(intent)
+        }
     }
 
 }

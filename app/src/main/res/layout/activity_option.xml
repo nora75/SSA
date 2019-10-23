@@ -7,22 +7,17 @@
         android:layout_height="match_parent"
         tools:context=".option">
 
-
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" tools:layout_editor_absoluteY="8dp"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
         <Button
                 android:text="アカウント情報"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/account_info_button"/>
-        <Button
-                android:text="グループ作成"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/make_group"/>
         <Button
                 android:text="ヘルプ"
                 android:layout_width="match_parent"

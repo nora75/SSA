@@ -38,7 +38,7 @@ class write : AppCompatActivity() {
         hozon_button.setOnClickListener(View.OnClickListener {
             var content_id = findViewById(R.id.Memo_Content) as EditText
             var title_id = findViewById(R.id.title) as EditText
-            var iamge_id = findViewById(R.id.imageView) as ImageView
+            var image_id = findViewById(R.id.imageView) as ImageView
 
             //エディットテキストからテキストを得る
             val contents = content_id.text.toString()
@@ -57,6 +57,16 @@ class write : AppCompatActivity() {
                     "image_name" to "$image.name")
                 Toast.makeText(this, "テキストの保存に成功しました", Toast.LENGTH_LONG).show()
 
+                /*
+                *ネットワーク接続を行いデータを送信する
+                 *
+                  * http通信をhttps通信に変更予定
+                  * parametersにinfoを代入
+                  *
+                  *
+                  *
+                  *
+                  * */
                 "http://34.83.80.2:8000/group/$group_id"
                     .httpUpload(parameters = info)
                     .add((FileDataPart(File(Contents.path),name = Contents.name)))
@@ -64,11 +74,13 @@ class write : AppCompatActivity() {
                     .response{result ->
                         when(result){
                             is Result.Failure -> {
-                                Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
+                                Toast.makeText(this,"ネットワーク失敗しました",Toast.LENGTH_LONG).show()
+                                finish()
                             }
                             is Result.Success -> {
                                 val ex = result.get()
                                 Toast.makeText(this,"成功しました",Toast.LENGTH_LONG).show()
+                                finish()
                             }
                         }
                     }
