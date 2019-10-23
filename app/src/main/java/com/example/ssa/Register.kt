@@ -24,57 +24,70 @@ class Register : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        register_button.setOnClickListener{
-            var checknum = 0
-            if(checknum != EmptyCheck()){
-                Toast.makeText(this, "入力されていない項目があります", Toast.LENGTH_LONG).show()
-            }
-            if(checknum != NumCheck()){
-                Toast.makeText(this, "パスワードを数字4桁で指定してください", Toast.LENGTH_LONG).show()
-            }
-            if(checknum !=PassCheck()){
-                Toast.makeText(this, "パスワードが同一じゃない", Toast.LENGTH_LONG).show()
-            }
-            else{
-                //dbにアクセスするためのコードを書く
-                //通信
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                val requestAdapter = moshi.adapter(RegisterRequest::class.java)
-                val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
+        register_button.setOnClickListener {
+            //dbにアクセスするためのコードを書く
+            //通信
+            val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            val requestAdapter = moshi.adapter(RegisterRequest::class.java)
+            val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
 
-                val sampleRequest = RegisterRequest(
-                    user_name = GetName(),
-                    password = GetPassWord(),
-                    mail = GetMailAddress(),
-                    group_id = GetGroupID()
-                )
+            val sampleRequest = RegisterRequest(
+                user_name = GetName(),
+                password = GetPassWord(),
+                mail = GetMailAddress1() + "@" + GetMailAddress2(),
+                group_id = GetGroupID()
+            )
+            when (AllCheck()) {
+                1 ->{
+                    Toast.makeText(this,"入力されていない項目があります",Toast.LENGTH_LONG).show()
+                }
 
-                "http://34.83.80.2:8000/Registration"
-                    .httpPost()
-                    .header(header)
-                    .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())
-                    .responseString { request, response, result ->
-                        when (result) {
-                            is Result.Failure<*> -> {
-                                val ex = result.getException()
-                                Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
-                            }
-                            is Result.Success<*> -> {
-                                val data = result.get()
-                                val res = moshi.adapter(RegisterRespone::class.java).fromJson(data)
-                                Toast.makeText(this,res?.group_id.toString(),Toast.LENGTH_LONG).show()
-                                Toast.makeText(this,"アカウント作成成功",Toast.LENGTH_LONG).show()
-                                finish()
+                2 ->{
+                    Toast.makeText(this,"四桁の数字を入力してください",Toast.LENGTH_LONG).show()
+                }
+
+                3 ->{
+                    Toast.makeText(this,"パスワードが一致していません",Toast.LENGTH_LONG).show()
+                }
+
+                0 -> {
+                    "http://34.83.80.2:8000/Registration"
+                        .httpPost()
+                        .header(header)
+                        .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())
+                        .responseString { request, response, result ->
+                            when (result) {
+                                is Result.Failure<*> -> {
+                                    val ex = result.getException()
+                                    Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                                }
+                                is Result.Success<*> -> {
+                                    val data = result.get()
+                                    val res =
+                                        moshi.adapter(RegisterRespone::class.java).fromJson(data)
+                                    Toast.makeText(
+                                        this,
+                                        res?.group_id.toString(),
+                                        Toast.LENGTH_LONG
+                                    ).show()
+                                    Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
+                                    finish()
+                                }
                             }
                         }
-                    }
-                //Toast.makeText(this, "finish", Toast.LENGTH_LONG).show()
+                }
             }
         }
     }
+
     //メールアドレスの入力欄に入力されているモノを取得する
-    private fun GetMailAddress(): String {
-        var mail_address = findViewById(R.id.user_mailaddress) as EditText
+    private fun GetMailAddress1(): String {
+        var mail_address = findViewById(R.id.user_mailaddress1) as EditText
+        return mail_address.text.toString()
+    }
+
+    private fun GetMailAddress2():String{
+        var mail_address = findViewById(R.id.user_mailaddress2) as EditText
         return mail_address.text.toString()
     }
 
@@ -100,9 +113,28 @@ class Register : AppCompatActivity() {
         var group_id = findViewById(R.id.user_group_id) as EditText
         return group_id.text.toString()
     }
+    //すべてのチェックを確認するメソッド
+    //flase check時に一つでも通らなかった時
+    //true すべてOK
+    private fun AllCheck():Int{
+        if(EmptyCheck()>0){
+            return 1
+            //入力されていない項目があります
+        }
+        if(NumCheck()>0){
+            return 2
+            //四桁の数字を入力してください
+        }
+        if (PassCheck()>0){
+            return 3
+            //パスワードが一致していません
+        }
+        return 0
+    }
 
+    //数値が入っているかのチェック
     private fun EmptyCheck(): Int {
-        var SpaceCheck = arrayListOf(GetMailAddress(),GetName(),GetPassWord())
+        var SpaceCheck = arrayListOf(GetMailAddress1(),GetMailAddress2(),GetName(),GetPassWord())
         var checkpoint = 0
 
         for(checkitem in SpaceCheck){
@@ -112,7 +144,7 @@ class Register : AppCompatActivity() {
         }
         return checkpoint //一以上ならなんか入ってない項目がある
     }
-
+    //数値が4桁あるのを確認する機能
     private fun NumCheck(): Int {
         var pass = GetPassWord()
 
@@ -121,7 +153,7 @@ class Register : AppCompatActivity() {
         }
         return 0
     }
-
+    //パスワードを二回入力し、間違えがないかチェックする機能
     private fun PassCheck(): Int{
         //不一致
         if(!GetPassWord().equals(GetPassWordConfirm())){

@@ -3,7 +3,6 @@ package com.example.ssa
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -22,54 +21,67 @@ class login : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         Login_button.setOnClickListener{
-            var checknum = 0
-            if(checknum != EmptyCheck()){
-                Toast.makeText(this, "入力されていない項目があります", Toast.LENGTH_LONG).show()
-            }
-            if(checknum != NumCheck()){
-                Toast.makeText(this, "パスワードを数字4桁で指定してください", Toast.LENGTH_LONG).show()
-            }
-            else {
-                val loginRequest = LoginRequest(
-                    mail = GetMailAddress(),
-                    password = GetPassWord()
-                )
-                val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-                //header:ヘッダー
-                val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
-                //url:基本的なURL
-                val requestAdapter = moshi.adapter(LoginRequest::class.java)
-                "http://34.83.80.2:8000/Login"
-                    .httpPost()
-                    .header(header)
-                    .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())
-                    .responseString { request, response, result ->
-                        when (result) {
-                            is Result.Failure -> {
-                                val ex = result.getException()
-                                Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
-                            }
-                            is Result.Success -> {
-                                val data = result.get()
-                                Toast.makeText(this,"正常",Toast.LENGTH_LONG).show()
-                                val res = data.toBoolean()
-                                Toast.makeText(this,res.toString(),Toast.LENGTH_LONG).show()
-                                //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
-                                if(!res){
-                                    val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
-                                    val editor = dataStore.edit()
-                                    editor.putString("Address",GetMailAddress())
-                                    editor.putString("Pass",GetPassWord())
-                                    editor.commit()
-                                    Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG).show()
-                                    finish()
+
+            val loginRequest = LoginRequest(
+                mail = GetMailAddress1() + "@" + GetMailAddress2(),
+                password = GetPassWord()
+            )
+
+            when(AllCheck()) {
+                1 ->{
+                    Toast.makeText(this,"入力されていない項目があります",Toast.LENGTH_LONG).show()
+                }
+
+                2 ->{
+                    Toast.makeText(this,"四桁の数字を入力してください",Toast.LENGTH_LONG).show()
+                }
+
+                0 -> {
+                    val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                    //header:ヘッダー
+                    val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
+                    //url:基本的なURL
+                    val requestAdapter = moshi.adapter(LoginRequest::class.java)
+                    "http://34.83.80.2:8000/Login"
+                        .httpPost()
+                        .header(header)
+                        .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())
+                        .responseString { request, response, result ->
+                            when (result) {
+                                is Result.Failure -> {
+                                    val ex = result.getException()
+                                    Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                                 }
-                                else {
-                                    Toast.makeText(this,"ログインに失敗しました。再度入力してください",Toast.LENGTH_LONG).show()
+                                is Result.Success -> {
+                                    val data = result.get()
+                                    Toast.makeText(this, "正常", Toast.LENGTH_LONG).show()
+                                    val res = data.toBoolean()
+                                    Toast.makeText(this, res.toString(), Toast.LENGTH_LONG).show()
+                                    //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
+                                    if (res) {
+                                        val dataStore: SharedPreferences =
+                                            getSharedPreferences(
+                                                "Confirm_Login",
+                                                Context.MODE_PRIVATE
+                                            )
+                                        val editor = dataStore.edit()
+                                        editor.putString("Address", GetMailAddress1())
+                                        editor.putString("Pass", GetPassWord())
+                                        editor.commit()
+                                        Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG)
+                                            .show()
+                                        finish()
+                                    } else {
+                                        Toast.makeText(
+                                            this,
+                                            "ログインに失敗しました。再度入力してください",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+                                    }
                                 }
                             }
                         }
-                    }
+                }
             }
         }
 
@@ -78,8 +90,13 @@ class login : AppCompatActivity() {
             startActivity(register)
         }
     }
-    private fun GetMailAddress(): String {
-        var mail_address = findViewById(R.id.user_mailaddress) as EditText
+    private fun GetMailAddress1(): String {
+        var mail_address = findViewById(R.id.user_mailaddress3) as EditText
+        return mail_address.text.toString()
+    }
+
+    private fun GetMailAddress2():String{
+        var mail_address = findViewById(R.id.user_mailaddress4) as EditText
         return mail_address.text.toString()
     }
 
@@ -87,8 +104,21 @@ class login : AppCompatActivity() {
         var password = findViewById(R.id.user_password) as EditText
         return password.text.toString()
     }
+
+    private fun AllCheck():Int{
+        if(EmptyCheck()>0){
+            return 1
+            //入力されていない項目があります
+        }
+        if(NumCheck()>0){
+            return 2
+            //四桁の数字を入力してください
+        }
+        return 0
+    }
+
     private fun EmptyCheck(): Int {
-        var SpaceCheck = arrayListOf(GetMailAddress(),GetPassWord())
+        var SpaceCheck = arrayListOf(GetMailAddress1(),GetMailAddress2(),GetPassWord())
         var checkpoint = 0
 
         for(checkitem in SpaceCheck){
@@ -107,18 +137,4 @@ class login : AppCompatActivity() {
         }
         return 0 //true
     }
-
-    private fun MailCheck() {
-        var CorrectMail = "@"
-        var MailAddress = GetMailAddress()
-
-
-        /*if(MailAddress.matches(".*" + CorrectMail + ".*")){
-            return 0
-        }
-        else{
-            return 1
-        }*/
-    }
-
 }
