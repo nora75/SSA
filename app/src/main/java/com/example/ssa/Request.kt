@@ -30,3 +30,7 @@ data class MultSampleRequest(
 data class DataRequest(
     val user_id: String
 )
+
+data class RenewList(
+    val user_id: Int
+)

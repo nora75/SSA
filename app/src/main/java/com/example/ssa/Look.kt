@@ -15,6 +15,7 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_look.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
+import java.nio.charset.Charset
 import android.widget.ListAdapter as ListAdapter1
 
 class Look : AppCompatActivity() {
@@ -58,7 +59,29 @@ class Look : AppCompatActivity() {
         }
 //更新ボタンクリックのリスナ
         renewButton.setOnClickListener {
-            Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
+            val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
+            val requestAdapter = moshi.adapter(RenewList::class.java)
+
+            val group_id = "11111"
+            val RenewList = RenewList(
+                user_id = 537829
+            )
+            "http://34.83.80.2:8000/group/${group_id}"
+                .httpGet()
+                .header(header)
+                .body(requestAdapter.toJson(RenewList),Charset.defaultCharset())
+                .responseString{ request, response, result ->
+                    when(result){
+                        is Result.Failure ->{
+                            val ex = result.getException()
+                        }
+                        is Result.Success ->{
+                            val data = result.get()
+                        }
+                    }
+                }
+            //Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
         }
     }
 }

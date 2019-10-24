@@ -58,7 +58,7 @@ class login : AppCompatActivity() {
                                     val res = data.toBoolean()
                                     Toast.makeText(this, res.toString(), Toast.LENGTH_LONG).show()
                                     //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
-                                    if (res) {
+                                    if (!res) {
                                         val dataStore: SharedPreferences =
                                             getSharedPreferences(
                                                 "Confirm_Login",
