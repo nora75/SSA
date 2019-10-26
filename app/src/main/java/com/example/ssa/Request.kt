@@ -34,3 +34,7 @@ data class DataRequest(
 data class RenewList(
     val user_id: Int
 )
+
+data class LogoutRequest(
+    val password: String
+)

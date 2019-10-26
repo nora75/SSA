@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -50,21 +51,24 @@ class write : AppCompatActivity() {
                 val Contents = saveFile(GetFile().getWrite(filesDir), contents)
                 val image = saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
                 val info = listOf(
+                    "user_id" to "111",
                     "data_name" to "${Contents.name}",
                     "data_type" to "1",
                     "title" to "$title",
-                    "user_id" to "111",
                     "image_name" to "$image.name")
                 Toast.makeText(this, "テキストの保存に成功しました", Toast.LENGTH_LONG).show()
+                val header : HashMap<String, String> = hashMapOf("Content-Type" to "multipart/form-data")
 
-                "http://34.83.80.2:8000/group/$group_id"
-                    .httpUpload(parameters = info)
-                    .add((FileDataPart(File(Contents.path),name = Contents.name)))
-                    .add(FileDataPart(File(image?.path),name = image?.name!!))
+                //"http://34.83.80.2:8000/group/$group_id"
+                    Fuel.upload("http://34.83.80.2:8000/group/$group_id",parameters = info)
+                    .add((FileDataPart(File(Contents.path),name = "Data")))
+                    .add(FileDataPart(File(image?.path),name = "Image"))
                     .response{result ->
                         when(result){
                             is Result.Failure -> {
                                 Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
+                                val ex = result.getException()
+                                Log.d("error msg","${ex.toString()}")
                             }
                             is Result.Success -> {
                                 val ex = result.get()

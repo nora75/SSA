@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/account_info_button"/>
         <Button
-                android:text="グループ作成"
+                android:text="グループ変更"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/make_group"/>

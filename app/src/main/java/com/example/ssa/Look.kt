@@ -3,6 +3,7 @@ package com.example.ssa
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -75,9 +76,13 @@ class Look : AppCompatActivity() {
                     when(result){
                         is Result.Failure ->{
                             val ex = result.getException()
+                            Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
+                            Log.d("error_msg","${ex.toString()}")
                         }
                         is Result.Success ->{
                             val data = result.get()
+                            Toast.makeText(this,"seikou",Toast.LENGTH_LONG).show()
+
                         }
                     }
                 }
