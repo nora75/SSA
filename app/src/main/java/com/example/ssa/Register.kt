@@ -60,8 +60,8 @@ class Register : AppCompatActivity() {
                         .responseString { request, response, result ->
                             when (result) {
                                 is Result.Failure<*> -> {
-                                    val ex = result.getException()
-                                    Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                                    //val ex = result.getException()
+                                    Toast.makeText(this, "登録情報をもう一度確認してください", Toast.LENGTH_LONG).show()
                                 }
                                 is Result.Success<*> -> {
                                     val data = result.get()
@@ -76,11 +76,12 @@ class Register : AppCompatActivity() {
                                     */
                                     val dataStore: SharedPreferences =
                                         getSharedPreferences(
-                                            "USER_ID",
+                                            "USER_DATA",
                                             Context.MODE_PRIVATE
                                         )
                                     val editor = dataStore.edit()
                                     editor.putInt("USER_ID", res?.user_id!!.toInt())
+                                    editor.putString("GROUP_ID", res?.group_id.toString())
                                     editor.apply()
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
                                     finish()
