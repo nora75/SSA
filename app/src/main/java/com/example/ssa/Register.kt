@@ -1,5 +1,7 @@
 package com.example.ssa
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -63,13 +65,23 @@ class Register : AppCompatActivity() {
                                 }
                                 is Result.Success<*> -> {
                                     val data = result.get()
-                                    val res =
-                                        moshi.adapter(RegisterRespone::class.java).fromJson(data)
-                                    Toast.makeText(
+                                    val res = moshi.adapter(RegisterRespone::class.java).fromJson(data)
+                                    //確認用トースト
+                                    /*Toast.makeText(
                                         this,
-                                        res?.group_id.toString(),
+                                        //res?.group_id.toString(),
+                                        res?.user_id.toString(),
                                         Toast.LENGTH_LONG
                                     ).show()
+                                    */
+                                    val dataStore: SharedPreferences =
+                                        getSharedPreferences(
+                                            "USER_ID",
+                                            Context.MODE_PRIVATE
+                                        )
+                                    val editor = dataStore.edit()
+                                    editor.putInt("USER_ID", res?.user_id!!.toInt())
+                                    editor.apply()
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
                                     finish()
                                 }

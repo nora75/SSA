@@ -67,7 +67,7 @@ class login : AppCompatActivity() {
                                         val editor = dataStore.edit()
                                         editor.putString("Address", GetMailAddress1())
                                         editor.putString("Pass", GetPassWord())
-                                        editor.commit()
+                                        editor.apply()
                                         Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG)
                                             .show()
                                         finish()
