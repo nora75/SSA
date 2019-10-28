@@ -68,20 +68,22 @@ class Look : AppCompatActivity() {
             val RenewList = RenewList(
                 user_id = 537829
             )
-            "http://34.83.80.2:8000/group/${group_id}"
-                .httpGet()
+            val parms = listOf(
+                "user_id" to 234
+            )
+            val responseString = "http://34.83.80.2:8000/group/${group_id}"
+                .httpGet(parameters = parms)
                 .header(header)
-                .body(requestAdapter.toJson(RenewList),Charset.defaultCharset())
-                .responseString{ request, response, result ->
-                    when(result){
-                        is Result.Failure ->{
+                .responseString { request, response, result ->
+                    when (result) {
+                        is Result.Failure -> {
                             val ex = result.getException()
-                            Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
-                            Log.d("error_msg","${ex.toString()}")
+                            Toast.makeText(this, "失敗しました", Toast.LENGTH_LONG).show()
+                            Log.d("error_msg", "${ex.toString()}")
                         }
-                        is Result.Success ->{
+                        is Result.Success -> {
                             val data = result.get()
-                            Toast.makeText(this,"seikou",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, "seikou", Toast.LENGTH_LONG).show()
 
                         }
                     }

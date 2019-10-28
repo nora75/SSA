@@ -56,7 +56,6 @@ class write : AppCompatActivity() {
                     "data_type" to "1",
                     "title" to "$title",
                     "image_name" to "$image.name")
-                Toast.makeText(this, "テキストの保存に成功しました", Toast.LENGTH_LONG).show()
                 val header : HashMap<String, String> = hashMapOf("Content-Type" to "multipart/form-data")
 
                 //"http://34.83.80.2:8000/group/$group_id"

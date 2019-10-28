@@ -38,3 +38,8 @@ data class RenewList(
 data class LogoutRequest(
     val password: String
 )
+
+data class Change_group(
+    val group_id: String,
+    val password: String
+)
