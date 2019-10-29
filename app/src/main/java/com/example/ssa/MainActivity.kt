@@ -17,26 +17,26 @@ class MainActivity : AppCompatActivity() {
 
         //書く画面への画面遷移用のリスナ―設定
         Write_Button.setOnClickListener {
-            val write_intent = Intent(this, write::class.java)
-            startActivity(write_intent)
+            val writeIntent = Intent(this, write::class.java)
+            startActivity(writeIntent)
         }
 
         //オプション画面への画面遷移用のリスナー設定
         Option_Button.setOnClickListener{
-            val option_intet = Intent(this,option::class.java)
-            startActivity(option_intet)
+            val optionIntent = Intent(this,option::class.java)
+            startActivity(optionIntent)
         }
 
         //話す画面への画面遷移用のリスナー設定
         Speak_Button.setOnClickListener{
-            val talk_intet = Intent(this,Talk::class.java)
-            startActivity(talk_intet)
+            val talkIntent = Intent(this,Talk::class.java)
+            startActivity(talkIntent)
         }
 
         //聞く画面への画面遷移用のリスナー設定
         Listen_See_Button.setOnClickListener{
-            val listen_intet = Intent(this,Look::class.java)
-            startActivity(listen_intet)
+            val lookIntent = Intent(this,Look::class.java)
+            startActivity(lookIntent)
         }
     }
 
@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
         val pass = dataStore.getString("Pass","")
-            if(pass.equals("")){
+            if(!pass.equals("")){
                 val intent = Intent(this,login::class.java)
                 startActivity(intent)
             }
