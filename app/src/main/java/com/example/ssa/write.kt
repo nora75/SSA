@@ -49,7 +49,7 @@ class write : AppCompatActivity() {
             val imageFlag = ( imageView.drawable != null && !(imageView.drawable.equals(koko))) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
-                val textFile = saveFile(contents)
+                val textFile = saveTextFile(contents)
                 var image : File? = null
                 if (imageFlag) {
                     image = saveImage((imageView.drawable as BitmapDrawable).bitmap)
@@ -144,7 +144,7 @@ class write : AppCompatActivity() {
     }
 
     //テキストファイルの保存
-    private fun saveFile(content: String): File {
+    private fun saveTextFile(content: String): File {
         val filename = GetFile().getWrite(filesDir)
         // ファイルの書き込み
         val writeFile = File(filename)
