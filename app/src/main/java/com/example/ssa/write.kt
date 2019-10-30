@@ -54,12 +54,12 @@ class write : AppCompatActivity() {
                 val image = saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
                 val info = listOf(
                     "user_id" to "111",
-                    "data_name" to "${Contents.name}",
+                    "data_name" to Contents.name,
                     "data_type" to "1",
                     "title" to "$title",
                     "image_name" to "$image.name")
                 val header : HashMap<String, String> = hashMapOf("Content-Type" to "multipart/form-data")
-
+                Log.d("contentname",Contents.name)
                 //"http://34.83.80.2:8000/group/$group_id"
                     Fuel.upload("http://34.83.80.2:8000/group/$group_id",parameters = info)
                     .add((FileDataPart(File(Contents.path),name = "Data")))

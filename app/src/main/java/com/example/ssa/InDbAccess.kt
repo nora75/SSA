@@ -22,7 +22,7 @@ class InDbAccess : Activity() {
     }
 
     fun write(){
-
+        var user_id = dataStore.getString("",)
     }
 
     fun listen(){

@@ -70,7 +70,7 @@ class Register : AppCompatActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
                                     */
-                                    /*
+
                                     val dataStore: SharedPreferences =
                                         getSharedPreferences(
                                             "USER_DATA",
@@ -80,7 +80,7 @@ class Register : AppCompatActivity() {
                                     editor.putInt("USER_ID", res?.user_id!!.toInt())
                                     editor.putString("GROUP_ID", res?.group_id.toString())
                                     editor.apply()
-                                    */
+
 
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
                                     finish()
