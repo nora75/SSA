@@ -59,7 +59,6 @@ class write : AppCompatActivity() {
                     "title" to "$title",
                     "image_name" to "$image.name")
                 val header : HashMap<String, String> = hashMapOf("Content-Type" to "multipart/form-data")
-                Log.d("contentname",Contents.name)
                 //"http://34.83.80.2:8000/group/$group_id"
                     Fuel.upload("http://34.83.80.2:8000/group/$group_id",parameters = info)
                     .add((FileDataPart(File(Contents.path),name = "Data")))

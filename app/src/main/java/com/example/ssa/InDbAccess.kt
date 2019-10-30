@@ -22,7 +22,9 @@ class InDbAccess : Activity() {
     }
 
     fun write(){
-        var user_id = dataStore.getString("",)
+        var user_id = dataStore.getString("USER_ID","null")
+        var group_id = dataStore.getString("GROUP_ID","null")
+
     }
 
     fun listen(){
