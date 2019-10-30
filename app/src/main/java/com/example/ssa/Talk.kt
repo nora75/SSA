@@ -17,24 +17,24 @@ class Talk : AppCompatActivity() {
     private var recordPermission: Boolean = false // 権限のチェックに使用 True : 権限あり, False : なし
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState )
         this.title = resources.getString(R.string.string_talk)
         setContentView(R.layout.activity_talk)
 
-        // listen画面への移動
-        to_listen.setOnClickListener {
-            val listen = Intent(this, listen::class.java)
-            startActivity(listen)
+        // look画面への移動
+        to_look.setOnClickListener {
+            val look = Intent(this, Look::class.java)
+            startActivity(look)
         }
 
         // write画面への移動
         to_write.setOnClickListener {
-            val listen = Intent(this, listen::class.java)
-            startActivity(listen)
+            val write = Intent(this, write::class.java)
+        startActivity(write)
         }
 
         // 録音ボタン押下時にtoggleTalk関数の呼び出し
-        talk_button.setOnClickListener {
+        listen_button.setOnClickListener {
             toggleTalk()
         }
 
@@ -65,15 +65,15 @@ class Talk : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.RECORD_AUDIO)
     fun recordTalk() {
         if (recordPermission) {
-            talk_button.setBackgroundColor(Color.RED)
-            alert_talk.visibility = View.VISIBLE
+            listen_button.setBackgroundColor(Color.RED)
+            alert_listen.visibility = View.VISIBLE
             rec.startRecording(applicationContext.filesDir)
         }
     }
 
     private fun stopTalk() {
-        talk_button.setBackgroundResource(android.R.drawable.btn_default)
-        alert_talk.visibility = View.INVISIBLE
+        listen_button.setBackgroundResource(android.R.drawable.btn_default)
+        alert_listen.visibility = View.INVISIBLE
         rec.stopRecording()
     }
 
@@ -87,10 +87,6 @@ class Talk : AppCompatActivity() {
     fun onContactsNeverAskAgain() {
         recordPermission = false
         flag = false
-    }
-
-    @OnShowRationale(Manifest.permission.RECORD_AUDIO)
-    fun showRationaleForContacts(request: PermissionRequest){
     }
 
 }

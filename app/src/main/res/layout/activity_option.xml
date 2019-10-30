@@ -7,4 +7,36 @@
         android:layout_height="match_parent"
         tools:context=".option">
 
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" tools:layout_editor_absoluteY="8dp"
+            tools:layout_editor_absoluteX="8dp">
+        <Button
+                android:text="アカウント情報"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/account_info_button"/>
+        <Button
+                android:text="グループ変更"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/make_group"/>
+        <Button
+                android:text="ヘルプ"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/help"/>
+        <Button
+                android:text="ログアウト"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/logout"/>
+        <Button
+                android:text="サンプル"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sample"/>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
