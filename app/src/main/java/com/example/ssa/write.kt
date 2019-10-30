@@ -40,6 +40,9 @@ class write : AppCompatActivity() {
             var content_id = findViewById(R.id.Memo_Content) as EditText
             var title_id = findViewById(R.id.title) as EditText
             var iamge_id = findViewById(R.id.imageView) as ImageView
+            iamge_id.isEnabled
+
+            var a = imageView.resources
 
             //エディットテキストからテキストを得る
             val contents = content_id.text.toString()
@@ -47,7 +50,7 @@ class write : AppCompatActivity() {
             val group_id = 1
             //val image = (imageView.drawable as BitmapDrawable).bitmap
 
-            if (!contents.isEmpty() && !title.isEmpty()) {
+            if (!contents.isEmpty() && !title.isEmpty() && !iamge_id.isEnabled) {
                 val Contents = saveFile(GetFile().getWrite(filesDir), contents)
                 val image = saveImage((imageView.drawable as BitmapDrawable).bitmap,GetFile().getPict(filesDir),this)
                 val info = listOf(
