@@ -143,8 +143,9 @@ class write : AppCompatActivity() {
 
     //テキストファイルの保存
     private fun saveFile(content: String): File {
+        val filename = GetFile().getPict(filesDir)
         // ファイルの書き込み
-        val writeFile = File(GetFile().getWrite(filesDir))
+        val writeFile = File(filename)
         writeFile.writeText(content)
         return writeFile
     }
