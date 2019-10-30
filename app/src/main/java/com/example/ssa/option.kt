@@ -31,14 +31,15 @@ class option : AppCompatActivity() {
             var info_intent = Intent(this,account_info::class.java)
             startActivity(info_intent)
         }
+
         make_group.setOnClickListener{
             //var makegroup_intent = Intent(this,add_group::class.java)
             //startActivity(makegroup_intent)
-            var user_id = 1111
+            var user_id = 1
             val requestAdapter = moshi.adapter(Change_group::class.java)
             var request = Change_group(
-                group_id = "group",
-                password = "group"
+                group_id = "testg",
+                password = 1111
             )
 
             "http://34.83.80.2:8000/users/${user_id}"
@@ -60,16 +61,25 @@ class option : AppCompatActivity() {
                 }
         }
         help.setOnClickListener {
+            val data : SharedPreferences = getSharedPreferences(
+                "USER_DATA",
+                Context.MODE_PRIVATE
+            )
+            val USER_ID = data.getInt("USER_ID",0)
+            val GROUP_ID = data.getString("GROUP_ID","")
+            val Address = data.getString("Address","sample@a.a")
+            val pass = data.getString("Pass","1111")
 
+            Toast.makeText(this,"$USER_ID"+" space "+"$GROUP_ID" +" space "+"$Address"+" space "+"$pass",Toast.LENGTH_LONG).show()
         }
         //ログアウトするための機能
         //
         logout.setOnClickListener {
-            val dataStore: SharedPreferences = getSharedPreferences("Confirm_Login", Context.MODE_PRIVATE)
+            val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
             val editor = dataStore.edit()
             editor.putString("Address","")
             editor.putString("Pass","")
-            editor.commit()
+            editor.apply()
             finish()
         }
         sample.setOnClickListener {
@@ -102,4 +112,3 @@ class option : AppCompatActivity() {
         }
     }
 }
-

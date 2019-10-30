@@ -41,5 +41,5 @@ data class LogoutRequest(
 
 data class Change_group(
     val group_id: String,
-    val password: String
+    val password: Int
 )

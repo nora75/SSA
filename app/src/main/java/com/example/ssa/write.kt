@@ -34,6 +34,8 @@ class write : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
+        var image_id = findViewById(R.id.imageView) as ImageView
+        image_id.setImageResource(R.drawable.koko)
 
         hozon_button.setOnClickListener(View.OnClickListener {
             var contentID = findViewById<EditText>(R.id.Memo_Content)
@@ -55,12 +57,12 @@ class write : AppCompatActivity() {
                 }
                 val type = if (imageFlag) { "1" } else { "0" }
                 val info = listOf(
-                    "user_id" to "33",
+                    "user_id" to "111",
                     "data_name" to "${textFile.name}",
                     "data_type" to type,
                     "title" to "$title",
                     "image_name" to "${image?.name}")
-
+                Log.d("contentname","${textFile.name}")
                 //"http://34.83.80.2:8000/group/$group_id"
                 val f = Fuel.upload("http://10.0.2.2:8000/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))

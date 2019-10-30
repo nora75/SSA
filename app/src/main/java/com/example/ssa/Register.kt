@@ -9,11 +9,6 @@ import android.widget.EditText
 import android.widget.Toast
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.httpPost
-import com.github.kittinunf.fuel.core.FuelError
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.core.Request
-import com.github.kittinunf.fuel.core.Response
-import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -61,7 +56,8 @@ class Register : AppCompatActivity() {
                             when (result) {
                                 is Result.Failure<*> -> {
                                     val ex = result.getException()
-                                    Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
+                                    Log.d("error","$ex.toString()")
+                                    Toast.makeText(this, "登録情報をもう一度確認してください", Toast.LENGTH_LONG).show()
                                 }
                                 is Result.Success<*> -> {
                                     val data = result.get()
@@ -74,14 +70,18 @@ class Register : AppCompatActivity() {
                                         Toast.LENGTH_LONG
                                     ).show()
                                     */
+
                                     val dataStore: SharedPreferences =
                                         getSharedPreferences(
-                                            "USER_ID",
+                                            "USER_DATA",
                                             Context.MODE_PRIVATE
                                         )
                                     val editor = dataStore.edit()
                                     editor.putInt("USER_ID", res?.user_id!!.toInt())
+                                    editor.putString("GROUP_ID", res?.group_id.toString())
                                     editor.apply()
+
+
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
                                     finish()
                                 }
