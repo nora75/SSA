@@ -16,6 +16,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.ssa.R.drawable.*
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.result.Result
@@ -34,7 +35,7 @@ class write : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
         val imageID = findViewById<ImageView>(R.id.imageView)
-        imageID.setImageResource(R.drawable.koko)
+        imageID.setImageResource(koko)
 
         hozon_button.setOnClickListener(View.OnClickListener {
             val contentID = findViewById<EditText>(R.id.Memo_Content)
@@ -45,7 +46,7 @@ class write : AppCompatActivity() {
             val title = titleID.text.toString()
             val groupID = "internet"
             //val image = (imageView.drawable as BitmapDrawable).bitmap
-            val imageFlag = imageView.drawable != null // 画像が無い : false 、 ある : true
+            val imageFlag = ( imageView.drawable != null && !(imageView.drawable.equals(koko))) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
                 val textFile = saveFile(contents)
@@ -54,7 +55,8 @@ class write : AppCompatActivity() {
                     image = saveImage((imageView.drawable as BitmapDrawable).bitmap)
                 }
                 val info = listOf(
-                    "user_id" to "111",
+                    "user_id" to "33",
+                    "password" to "password",
                     "data_name" to "${textFile.name}",
                     "data_type" to "1",
                     "title" to "$title",
@@ -143,7 +145,7 @@ class write : AppCompatActivity() {
 
     //テキストファイルの保存
     private fun saveFile(content: String): File {
-        val filename = GetFile().getPict(filesDir)
+        val filename = GetFile().getWrite(filesDir)
         // ファイルの書き込み
         val writeFile = File(filename)
         writeFile.writeText(content)
