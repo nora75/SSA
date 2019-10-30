@@ -60,7 +60,8 @@ class Register : AppCompatActivity() {
                         .responseString { request, response, result ->
                             when (result) {
                                 is Result.Failure<*> -> {
-                                    //val ex = result.getException()
+                                    val ex = result.getException()
+                                    Log.d("error","$ex.toString()")
                                     Toast.makeText(this, "登録情報をもう一度確認してください", Toast.LENGTH_LONG).show()
                                 }
                                 is Result.Success<*> -> {

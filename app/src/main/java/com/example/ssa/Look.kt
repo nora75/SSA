@@ -8,22 +8,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.fuel.httpUpload
 import com.github.kittinunf.result.Result
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_look.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
-import java.nio.charset.Charset
-import android.widget.ListAdapter as ListAdapter1
 
 class Look : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look)
 //テストデータ
+// UserID,UserName,GroupID,DataName,ImageName,Title,DataType
         val names = listOf(
             "おじいちゃん",
             "おばあちゃん",
@@ -47,8 +44,12 @@ class Look : AppCompatActivity() {
             "9/5",
             "9/6"
         )
+
+        val data_type = listOf(
+            0,1,0,1,1
+        )
 //リストにデータを入れる
-        val test = List(names.size){i ->ProttypeData(names[i],title[i],date[i])}
+        val test = List(names.size){i ->ProttypeData(names[i],title[i],date[i],data_type[i])}
 //アダプターをせいせいし、viewにセットする
         val adapter = SampleListAdapter(this,test)
         myListView.adapter = adapter
@@ -57,6 +58,19 @@ class Look : AppCompatActivity() {
         myListView.setOnItemClickListener{adapterView,view,postion,id ->
             val name = view.findViewById<TextView>(R.id.text1).text
             Toast.makeText(this,"$name",Toast.LENGTH_LONG).show()
+            //リクエストをここに書く
+
+            //画面を遷移させパス等を送る
+            /*
+            選択されたdata_typeにより、画面を遷移する
+             */
+            /*if (){
+
+            }else{
+
+            }
+
+*/
         }
 //更新ボタンクリックのリスナ
         renewButton.setOnClickListener {
@@ -83,8 +97,7 @@ class Look : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             val data = result.get()
-                            Toast.makeText(this, "seikou", Toast.LENGTH_LONG).show()
-
+                            Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
@@ -96,13 +109,16 @@ class Look : AppCompatActivity() {
 data class ProttypeData(
     val names:String,
     val title:String,
-    val date: String
+    val date: String,
+    val data_type:Int
 )
 
 data class SampleViewHolder(
+    val imageView: ImageView,
     val text1: TextView,
     val text2: TextView,
-    val text3: TextView
+    val text3: TextView,
+    val text4: TextView
 )
 
 class SampleListAdapter(context: Context,sample:List<ProttypeData>) : ArrayAdapter<ProttypeData>(context,0,sample){
@@ -115,9 +131,11 @@ class SampleListAdapter(context: Context,sample:List<ProttypeData>) : ArrayAdapt
         if(view == null){
             view = layoutInflater.inflate(R.layout.my_text_view, parent ,false)
             holder = SampleViewHolder(
+                view.imageView,
                 view.text1,
                 view.text2,
-                view.text3
+                view.text3,
+                view.text4
             )
             view.tag = holder
         }
@@ -129,7 +147,12 @@ class SampleListAdapter(context: Context,sample:List<ProttypeData>) : ArrayAdapt
         holder.text1.text = sample.names
         holder.text2.text = sample.title
         holder.text3.text = sample.date
-
+        if(sample.data_type == 1){
+            holder.imageView.setImageResource(R.drawable.tabi_camera_nikki)
+        }
+        else{
+            holder.imageView.setImageResource(R.drawable.player_button_blue01_saisei)
+        }
         return view
     }
 }
