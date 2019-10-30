@@ -2,6 +2,9 @@
     <string name="app_name">SSA</string>
     <string name="string_talk">話す</string>
     <string name="alert_talk">録音中</string>
+    <string name="alert_listen">再生中</string>
     <string name="string_write">書く</string>
     <string name="string_listen">聞く</string>
+    <string name="string_look">聞く/見る</string>
+    <string name="string_setting">設定</string>
 </resources>
