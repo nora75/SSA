@@ -15,6 +15,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val pass = dataStore.getString("Pass","")
+        if(pass.equals("")){
+            val intent = Intent(this,login::class.java)
+            startActivity(intent)
+        }
+
+
         //書く画面への画面遷移用のリスナ―設定
         Write_Button.setOnClickListener {
             val writeIntent = Intent(this, write::class.java)
@@ -42,7 +50,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-
         val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
         val pass = dataStore.getString("Pass","")
             if(pass.equals("")){

@@ -37,8 +37,9 @@ class option : AppCompatActivity() {
             //startActivity(makegroup_intent)
             val requestAdapter = moshi.adapter(Change_group::class.java)
             var request = Change_group(
-                group_id = sh_group_id(),
-                password = sh_pass_id()
+                password = sh_pass_id(),
+                group_id = sh_group_id()
+
             )
 
             "http://34.83.80.2:8000/users/${sh_user_id()}"
@@ -70,7 +71,6 @@ class option : AppCompatActivity() {
             editor.putString("Address","")
             editor.putString("Pass","")
             editor.apply()
-            Toast.makeText(this,sh_pass_id(),Toast.LENGTH_LONG).show()
             finish()
         }
         sample.setOnClickListener {
