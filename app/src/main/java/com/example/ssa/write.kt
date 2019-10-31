@@ -25,6 +25,7 @@ import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_write.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.StringReader
 
 class write : AppCompatActivity() {
 
@@ -37,8 +38,7 @@ class write : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
         val imageID = findViewById<ImageView>(R.id.imageView)
-        imageID.setImageResource(koko)
-
+        //imageID.setImageResource(koko)
         hozon_button.setOnClickListener(View.OnClickListener {
             val contentID = findViewById<EditText>(R.id.Memo_Content)
             val titleID = findViewById<EditText>(R.id.title)
@@ -46,9 +46,8 @@ class write : AppCompatActivity() {
             //エディットテキストからテキストを得る
             val contents = contentID.text.toString()
             val title = titleID.text.toString()
-            val groupID = "internet"
-            //val image = (imageView.drawable as BitmapDrawable).bitmap
-            val imageFlag = ( imageView.drawable != null && !(imageView.drawable.equals(koko))) // 画像が無い : false 、 ある : true
+            val groupID = sh_group_id()
+            val imageFlag = ( imageView.drawable != null)//&& !(imageView.drawable.equals(koko) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
                 val textFile = saveTextFile(contents)
@@ -57,8 +56,8 @@ class write : AppCompatActivity() {
                     image = saveImage((imageView.drawable as BitmapDrawable).bitmap)
                 }
                 val info = listOf(
-                    "user_id" to "33",
-                    "password" to "password",
+                    "user_id" to sh_user_id(),
+                    "password" to sh_pass_id(),
                     "data_name" to "${textFile.name}",
                     "data_type" to "1",
                     "title" to "$title",
@@ -68,7 +67,9 @@ class write : AppCompatActivity() {
                 val f = Fuel.upload("http://34.83.80.2:8000/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
-                    f.add(FileDataPart(File(image?.path),name = "Image"))
+                    if (!(imageView.drawable.equals(koko))) {
+                        f.add(FileDataPart(File(image?.path), name = "Image"))
+                    }
                 }
                 f.response{result ->
                     when(result){
@@ -81,7 +82,8 @@ class write : AppCompatActivity() {
                         is Result.Success -> {
                             // 成功した場合。
                             val ex = result.get()
-                            Toast.makeText(this,"成功しました",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,"ほぞんに成功しました",Toast.LENGTH_LONG).show()
+                            finish()
                         }
                     }
                 }
@@ -170,12 +172,22 @@ class write : AppCompatActivity() {
         }
     }
 
-    private fun write(){
+    private fun sh_user_id():Int{
         val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
-        val editor = dataStore.edit()
-        var user_id = dataStore.getString("USER_ID","null")
-        var group_id = dataStore.getString("GROUP_ID","null")
-        var pass = dataStore.getString("Pass","null")
+        val user_id = dataStore.getInt("USER_ID",1)
+        return user_id
+    }
+
+    private fun sh_group_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val group_id = dataStore.getString("GROUP_ID","")
+        return group_id
+    }
+
+    private fun sh_pass_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val pass = dataStore.getString("Pass","")
+        return pass
     }
 
 }

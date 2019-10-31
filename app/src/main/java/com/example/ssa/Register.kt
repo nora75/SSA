@@ -62,15 +62,6 @@ class Register : AppCompatActivity() {
                                 is Result.Success<*> -> {
                                     val data = result.get()
                                     val res = moshi.adapter(RegisterRespone::class.java).fromJson(data)
-                                    //確認用トースト
-                                    /*Toast.makeText(
-                                        this,
-                                        //res?.group_id.toString(),
-                                        res?.user_id.toString(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    */
-
                                     //shraedpreferences　のメソッド
                                     register(res?.user_id!!.toInt(),res?.group_id.toString())
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
@@ -166,7 +157,7 @@ class Register : AppCompatActivity() {
         else
             return 0
     }
-
+    //sharedpreferenceにuser_id等の情報を置く
     private fun register(user_id:Int,group_id:String){
         val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
         val editor = dataStore.edit()
