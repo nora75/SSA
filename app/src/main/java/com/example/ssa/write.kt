@@ -18,9 +18,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.ssa.R.drawable.*
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
-import com.github.kittinunf.fuel.httpUpload
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_write.*
 import java.io.ByteArrayOutputStream
@@ -36,36 +36,35 @@ class write : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
-        var image_id = findViewById(R.id.imageView) as ImageView
-        image_id.setImageResource(R.drawable.koko)
+        val imageID = findViewById<ImageView>(R.id.imageView)
+        imageID.setImageResource(koko)
 
         hozon_button.setOnClickListener(View.OnClickListener {
-            var contentID = findViewById<EditText>(R.id.Memo_Content)
-            var titleID = findViewById<EditText>(R.id.title)
+            val contentID = findViewById<EditText>(R.id.Memo_Content)
+            val titleID = findViewById<EditText>(R.id.title)
 
             //エディットテキストからテキストを得る
             val contents = contentID.text.toString()
             val title = titleID.text.toString()
             val groupID = "internet"
             //val image = (imageView.drawable as BitmapDrawable).bitmap
-            val imageFlag = imageView.drawable != null // 画像が無い : false 、 ある : true
+            val imageFlag = ( imageView.drawable != null && !(imageView.drawable.equals(koko))) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
-                val textFile = saveFile(contents)
+                val textFile = saveTextFile(contents)
                 var image : File? = null
                 if (imageFlag) {
                     image = saveImage((imageView.drawable as BitmapDrawable).bitmap)
                 }
-                val type = if (imageFlag) { "1" } else { "0" }
                 val info = listOf(
-                    "user_id" to "111",
+                    "user_id" to "33",
+                    "password" to "password",
                     "data_name" to "${textFile.name}",
-                    "data_type" to type,
+                    "data_type" to "1",
                     "title" to "$title",
                     "image_name" to "${image?.name}")
-                Log.d("contentname","${textFile.name}")
-
-                //"http://34.83.80.2:8000/group/$group_id"
+                Log.d("Content's name","${textFile.name}")
+                // POST to "http://34.83.80.2:8000/group/$group_id" with parameters
                 val f = Fuel.upload("http://34.83.80.2:8000/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
@@ -74,11 +73,13 @@ class write : AppCompatActivity() {
                 f.response{result ->
                     when(result){
                         is Result.Failure -> {
+                            // 失敗した場合
                             Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
                             val ex = result.getException()
                             Log.d("error msg", ex.toString())
                         }
                         is Result.Success -> {
+                            // 成功した場合。
                             val ex = result.get()
                             Toast.makeText(this,"成功しました",Toast.LENGTH_LONG).show()
                         }
@@ -145,7 +146,7 @@ class write : AppCompatActivity() {
     }
 
     //テキストファイルの保存
-    private fun saveFile(content: String): File {
+    private fun saveTextFile(content: String): File {
         val filename = GetFile().getWrite(filesDir)
         // ファイルの書き込み
         val writeFile = File(filename)
