@@ -71,17 +71,8 @@ class Register : AppCompatActivity() {
                                     ).show()
                                     */
 
-                                    val dataStore: SharedPreferences =
-                                        getSharedPreferences(
-                                            "USER_DATA",
-                                            Context.MODE_PRIVATE
-                                        )
-                                    val editor = dataStore.edit()
-                                    editor.putInt("USER_ID", res?.user_id!!.toInt())
-                                    editor.putString("GROUP_ID", res?.group_id.toString())
-                                    editor.apply()
-
-
+                                    //shraedpreferences　のメソッド
+                                    register(res?.user_id!!.toInt(),res?.group_id.toString())
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
                                     finish()
                                 }
@@ -174,5 +165,14 @@ class Register : AppCompatActivity() {
         //一致
         else
             return 0
+    }
+
+    private fun register(user_id:Int,group_id:String){
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val editor = dataStore.edit()
+        editor.putInt("USER_ID",user_id)
+        editor.putString("GROUP_ID",group_id)
+        editor.putString("USER_NAME",GetName())
+        editor.apply()
     }
 }

@@ -59,16 +59,19 @@ class login : AppCompatActivity() {
                                     //Toast.makeText(this, res.toString(), Toast.LENGTH_LONG).show()
                                     //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
                                     if (!res) {
-                                        val dataStore: SharedPreferences =
+                                        /*val dataStore: SharedPreferences =
                                             getSharedPreferences(
                                                 "USER_DATA",
                                                 Context.MODE_PRIVATE
                                             )
                                         val editor = dataStore.edit()
-                                        editor.putString("Address", GetMailAddress1())
-                                        editor.putString("Pass", GetPassWord()+"@"+GetMailAddress2())
+                                        editor.putString("Address", GetMailAddress1()+"@"+GetMailAddress2())
+                                        editor.putString("Pass", GetPassWord())
                                         editor.apply()
                                         Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG).show()
+                                        */
+                                        val address = GetMailAddress1()+"@"+GetMailAddress2()
+                                        loginpre(address,GetPassWord())
                                         finish()
                                     } else {
                                         Toast.makeText(
@@ -135,5 +138,13 @@ class login : AppCompatActivity() {
             return 1 //error
         }
         return 0 //true
+    }
+
+    private fun loginpre(Address:String,password:String){
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val editor = dataStore.edit()
+        editor.putString("Address", Address)
+        editor.putString("Pass", password)
+        editor.apply()
     }
 }

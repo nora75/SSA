@@ -2,7 +2,9 @@ package com.example.ssa
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -40,7 +42,6 @@ class write : AppCompatActivity() {
         hozon_button.setOnClickListener(View.OnClickListener {
             var contentID = findViewById<EditText>(R.id.Memo_Content)
             var titleID = findViewById<EditText>(R.id.title)
-            var imageID = findViewById<ImageView>(R.id.imageView)
 
             //エディットテキストからテキストを得る
             val contents = contentID.text.toString()
@@ -65,7 +66,7 @@ class write : AppCompatActivity() {
                 Log.d("contentname","${textFile.name}")
 
                 //"http://34.83.80.2:8000/group/$group_id"
-                val f = Fuel.upload("http://10.0.2.2:8000/group/$groupID",parameters = info)
+                val f = Fuel.upload("http://34.83.80.2:8000/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
                     f.add(FileDataPart(File(image?.path),name = "Image"))
@@ -167,4 +168,13 @@ class write : AppCompatActivity() {
             null
         }
     }
+
+    private fun write(){
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val editor = dataStore.edit()
+        var user_id = dataStore.getString("USER_ID","null")
+        var group_id = dataStore.getString("GROUP_ID","null")
+        var pass = dataStore.getString("Pass","null")
+    }
+
 }
