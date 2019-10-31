@@ -65,7 +65,7 @@ class Look : AppCompatActivity() {
             Toast.makeText(this,"$name",Toast.LENGTH_LONG).show()
             //リクエストをここに書く
             //"http://34.83.80.2:8000/group/
-            val res = Fuel.get("http://34.83.80.2:8000/group/${sh_group_id()}/${sh_user_id()}")
+            val res = Fuel.get("http://34.83.80.2:50113/group/${sh_group_id()}/${sh_user_id()}")
                 .responseString { request, response, result ->
                     when (result) {
                         is Result.Failure -> {
@@ -109,7 +109,7 @@ class Look : AppCompatActivity() {
                 "password" to sh_pass_id()
             )
 
-            "http://34.83.80.2:8080/group/$group_id"
+            "http://34.83.80.2:50113/group/$group_id"
                 .httpGet()
                 .header(header)
                 .body(requestAdapter.toJson(renew), Charset.defaultCharset())

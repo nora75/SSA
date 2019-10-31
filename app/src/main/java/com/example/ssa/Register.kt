@@ -48,7 +48,7 @@ class Register : AppCompatActivity() {
                 }
 
                 0 -> {
-                    "http://34.83.80.2:8000/Registration"
+                    "http://34.83.80.2:50112/Registration"
                         .httpPost()
                         .header(header)
                         .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())

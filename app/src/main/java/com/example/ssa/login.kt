@@ -42,7 +42,7 @@ class login : AppCompatActivity() {
                     val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
                     //url:基本的なURL
                     val requestAdapter = moshi.adapter(LoginRequest::class.java)
-                    "http://34.83.80.2:8000/Login"
+                    "http://34.83.80.2:50112/Login"
                         .httpPost()
                         .header(header)
                         .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())

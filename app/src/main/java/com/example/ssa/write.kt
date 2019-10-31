@@ -64,7 +64,7 @@ class write : AppCompatActivity() {
                     "image_name" to "${image?.name}")
                 Log.d("Content's name","${textFile.name}")
                 // POST to "http://34.83.80.2:8000/group/$group_id" with parameters
-                val f = Fuel.upload("http://34.83.80.2:8000/group/$groupID",parameters = info)
+                val f = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
                     if (!(imageView.drawable.equals(koko))) {
