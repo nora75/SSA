@@ -56,20 +56,7 @@ class login : AppCompatActivity() {
                                     val data = result.get()
                                     Toast.makeText(this, "正常", Toast.LENGTH_LONG).show()
                                     val res = data.toBoolean()
-                                    //Toast.makeText(this, res.toString(), Toast.LENGTH_LONG).show()
-                                    //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
                                     if (!res) {
-                                        /*val dataStore: SharedPreferences =
-                                            getSharedPreferences(
-                                                "USER_DATA",
-                                                Context.MODE_PRIVATE
-                                            )
-                                        val editor = dataStore.edit()
-                                        editor.putString("Address", GetMailAddress1()+"@"+GetMailAddress2())
-                                        editor.putString("Pass", GetPassWord())
-                                        editor.apply()
-                                        Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG).show()
-                                        */
                                         val address = GetMailAddress1()+"@"+GetMailAddress2()
                                         loginpre(address,GetPassWord())
                                         finish()
