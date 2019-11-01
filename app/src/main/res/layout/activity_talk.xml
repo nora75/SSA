@@ -34,7 +34,7 @@
 
             android:text="@string/string_look"
             android:textColor="#ffffff"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:background="#fcad03"
 
             android:layout_marginEnd="48dp"
@@ -50,7 +50,7 @@
 
             android:text="@string/string_write"
             android:textColor="#ffffff"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:background="#fcad03"
 
             android:layout_marginStart="48dp"
