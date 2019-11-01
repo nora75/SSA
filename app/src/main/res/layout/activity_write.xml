@@ -13,15 +13,26 @@
             android:layout_height="match_parent"
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="日記投稿"
+            android:textSize="50dp"
+            android:gravity="center_horizontal">
+        </TextView>
         <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="93dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
                 android:orientation="horizontal"
                 android:layout_gravity="center">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="タイトル"/>
+                    android:background="#fcad03"
+                    android:text="タイトル"
+                    android:textSize="30dp"
+                    android:textColor="#FFFFFF"/>
             <EditText
                     android:id="@+id/title"
                     android:layout_width="match_parent"
@@ -29,33 +40,18 @@
 
         </LinearLayout>
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="200dp">
-            <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/imageView"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center">
-            <Button
-                android:id="@+id/camera_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="カメラ"/>
-        </LinearLayout>
-        <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:layout_gravity="center">
             <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="メモ"/>
+                    android:background="#fcad03"
+                    android:text="メモ"
+                    android:textSize="30dp"
+                    android:textColor="#FFFFFF"/>
             <EditText
                     android:id="@+id/Memo_Content"
                     android:layout_width="match_parent"
@@ -63,15 +59,54 @@
                     android:inputType="textMultiLine|text|textImeMultiLine"
                     android:lines="5"/>
         </LinearLayout>
-        <Button
-                android:id="@+id/hozon_button"
+        <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="保存"/>
-        <TextView
-                android:id="@+id/test"
+                android:layout_height="200dp"
+                android:layout_weight="1"
+                >
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"/>
+                android:layout_height="match_parent"
+                android:background="#EFEFEF"
+                android:src="@drawable/image"/>
+        </LinearLayout>
+        <View
+                android:layout_width="0dp"
+                android:layout_height="5dp"></View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:orientation="horizontal">
+            <Button
+                    android:id="@+id/camera_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#fcad03"
+                    android:text="カメラ"
+                    android:textSize="20dp"
+                    android:textColor="#FFFFFF"/>
+            <View
+                    android:layout_width="5dp"
+                    android:layout_height="0dp"></View>
+            <Button
+                    android:id="@+id/hozon_button"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="#fcad03"
+                    android:text="保存"
+                    android:textSize="20dp"
+                    android:textColor="#FFFFFF"/>
+            <!--<TextView
+                    android:id="@+id/test"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"/>-->
+        </LinearLayout>
+        <View
+                android:layout_width="0dp"
+                android:layout_height="5dp"></View>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
