@@ -44,48 +44,12 @@ class Look : AppCompatActivity() {
     //private val GROUPID: String = dataStore.getString("GROUP_ID", "NULL")
     //private val USERID = dataStore.getInt("USER_ID", 1)
     //private val PASSWORD: String = dataStore.getString("Pass", "")
-    //テストデータ UserID,UserName,GroupID,DataName,ImageName,Title,DataType
-    private val names:MutableList<String> = mutableListOf(
-        "おじいちゃん",
-        "おばあちゃん",
-        "ははおや",
-        "ちちおや",
-        "まご"
-    )
-
-    private val title:MutableList<String> = listOf(
-        "おはなみ",
-        "りょこう",
-        "しごと",
-        "やすみ",
-        "しゅうがくりょこう"
-    ).toMutableList()
-
-    private val date:MutableList<String> = listOf(
-        "9/2",
-        "9/3",
-        "9/4",
-        "9/5",
-        "9/6"
-    ).toMutableList()
-
-    private val data_type:MutableList<Int> = listOf(
-        0, 1, 0, 1, 1
-    ).toMutableList()
-
-    private val dataNameList:MutableList<String> = mutableListOf(
-        "sample1",
-        "sample2",
-        "sample3",
-        "sample4",
-        "sample5"
-    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look)
 
 //リストにデータを入れる
-        val test = List(names.size) { i -> ProtoTypeData(names[i], title[i], date[i], data_type[i]) }
+        val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], date[i], data_type[i]) }
 //アダプターをせいせいし、viewにセットする
         val adapter = SampleListAdapter(this, test)
         myListView.adapter = adapter
@@ -94,10 +58,27 @@ class Look : AppCompatActivity() {
 
 //viewクリックの時のリスナ
         myListView.setOnItemClickListener { adapterView, view, postion, id ->
-            val name = view.findViewById<TextView>(R.id.text1).text
-            Toast.makeText(this, "$name", Toast.LENGTH_LONG).show()
+            val prams = listOf(
+                "data_name" to dataNameList[postion],
+                "user_id" to sh_user_id(),
+                "password" to sh_pass_id()
+            )
             //リクエストをここに書く
-            //"http://34.83.80.2:50113/group/${sh_group_id()}/${sh_user_id()}"
+            val data_user_id = UserID[postion]
+            "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
+                .httpGet(prams)
+                .responseJson { request, responce, result ->
+                    when (result) {
+                        is Result.Failure -> {
+                            Log.d("リクエストエラー",result.getException().toString())
+                            Toast.makeText(this,"リクエストエラー",Toast.LENGTH_LONG).show()
+                        }
+                        is Result.Success ->{
+                            Toast.makeText(this,"リクエスト成功",Toast.LENGTH_LONG).show()
+                        }
+
+                    }
+                }
             //画面を遷移させパス等を送る
             /*
             選択されたdata_typeにより、画面を遷移する
@@ -156,15 +137,20 @@ class Look : AppCompatActivity() {
 
                             if (arraylist != null) {
                                 if(dataNameCheck(arraylist.DataName)) {
+                                    //UserID,UserName,GroupID,DataName,ImageName,Title,DataType
+                                    viewListID.add(viewListID.size)
+                                    UserID.add(arraylist.UserID)
                                     names.add(arraylist?.UserName!!)
-                                    title.add(arraylist?.Title)
-                                    date.add("11月2日")
-                                    data_type.add(arraylist?.DataType?.toInt())
+                                    GroupID.add(arraylist?.GroupID)
                                     dataNameList.add(arraylist.DataName)
+                                    ImageName.add(arraylist.ImageName)
+                                    date.add("11月2日")
+                                    viewtitle.add(arraylist?.Title)
+                                    data_type.add(arraylist?.DataType?.toInt())
                                 }
                             }
                         }
-                        val test = List(names.size) { i -> ProtoTypeData(names[i], title[i], date[i], data_type[i]) }
+                        val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], date[i], data_type[i]) }
 //アダプターをせいせいし、viewにセットする
                         val adapter = SampleListAdapter(this, test)
                         myListView.adapter = adapter
