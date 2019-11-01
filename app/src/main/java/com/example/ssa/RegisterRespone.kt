@@ -7,4 +7,14 @@ data class RegisterRespone(
     //val data:List<registerinfo>
 )
 
+data class GetDataListResponse(
+    var UserID: Int,
+    var UserName:String,
+    var GroupID:String,
+    var DataName:String,
+    var ImageName:String,
+    var Title:String,
+    var DataType:Int
+)
+
 

@@ -108,8 +108,8 @@ class Look : AppCompatActivity() {
                 password = sh_pass_id()
             )
             val parms = listOf(
-                "user_id:" to sh_user_id(),
-                "password:" to sh_pass_id()
+                "user_id" to sh_user_id(),
+                "password" to sh_pass_id()
             )
 
             //json形式
@@ -129,6 +129,8 @@ class Look : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             val data = result.get()
+                            val res = moshi.adapter(GetDataListResponse::class.java).fromJson(data)
+
                             Log.d("成功データ取得", data)
                             Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                         }
