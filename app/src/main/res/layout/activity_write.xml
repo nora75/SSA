@@ -97,7 +97,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="#fcad03"
-                    android:text="保存"
+                    android:text="投稿"
                     android:textSize="20dp"
                     android:textColor="#FFFFFF"/>
             <!--<TextView
