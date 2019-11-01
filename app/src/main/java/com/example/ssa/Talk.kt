@@ -18,7 +18,7 @@ class Talk : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState )
-        this.title = resources.getString(R.string.string_talk)
+        this.title = resources.getString(R.string.app_name)
         setContentView(R.layout.activity_talk)
 
         // 録音ボタン押下時にtoggleTalk関数の呼び出し
@@ -53,7 +53,7 @@ class Talk : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.RECORD_AUDIO)
     fun recordTalk() {
         if (recordPermission) {
-            listen_button.setBackgroundColor(Color.RED)
+            listen_button.setBackgroundResource(R.drawable.mic_icon_radius_red)
             alert_listen.visibility = View.VISIBLE
             rec.startRecording(applicationContext.filesDir)
         }
