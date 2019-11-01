@@ -10,7 +10,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.Request
+import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.httpGet
+import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
@@ -95,7 +98,6 @@ class Look : AppCompatActivity() {
 //更新ボタンクリックのリスナ
         renewButton.setOnClickListener {
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-            val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
            // val requestAdapter = moshi.adapter(GetDataListResponse::class.java)
 
             val group_id2 = sh_group_id()
@@ -106,7 +108,25 @@ class Look : AppCompatActivity() {
 
             "http://34.83.80.2:50113/group/$group_id2/"
                 .httpGet(parms)
-                .responseString { result ->
+                .responseJson { request, response, result ->
+                    when(result){
+                        is Result.Failure ->{
+                            val ex = result.getException()
+                            Toast.makeText(this, "失敗しました", Toast.LENGTH_LONG).show()
+                            Log.d("error_msg", ex.toString())
+                        }
+
+                        is Result.Success ->{
+                            val data = result.value
+                            val res = data.array()
+                            //↑まで問題ない
+                            val resu = moshi.adapter(test::class.java).fromJsonValue(data)
+                            Log.d("aaaa","$resu")
+                            Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+                /*.responseJson() { result ->
                     when (result) {
                         is Result.Failure -> {
                             val ex = result.getException()
@@ -115,24 +135,14 @@ class Look : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             val data = result.get()
-
                             val listdata = listaa(data)
-                            Log.d("list", listdata.toString())
-                            /*
-                            val user_id = res?.UserID
-                            val user_name  =res?.UserName
-                            val group_id  = res?.GroupID
-                            val dataname =res?.DataName
-                            val imagename = res?.ImageName
-                            val title = res?.Title
-                            val datatyoe =res?.DataType
-                            Toast.makeText(this, "$user_id"+"$user_name"+"$group_id"+"$dataname"+"$imagename"+"$title"+"$datatyoe", Toast.LENGTH_LONG).show()
-                                                        */
                             Log.d("成功データ取得", data)
                             Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                         }
                     }
                 }
+
+                 */
             //Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
         }
     }
@@ -154,6 +164,7 @@ class Look : AppCompatActivity() {
         val pass = dataStore.getString("Pass","")
         return pass
     }
+
     fun listaa(data: String): List<GetDataListResponse>? {
         Log.d("data",data)
         val Datalist = Types.newParameterizedType(
@@ -168,7 +179,7 @@ class Look : AppCompatActivity() {
         val getdatalist: List<GetDataListResponse>? = GetListDataAdapter.fromJson(data)
         Log.d("getdatalist",getdatalist.toString())
 
-        val dataList = listOf<GetDataListResponse>()
+        val dataList = mutableListOf<GetDataListResponse>()
         Log.d("dataList",dataList.toString())
 
         getdatalist?.forEach {
@@ -197,7 +208,6 @@ class Look : AppCompatActivity() {
             }
         }
         return dataList
-
     }
 }
 
