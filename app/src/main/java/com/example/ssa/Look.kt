@@ -4,25 +4,21 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.preference.PreferenceActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.HeaderValues
-import com.github.kittinunf.fuel.core.Headers
-import com.github.kittinunf.fuel.core.extensions.authentication
-import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
+import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_look.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
-import java.nio.charset.Charset
-import kotlin.reflect.jvm.internal.impl.util.ReturnsCheck
+import kotlin.collections.List
 
 class Look : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,23 +96,13 @@ class Look : AppCompatActivity() {
         renewButton.setOnClickListener {
             val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
             val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
-            val requestAdapter = moshi.adapter(RenewList::class.java)
+           // val requestAdapter = moshi.adapter(GetDataListResponse::class.java)
 
             val group_id2 = sh_group_id()
-            val renew = RenewList(
-                user_id = sh_user_id(),
-                password = sh_pass_id()
-            )
             val parms = listOf(
                 "user_id" to sh_user_id(),
                 "password" to sh_pass_id()
             )
-
-            //json形式
-            //val json_request =
-            //   listOf({ "user_id" : {sh_user_id()}_, "password" : {sh_pass_id()}})
-
-            val request = requestAdapter.toJson(renew)
 
             "http://34.83.80.2:50113/group/$group_id2/"
                 .httpGet(parms)
@@ -129,8 +115,19 @@ class Look : AppCompatActivity() {
                         }
                         is Result.Success -> {
                             val data = result.get()
-                            val res = moshi.adapter(GetDataListResponse::class.java).fromJson(data)
 
+                            val listdata = listaa(data)
+                            Log.d("list", listdata.toString())
+                            /*
+                            val user_id = res?.UserID
+                            val user_name  =res?.UserName
+                            val group_id  = res?.GroupID
+                            val dataname =res?.DataName
+                            val imagename = res?.ImageName
+                            val title = res?.Title
+                            val datatyoe =res?.DataType
+                            Toast.makeText(this, "$user_id"+"$user_name"+"$group_id"+"$dataname"+"$imagename"+"$title"+"$datatyoe", Toast.LENGTH_LONG).show()
+                                                        */
                             Log.d("成功データ取得", data)
                             Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                         }
@@ -157,6 +154,51 @@ class Look : AppCompatActivity() {
         val pass = dataStore.getString("Pass","")
         return pass
     }
+    fun listaa(data: String): List<GetDataListResponse>? {
+        Log.d("data",data)
+        val Datalist = Types.newParameterizedType(
+            List::class.java,
+            GetDataListResponse::class.java
+        )
+
+        val GetListDataAdapter:JsonAdapter<List<GetDataListResponse>> = Moshi.Builder()
+            .build()
+            .adapter(Datalist)
+
+        val getdatalist: List<GetDataListResponse>? = GetListDataAdapter.fromJson(data)
+        Log.d("getdatalist",getdatalist.toString())
+
+        val dataList = listOf<GetDataListResponse>()
+        Log.d("dataList",dataList.toString())
+
+        getdatalist?.forEach {
+            GetDataListResponse().also {
+                it.UserID = getdatalist[0].toString()
+                Log.d("getdalist0",getdatalist[0].toString())
+
+                it.UserName = getdatalist[1].toString()
+                Log.d("getdalist1",getdatalist[1].toString())
+
+                it.GroupID = getdatalist[2].toString()
+                Log.d("getdalist2",getdatalist[2].toString())
+
+                it.DataName = getdatalist[3].toString()
+                Log.d("getdalist3",getdatalist[3].toString())
+
+                it.ImageName = getdatalist[4].toString()
+                Log.d("getdalist4",getdatalist[4].toString())
+
+                it.Title = getdatalist[5].toString()
+                Log.d("getdalist5",getdatalist[5].toString())
+
+                it.DataType = getdatalist[6].toString()
+                Log.d("getdalist6",getdatalist[6].toString())
+
+            }
+        }
+        return dataList
+
+    }
 }
 
 data class ProttypeData(
@@ -173,7 +215,10 @@ data class SampleViewHolder(
     val text3: TextView
 )
 
-class SampleListAdapter(context: Context,sample:List<ProttypeData>) : ArrayAdapter<ProttypeData>(context,0,sample){
+class SampleListAdapter(
+    context: Context,
+    sample: List<ProttypeData>
+) : ArrayAdapter<ProttypeData>(context,0,sample){
     private val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
@@ -206,5 +251,4 @@ class SampleListAdapter(context: Context,sample:List<ProttypeData>) : ArrayAdapt
         }
         return view
     }
-
 }
