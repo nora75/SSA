@@ -8,11 +8,11 @@
         tools:context=".write">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="8dp">
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,43 +21,43 @@
             android:gravity="center_horizontal">
         </TextView>
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:layout_gravity="center">
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fcad03"
-                    android:text="@string/title"
-                    android:textSize="30sp"
-                    android:textColor="#FFFFFF"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#fcad03"
+                android:text="@string/title"
+                android:textSize="30sp"
+                android:textColor="#FFFFFF"/>
             <EditText
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </LinearLayout>
         <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="center">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center">
             <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#fcad03"
-                    android:text="@string/memo"
-                    android:textSize="30sp"
-                    android:textColor="#FFFFFF"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#fcad03"
+                android:text="@string/memo"
+                android:textSize="30sp"
+                android:textColor="#FFFFFF"/>
             <EditText
-                    android:id="@+id/Memo_Content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:inputType="textMultiLine|text|textImeMultiLine"
-                    android:lines="5"/>
+                android:id="@+id/Memo_Content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="textMultiLine|text|textImeMultiLine"
+                android:lines="5"/>
         </LinearLayout>
         <LinearLayout
                 android:layout_width="match_parent"
@@ -65,48 +65,28 @@
                 android:layout_weight="1"
                 >
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imagePreview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#EFEFEF"
                 android:src="@drawable/image"/>
         </LinearLayout>
         <View
-                android:layout_width="0dp"
-                android:layout_height="5dp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:orientation="horizontal">
+            android:layout_width="0dp"
+            android:layout_height="5dp"/>
             <Button
-                    android:id="@+id/camera_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#fcad03"
-                    android:text="@string/camera"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"/>
-            <View
-                    android:layout_width="5dp"
-                    android:layout_height="0dp"/>
-            <Button
-                    android:id="@+id/hozon_button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#fcad03"
-                    android:text="@string/post"
-                    android:textSize="20sp"
-                    android:textColor="#FFFFFF"/>
-            <!--<TextView
-                    android:id="@+id/test"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"/>-->
-        </LinearLayout>
+                android:id="@+id/hozon_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:background="#fcad03"
+                android:text="@string/post"
+                android:textSize="20sp"
+                android:textColor="#FFFFFF" />
+
         <View
-                android:layout_width="0dp"
-                android:layout_height="5dp"/>
+            android:layout_width="0dp"
+            android:layout_height="5dp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

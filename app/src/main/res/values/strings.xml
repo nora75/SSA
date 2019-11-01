@@ -12,4 +12,5 @@
     <string name="memo">メモ</string>
     <string name="camera">カメラ</string>
     <string name="post">投稿</string>
+    <string name="record">録音</string>
 </resources>
