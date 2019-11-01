@@ -5,48 +5,59 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".Talk">
+        tools:context=".Talk"
+        >
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="@string/string_talk"
+            android:textSize="50sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageButton
             android:id="@+id/listen_button"
-            android:layout_width="282dp" android:layout_height="320dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp" android:layout_marginEnd="8dp"
-            android:contentDescription="@string/string_talk" android:scaleType="centerCrop"
-            android:tint="#000000" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toBottomOf="@+id/alert_listen"
-            app:srcCompat="@android:drawable/ic_btn_speak_now"/>
-    <Button
-            android:id="@+id/to_look"
-            android:layout_width="107dp"
-            android:layout_height="81dp"
-            android:layout_marginStart="48dp"
-            android:layout_marginBottom="32dp" android:text="@string/string_look"
-            app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintStart_toStartOf="parent"
-    />
-    <Button
-            android:text="@string/string_write"
-            android:layout_width="114dp"
-            android:layout_height="81dp"
-            android:id="@+id/to_write"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="48dp"
-            android:layout_marginBottom="32dp"/>
+
+            android:layout_width="320dp"
+            android:layout_height="320dp"
+
+            android:layout_marginStart="45dp"
+            android:layout_marginTop="136dp"
+            android:layout_marginEnd="46dp"
+
+            android:background="@drawable/mic_icon_radius"
+            android:contentDescription="@string/string_talk"
+            android:scaleType="centerCrop"
+            android:tint="#ffffff"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:srcCompat="@android:drawable/ic_btn_speak_now" />
+
     <TextView
+            android:id="@+id/alert_listen"
+
             android:layout_width="119dp"
             android:layout_height="46dp"
-            android:id="@+id/alert_listen" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/alert_talk" android:textSize="36sp" android:visibility="invisible"
-            android:textColor="@color/colorAccent"/>
-    <TextView
-            android:id="@+id/text_talk"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:text="@string/string_talk" app:layout_constraintTop_toBottomOf="@+id/listen_button"
-            android:textSize="36sp" app:autoSizeTextType="uniform" android:layout_marginTop="24dp"
-            android:layout_width="wrap_content" android:layout_height="wrap_content"
-    />
+
+            android:layout_marginStart="146dp"
+            android:layout_marginTop="77dp"
+            android:layout_marginEnd="146dp"
+
+            android:layout_marginBottom="85dp"
+            android:text="@string/alert_talk"
+            android:textColor="@color/colorAccent"
+            android:textSize="36sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listen_button"
+            app:layout_constraintVertical_bias="1.0" />
+
 </android.support.constraint.ConstraintLayout>

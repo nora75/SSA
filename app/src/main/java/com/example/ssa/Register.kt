@@ -48,7 +48,7 @@ class Register : AppCompatActivity() {
                 }
 
                 0 -> {
-                    "http://34.83.80.2:8000/Registration"
+                    "http://34.83.80.2:50112/Registration"
                         .httpPost()
                         .header(header)
                         .body(requestAdapter.toJson(sampleRequest), Charset.defaultCharset())
@@ -62,26 +62,8 @@ class Register : AppCompatActivity() {
                                 is Result.Success<*> -> {
                                     val data = result.get()
                                     val res = moshi.adapter(RegisterRespone::class.java).fromJson(data)
-                                    //確認用トースト
-                                    /*Toast.makeText(
-                                        this,
-                                        //res?.group_id.toString(),
-                                        res?.user_id.toString(),
-                                        Toast.LENGTH_LONG
-                                    ).show()
-                                    */
-
-                                    val dataStore: SharedPreferences =
-                                        getSharedPreferences(
-                                            "USER_DATA",
-                                            Context.MODE_PRIVATE
-                                        )
-                                    val editor = dataStore.edit()
-                                    editor.putInt("USER_ID", res?.user_id!!.toInt())
-                                    editor.putString("GROUP_ID", res?.group_id.toString())
-                                    editor.apply()
-
-
+                                    //shraedpreferences　のメソッド
+                                    register(res?.user_id!!.toInt(),res?.group_id.toString())
                                     Toast.makeText(this, "アカウント作成成功", Toast.LENGTH_LONG).show()
                                     finish()
                                 }
@@ -174,5 +156,14 @@ class Register : AppCompatActivity() {
         //一致
         else
             return 0
+    }
+    //sharedpreferenceにuser_id等の情報を置く
+    private fun register(user_id:Int,group_id:String){
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val editor = dataStore.edit()
+        editor.putInt("USER_ID",user_id)
+        editor.putString("GROUP_ID",group_id)
+        editor.putString("USER_NAME",GetName())
+        editor.apply()
     }
 }

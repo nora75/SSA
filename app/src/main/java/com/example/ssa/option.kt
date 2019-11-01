@@ -35,14 +35,14 @@ class option : AppCompatActivity() {
         make_group.setOnClickListener{
             //var makegroup_intent = Intent(this,add_group::class.java)
             //startActivity(makegroup_intent)
-            var user_id = 1
             val requestAdapter = moshi.adapter(Change_group::class.java)
             var request = Change_group(
-                group_id = "testg",
-                password = 1111
+                password = sh_pass_id(),
+                group_id = sh_group_id()
+
             )
 
-            "http://34.83.80.2:8000/users/${user_id}"
+            "http://34.83.80.2:8000/users/${sh_user_id()}"
                 .httpPost()
                 .header(header)
                 .body(requestAdapter.toJson(request))
@@ -61,16 +61,7 @@ class option : AppCompatActivity() {
                 }
         }
         help.setOnClickListener {
-            val data : SharedPreferences = getSharedPreferences(
-                "USER_DATA",
-                Context.MODE_PRIVATE
-            )
-            val USER_ID = data.getInt("USER_ID",0)
-            val GROUP_ID = data.getString("GROUP_ID","")
-            val Address = data.getString("Address","sample@a.a")
-            val pass = data.getString("Pass","1111")
 
-            Toast.makeText(this,"$USER_ID"+" space "+"$GROUP_ID" +" space "+"$Address"+" space "+"$pass",Toast.LENGTH_LONG).show()
         }
         //ログアウトするための機能
         //
@@ -89,10 +80,10 @@ class option : AppCompatActivity() {
             val requestAdapter = moshi.adapter(LogoutRequest::class.java)
 
             val LogoutRequest = LogoutRequest(
-                password = "group-"
+                password = sh_pass_id()
             )
             val user_id = "1111"
-            "http://34.83.80.2:8000/users/${user_id}"
+            "http://34.83.80.2:8000/users/${sh_user_id()}"
                 .httpDelete()
                 .header()
                 .body(requestAdapter.toJson(LogoutRequest), Charset.defaultCharset())
@@ -110,5 +101,22 @@ class option : AppCompatActivity() {
                     }
                 }
         }
+    }
+    private fun sh_user_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val user_id = dataStore.getString("USER_ID","null")
+        return user_id
+    }
+
+    private fun sh_group_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val group_id = dataStore.getString("GROUP_ID","null")
+        return group_id
+    }
+
+    private fun sh_pass_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val pass = dataStore.getString("Pass","null")
+        return pass
     }
 }

@@ -42,7 +42,7 @@ class login : AppCompatActivity() {
                     val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
                     //url:基本的なURL
                     val requestAdapter = moshi.adapter(LoginRequest::class.java)
-                    "http://34.83.80.2:8000/Login"
+                    "http://34.83.80.2:50112/Login"
                         .httpPost()
                         .header(header)
                         .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())
@@ -56,19 +56,9 @@ class login : AppCompatActivity() {
                                     val data = result.get()
                                     Toast.makeText(this, "正常", Toast.LENGTH_LONG).show()
                                     val res = data.toBoolean()
-                                    //Toast.makeText(this, res.toString(), Toast.LENGTH_LONG).show()
-                                    //val res = moshi.adapter(LoginRespone::class.java).fromJson(data)
                                     if (!res) {
-                                        val dataStore: SharedPreferences =
-                                            getSharedPreferences(
-                                                "USER_DATA",
-                                                Context.MODE_PRIVATE
-                                            )
-                                        val editor = dataStore.edit()
-                                        editor.putString("Address", GetMailAddress1())
-                                        editor.putString("Pass", GetPassWord()+"@"+GetMailAddress2())
-                                        editor.apply()
-                                        Toast.makeText(this, "ログインに成功しました", Toast.LENGTH_LONG).show()
+                                        val address = GetMailAddress1()+"@"+GetMailAddress2()
+                                        loginpre(address,GetPassWord())
                                         finish()
                                     } else {
                                         Toast.makeText(
@@ -135,5 +125,13 @@ class login : AppCompatActivity() {
             return 1 //error
         }
         return 0 //true
+    }
+
+    private fun loginpre(Address:String,password:String){
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val editor = dataStore.edit()
+        editor.putString("Address", Address)
+        editor.putString("Pass", password)
+        editor.apply()
     }
 }

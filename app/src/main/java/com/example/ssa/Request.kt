@@ -32,7 +32,8 @@ data class DataRequest(
 )
 
 data class RenewList(
-    val user_id: Int
+    val user_id: Int,
+    val password:String
 )
 
 data class LogoutRequest(
@@ -41,5 +42,11 @@ data class LogoutRequest(
 
 data class Change_group(
     val group_id: String,
-    val password: Int
+    val password: String
+)
+
+data class pick_up_data(
+    val data_name: String,
+    val user_id: Int,
+    val password: String
 )

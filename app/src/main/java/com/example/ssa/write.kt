@@ -2,7 +2,9 @@ package com.example.ssa
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -23,6 +25,7 @@ import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_write.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.StringReader
 
 class write : AppCompatActivity() {
 
@@ -35,8 +38,7 @@ class write : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
         val imageID = findViewById<ImageView>(R.id.imageView)
-        imageID.setImageResource(koko)
-
+        //imageID.setImageResource(koko)
         hozon_button.setOnClickListener(View.OnClickListener {
             val contentID = findViewById<EditText>(R.id.Memo_Content)
             val titleID = findViewById<EditText>(R.id.title)
@@ -44,29 +46,30 @@ class write : AppCompatActivity() {
             //エディットテキストからテキストを得る
             val contents = contentID.text.toString()
             val title = titleID.text.toString()
-            val groupID = "internet"
-            //val image = (imageView.drawable as BitmapDrawable).bitmap
-            val imageFlag = ( imageView.drawable != null && !(imageView.drawable.equals(koko))) // 画像が無い : false 、 ある : true
+            val groupID = sh_group_id()
+            val imageFlag = ( imagePreview.drawable != null)//&& !(imageView.drawable.equals(koko) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
                 val textFile = saveTextFile(contents)
                 var image : File? = null
                 if (imageFlag) {
-                    image = saveImage((imageView.drawable as BitmapDrawable).bitmap)
+                    image = saveImage((imagePreview.drawable as BitmapDrawable).bitmap)
                 }
                 val info = listOf(
-                    "user_id" to "33",
-                    "password" to "password",
+                    "user_id" to sh_user_id(),
+                    "password" to sh_pass_id(),
                     "data_name" to "${textFile.name}",
                     "data_type" to "1",
                     "title" to "$title",
                     "image_name" to "${image?.name}")
                 Log.d("Content's name","${textFile.name}")
                 // POST to "http://34.83.80.2:8000/group/$group_id" with parameters
-                val f = Fuel.upload("http://34.83.80.2:8000/group/$groupID",parameters = info)
+                val f = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
-                    f.add(FileDataPart(File(image?.path),name = "Image"))
+                    if (!(imagePreview.drawable.equals(koko))) {
+                        f.add(FileDataPart(File(image?.path), name = "Image"))
+                    }
                 }
                 f.response{result ->
                     when(result){
@@ -79,7 +82,8 @@ class write : AppCompatActivity() {
                         is Result.Success -> {
                             // 成功した場合。
                             val ex = result.get()
-                            Toast.makeText(this,"成功しました",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,"ほぞんに成功しました",Toast.LENGTH_LONG).show()
+                            finish()
                         }
                     }
                 }
@@ -92,7 +96,7 @@ class write : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        camera_button.setOnClickListener {
+        imagePreview.setOnClickListener {
             // カメラ機能を実装したアプリが存在するかチェック
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager)?.let {
                 if (checkCameraPermission()) {
@@ -108,7 +112,7 @@ class write : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.extras?.get("data")?.let {
-                imageView.setImageBitmap(it as Bitmap)
+                imagePreview.setImageBitmap(it as Bitmap)
             }
         }
     }
@@ -167,4 +171,23 @@ class write : AppCompatActivity() {
             null
         }
     }
+
+    private fun sh_user_id():Int{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val user_id = dataStore.getInt("USER_ID",1)
+        return user_id
+    }
+
+    private fun sh_group_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val group_id = dataStore.getString("GROUP_ID","")
+        return group_id
+    }
+
+    private fun sh_pass_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val pass = dataStore.getString("Pass","")
+        return pass
+    }
+
 }
