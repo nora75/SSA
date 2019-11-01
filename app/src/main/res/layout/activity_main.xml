@@ -5,50 +5,83 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
         tools:context=".MainActivity">
-    <LinearLayout
-            android:orientation="vertical"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="8dp"
-            tools:layout_editor_absoluteX="180dp">
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-            <Button
-                    android:id="@+id/Write_Button"
-                    android:layout_width="0dip"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/string_write"/>
-            <Button
-                    android:id="@+id/Speak_Button"
-                    android:layout_width="0dip"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
-                    android:text="@string/string_talk"/>
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-            <Button
-                    android:id="@+id/Listen_See_Button"
+            android:orientation="vertical">
+
+            <ImageView
+                    android:src="@drawable/logo"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"></ImageView>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
                     android:layout_weight="1"
-                    android:text="@string/string_look"/>
-            <Button
-                    android:id="@+id/Option_Button"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                <Button
+                        android:id="@+id/Write_Button"
+                        android:layout_width="0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="#ffaf00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30dp"
+                        android:text="@string/string_write"/>
+                <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp"></View>
+                <Button
+                        android:id="@+id/Speak_Button"
+                        android:layout_width="0dip"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="#ffaf00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30dp"
+                        android:text="@string/string_talk"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="0"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
                     android:layout_weight="1"
-                    android:text="@string/string_setting"/>
+                    android:gravity="center"
+                    android:layout_height="wrap_content">
+                <Button
+                        android:id="@+id/Listen_See_Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="#ffaf00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30dp"
+                        android:text="@string/string_look"/>
+                <View
+                        android:layout_width="5dp"
+                        android:layout_height="0dp"></View>
+                <Button
+                        android:id="@+id/Option_Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_weight="1"
+                        android:background="#ffaf00"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30dp"
+                        android:text="@string/string_setting"/>
+            </LinearLayout>
+            <View
+                    android:layout_width="0dp"
+                    android:layout_height="5dp"
+                    android:layout_weight="0"/>
+
         </LinearLayout>
-    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
