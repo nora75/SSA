@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SSA</string>
+    <string name="app_name">家族トーク</string>
     <string name="string_talk">話す</string>
     <string name="alert_talk">録音中</string>
     <string name="alert_listen">再生中</string>
@@ -7,4 +7,10 @@
     <string name="string_listen">聞く</string>
     <string name="string_look">聞く/見る</string>
     <string name="string_setting">設定</string>
+    <string name="diary">日記投稿</string>
+    <string name="title">タイトル</string>
+    <string name="memo">メモ</string>
+    <string name="camera">カメラ</string>
+    <string name="post">投稿</string>
+    <string name="record">録音</string>
 </resources>

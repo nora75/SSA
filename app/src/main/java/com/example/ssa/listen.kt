@@ -19,18 +19,6 @@ class listen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_listen)
 
-        // look画面への移動
-        to_look.setOnClickListener {
-            val look = Intent(this, Look::class.java)
-            startActivity(look)
-        }
-
-        // write画面への移動
-        to_write.setOnClickListener {
-            val write = Intent(this, write::class.java)
-            startActivity(write)
-        }
-
         // 聞くボタン押下時にtoggleTalk関数の呼び出し
         listen_button.setOnClickListener {
             toggleListen()

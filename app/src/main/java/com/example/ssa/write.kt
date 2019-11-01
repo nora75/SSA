@@ -47,13 +47,13 @@ class write : AppCompatActivity() {
             val contents = contentID.text.toString()
             val title = titleID.text.toString()
             val groupID = sh_group_id()
-            val imageFlag = ( imageView.drawable != null)//&& !(imageView.drawable.equals(koko) // 画像が無い : false 、 ある : true
+            val imageFlag = ( imagePreview.drawable != null)//&& !(imageView.drawable.equals(koko) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
                 val textFile = saveTextFile(contents)
                 var image : File? = null
                 if (imageFlag) {
-                    image = saveImage((imageView.drawable as BitmapDrawable).bitmap)
+                    image = saveImage((imagePreview.drawable as BitmapDrawable).bitmap)
                 }
                 val info = listOf(
                     "user_id" to sh_user_id(),
@@ -67,7 +67,7 @@ class write : AppCompatActivity() {
                 val f = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
-                    if (!(imageView.drawable.equals(koko))) {
+                    if (!(imagePreview.drawable.equals(koko))) {
                         f.add(FileDataPart(File(image?.path), name = "Image"))
                     }
                 }
@@ -96,7 +96,7 @@ class write : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        camera_button.setOnClickListener {
+        imagePreview.setOnClickListener {
             // カメラ機能を実装したアプリが存在するかチェック
             Intent(MediaStore.ACTION_IMAGE_CAPTURE).resolveActivity(packageManager)?.let {
                 if (checkCameraPermission()) {
@@ -112,7 +112,7 @@ class write : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.extras?.get("data")?.let {
-                imageView.setImageBitmap(it as Bitmap)
+                imagePreview.setImageBitmap(it as Bitmap)
             }
         }
     }
