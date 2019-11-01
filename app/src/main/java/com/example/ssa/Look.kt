@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceActivity
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.HeaderValues
+import com.github.kittinunf.fuel.core.Headers
+import com.github.kittinunf.fuel.core.extensions.authentication
 import com.github.kittinunf.fuel.core.extensions.jsonBody
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result
@@ -98,22 +102,25 @@ class Look : AppCompatActivity() {
             val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
             val requestAdapter = moshi.adapter(RenewList::class.java)
 
-            val group_id = sh_group_id()
+            val group_id2 = sh_group_id()
             val renew = RenewList(
                 user_id = sh_user_id(),
                 password = sh_pass_id()
             )
-
             val parms = listOf(
-                "user_id" to sh_user_id(),
-                "password" to sh_pass_id()
+                "user_id:" to sh_user_id(),
+                "password:" to sh_pass_id()
             )
 
-            "http://34.83.80.2:50113/group/$group_id"
-                .httpGet()
-                .header(header)
-                .body(requestAdapter.toJson(renew), Charset.defaultCharset())
-                .responseString { request, response, result ->
+            //json形式
+            //val json_request =
+            //   listOf({ "user_id" : {sh_user_id()}_, "password" : {sh_pass_id()}})
+
+            val request = requestAdapter.toJson(renew)
+
+            "http://34.83.80.2:50113/group/$group_id2/"
+                .httpGet(parms)
+                .responseString { result ->
                     when (result) {
                         is Result.Failure -> {
                             val ex = result.getException()
@@ -133,7 +140,7 @@ class Look : AppCompatActivity() {
     //group_idの取得
     private fun sh_group_id():String{
         val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
-        val group_id = dataStore.getString("GROUP_ID","")
+        val group_id = dataStore.getString("GROUP_ID","NULL")
         return group_id
     }
 
