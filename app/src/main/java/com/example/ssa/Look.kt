@@ -45,7 +45,7 @@ class Look : AppCompatActivity() {
     //private val USERID = dataStore.getInt("USER_ID", 1)
     //private val PASSWORD: String = dataStore.getString("Pass", "")
     //テストデータ UserID,UserName,GroupID,DataName,ImageName,Title,DataType
-    private val names = listOf(
+    private val names:MutableList<String> = mutableListOf(
         "おじいちゃん",
         "おばあちゃん",
         "ははおや",
@@ -53,26 +53,33 @@ class Look : AppCompatActivity() {
         "まご"
     )
 
-    private val title = listOf(
+    private val title:MutableList<String> = listOf(
         "おはなみ",
         "りょこう",
         "しごと",
         "やすみ",
         "しゅうがくりょこう"
-    )
+    ).toMutableList()
 
-    private val date = listOf(
+    private val date:MutableList<String> = listOf(
         "9/2",
         "9/3",
         "9/4",
         "9/5",
         "9/6"
-    )
+    ).toMutableList()
 
-    private val data_type = listOf(
+    private val data_type:MutableList<Int> = listOf(
         0, 1, 0, 1, 1
-    )
+    ).toMutableList()
 
+    private val dataNameList:MutableList<String> = mutableListOf(
+        "sample1",
+        "sample2",
+        "sample3",
+        "sample4",
+        "sample5"
+    )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look)
@@ -138,29 +145,59 @@ class Look : AppCompatActivity() {
                     is Result.Success -> {
 //                        val data = result.get()
                         json = result.value.array()
-                        val data1 = json!![0] as JSONObject
-                        Log.d("[ssa]", data1.toString()) // 高知県
-                        Log.d("[ssa]", json.toString()) // 高知県
+                        for (i in 0..(json!!.length()-1)){
+                            val data1 = json!![i] as JSONObject
+                            Log.d("[ssa]", data1.toString()) // 高知県
+                            Log.d("[ssa]", json.toString()) // 高知県
+                            //パーサー
+                            val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+                            val requestAdapter = moshi.adapter(GetDataListResponse::class.java)
+                            val arraylist = requestAdapter.fromJson(data1.toString())
 
-                        // val listdata = listaa(data)
-                        // Log.d("list", listdata.toString())
-                        /*
-                        val user_id = res?.UserID
-                        val user_name  =res?.UserName
-                        val group_id  = res?.GroupID
-                        val dataname =res?.DataName
-                        val imagename = res?.ImageName
-                        val title = res?.Title
-                        val datatyoe =res?.DataType
-                        Toast.makeText(this, "$user_id"+"$user_name"+"$group_id"+"$dataname"+"$imagename"+"$title"+"$datatyoe", Toast.LENGTH_LONG).show()
-                                                    */
-//                        Log.d("成功データ取得", data)
+                            if (arraylist != null) {
+                                if(dataNameCheck(arraylist.DataName)) {
+                                    names.add(arraylist?.UserName!!)
+                                    title.add(arraylist?.Title)
+                                    date.add("11月2日")
+                                    data_type.add(arraylist?.DataType?.toInt())
+                                    dataNameList.add(arraylist.DataName)
+                                }
+                            }
+                        }
+                        val test = List(names.size) { i -> ProtoTypeData(names[i], title[i], date[i], data_type[i]) }
+//アダプターをせいせいし、viewにセットする
+                        val adapter = SampleListAdapter(this, test)
+                        myListView.adapter = adapter
+
                         Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         return json
+
     }
+    /*
+    fun viewListSet(result: Result){
+        val json = result.value.array()
+        val data1 = json!![0] as JSONObject
+        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+        val requestAdapter = moshi.adapter(GetDataListResponse::class.java)
+        val arraylist = requestAdapter.fromJson(data1.toString())
+        Log.d("aaa",arraylist?.UserName)
+        arraylist?.Title
+        arraylist?.DataType
+    }
+     */
+    //falseなら該当するものがある、trueならないから標示
+    fun dataNameCheck(dataname:String): Boolean{
+        for (i in 0..(dataNameList.size-1)){
+            if(dataNameList[i].equals(dataname)){
+                return false
+            }
+        }
+        return true
+    }
+
 
     fun getData() {
         //Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
@@ -202,50 +239,6 @@ class Look : AppCompatActivity() {
         return pass
     }
 
-    fun listaa(data: String): List<GetDataListResponse>? {
-        Log.d("data", data)
-        val Datalist = Types.newParameterizedType(
-            List::class.java,
-            GetDataListResponse::class.java
-        )
-
-        val GetListDataAdapter: JsonAdapter<List<GetDataListResponse>> = Moshi.Builder()
-            .build()
-            .adapter(Datalist)
-
-        val getdatalist: List<GetDataListResponse>? = GetListDataAdapter.fromJson(data)
-        Log.d("getdatalist", getdatalist.toString())
-
-        val dataList = listOf<GetDataListResponse>()
-        Log.d("dataList", dataList.toString())
-
-        getdatalist?.forEach {
-            GetDataListResponse().also {
-                it.UserID = getdatalist[0].toString()
-                Log.d("getdalist0", getdatalist[0].toString())
-
-                it.UserName = getdatalist[1].toString()
-                Log.d("getdalist1", getdatalist[1].toString())
-
-                it.GroupID = getdatalist[2].toString()
-                Log.d("getdalist2", getdatalist[2].toString())
-
-                it.DataName = getdatalist[3].toString()
-                Log.d("getdalist3", getdatalist[3].toString())
-
-                it.ImageName = getdatalist[4].toString()
-                Log.d("getdalist4", getdatalist[4].toString())
-
-                it.Title = getdatalist[5].toString()
-                Log.d("getdalist5", getdatalist[5].toString())
-
-                it.DataType = getdatalist[6].toString()
-                Log.d("getdalist6", getdatalist[6].toString())
-
-            }
-        }
-        return dataList
-    }
 }
 
 class SampleListAdapter(
