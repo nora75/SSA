@@ -17,7 +17,8 @@
             android:label="家族トーク"
             android:roundIcon="@mipmap/ic"
             android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:usesCleartextTraffic="true">
         <activity android:name=".Look">
         </activity>
         <activity android:name=".add_group">
