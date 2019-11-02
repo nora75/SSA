@@ -33,7 +33,7 @@ class login : AppCompatActivity() {
                 }
 
                 2 ->{
-                    Toast.makeText(this,"四桁の数字を入力してください",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this,"4桁の数字を入力してください",Toast.LENGTH_LONG).show()
                 }
 
                 0 -> {
@@ -54,7 +54,7 @@ class login : AppCompatActivity() {
                                 }
                                 is Result.Success -> {
                                     val data = result.get()
-                                    Toast.makeText(this, "正常", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this, "ログインに成功しました。", Toast.LENGTH_LONG).show()
                                     val res = data.toBoolean()
                                     if (!res) {
                                         val address = GetMailAddress1()+"@"+GetMailAddress2()

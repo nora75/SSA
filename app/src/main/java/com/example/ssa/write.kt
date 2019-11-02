@@ -75,20 +75,20 @@ class write : AppCompatActivity() {
                     when(result){
                         is Result.Failure -> {
                             // 失敗した場合
-                            Toast.makeText(this,"失敗しました",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,"投稿に失敗しました",Toast.LENGTH_LONG).show()
                             val ex = result.getException()
                             Log.d("error msg", ex.toString())
                         }
                         is Result.Success -> {
                             // 成功した場合。
                             val ex = result.get()
-                            Toast.makeText(this,"ほぞんに成功しました",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,"投稿完了",Toast.LENGTH_LONG).show()
                             finish()
                         }
                     }
                 }
             } else {
-                Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "タイトルと内容を入力してください。", Toast.LENGTH_LONG).show()
             }
         })
     }
