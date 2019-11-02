@@ -1,6 +1,7 @@
 package com.example.ssa
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -12,6 +13,8 @@ import android.widget.*
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
 import com.github.kittinunf.fuel.core.Response
+import com.github.kittinunf.fuel.core.requests.download
+import com.github.kittinunf.fuel.httpDownload
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
@@ -23,6 +26,8 @@ import kotlinx.android.synthetic.main.activity_look.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.File
 import kotlin.collections.List
 
 data class ProtoTypeData(
@@ -53,7 +58,7 @@ class Look : AppCompatActivity() {
 //アダプターをせいせいし、viewにセットする
         val adapter = SampleListAdapter(this, test)
         myListView.adapter = adapter
-        val json = returnDataList()
+        var json = returnDataList()
         Log.d("[ssa]", json.toString())
 
 //viewクリックの時のリスナ
@@ -67,16 +72,39 @@ class Look : AppCompatActivity() {
             val data_user_id = UserID[postion]
             "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
                 .httpGet(prams)
-                .responseJson { request, responce, result ->
+                .download()
+                .fileDestination{response, request -> File.createTempFile("user_data_file",".txt") }
+                .response { request, responce, result ->
                     when (result) {
                         is Result.Failure -> {
                             Log.d("リクエストエラー",result.getException().toString())
                             Toast.makeText(this,"リクエストエラー",Toast.LENGTH_LONG).show()
                         }
                         is Result.Success ->{
-                            Toast.makeText(this,"リクエスト成功",Toast.LENGTH_LONG).show()
-                        }
+                            val cashname = applicationContext.cacheDir.listFiles()
+                            val fileName = cashname[cashname.size-1].name
+                            //Log.d("FileNameOut",filename)
+                            var title= responce .get("title")
+                            var content = ""
 
+                            val str = readFiles(fileName)
+
+                            if (str != null) {
+                                content = str
+                            } else {
+                                content = "取得失敗"
+                            }
+
+
+                            Log.d("リクエスト成功","リクエスト成功")
+
+                            //画面遷移する時にデータを渡す
+                            var See = Intent(this,SeeDainay::class.java)
+                            See.putExtra("title","$title")
+                            See.putExtra("Data","$content")
+                            See.putExtra("Image","")
+                            startActivity(See)
+                        }
                     }
                 }
             //画面を遷移させパス等を送る
@@ -89,6 +117,7 @@ class Look : AppCompatActivity() {
             }else{
 
             }
+
 
 */
         }
@@ -162,18 +191,7 @@ class Look : AppCompatActivity() {
         return json
 
     }
-    /*
-    fun viewListSet(result: Result){
-        val json = result.value.array()
-        val data1 = json!![0] as JSONObject
-        val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
-        val requestAdapter = moshi.adapter(GetDataListResponse::class.java)
-        val arraylist = requestAdapter.fromJson(data1.toString())
-        Log.d("aaa",arraylist?.UserName)
-        arraylist?.Title
-        arraylist?.DataType
-    }
-     */
+
     //falseなら該当するものがある、trueならないから標示
     fun dataNameCheck(dataname:String): Boolean{
         for (i in 0..(dataNameList.size-1)){
@@ -223,6 +241,19 @@ class Look : AppCompatActivity() {
         val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
         val pass = dataStore.getString("Pass","")
         return pass
+    }
+    fun readFiles(file: String): String? {
+
+        // to check whether file exists or not
+        val readFile = File(applicationContext.cacheDir, file)
+
+        if(!readFile.exists()){
+            Log.d("debug","No file exists")
+            return null
+        }
+        else{
+            return readFile.bufferedReader().use(BufferedReader::readText)
+        }
     }
 
 }
