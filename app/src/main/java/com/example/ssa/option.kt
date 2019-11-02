@@ -35,6 +35,7 @@ class option : AppCompatActivity() {
         make_group.setOnClickListener{
             //var makegroup_intent = Intent(this,add_group::class.java)
             //startActivity(makegroup_intent)
+            /*
             val requestAdapter = moshi.adapter(Change_group::class.java)
             var request = Change_group(
                 password = sh_pass_id(),
@@ -59,6 +60,8 @@ class option : AppCompatActivity() {
                         }
                     }
                 }
+
+             */
         }
         help.setOnClickListener {
 
@@ -82,6 +85,7 @@ class option : AppCompatActivity() {
             val LogoutRequest = LogoutRequest(
                 password = sh_pass_id()
             )
+            /*
             val user_id = "1111"
             "http://34.83.80.2:8000/users/${sh_user_id()}"
                 .httpDelete()
@@ -100,6 +104,8 @@ class option : AppCompatActivity() {
                         }
                     }
                 }
+
+             */
         }
     }
     private fun sh_user_id():String{

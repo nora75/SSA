@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/logout"/>
         <Button
-                android:text="サンプル"
+                android:text="アカウント削除"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/sample"/>
