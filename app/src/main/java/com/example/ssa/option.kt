@@ -68,8 +68,20 @@ class option : AppCompatActivity() {
         logout.setOnClickListener {
             val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
             val editor = dataStore.edit()
-            editor.putString("Address","")
             editor.putString("Pass","")
+            editor.putString("Address","")
+            //editor.putString("USER_ID","")
+            //editor.putString("GROUP_ID","")
+            //editor.putString("USER_NAME","")
+            //テストデータ UserID,UserName,GroupID,DataName,ImageName,Title,DataType
+            UserID.removeAll(UserID)
+            names.removeAll(names)
+            GroupID.removeAll(GroupID)
+            dataNameList.removeAll(dataNameList)
+            ImageName.removeAll(ImageName)
+            viewtitle.removeAll(viewtitle)
+            date.removeAll (date)
+            data_type.removeAll(data_type)
             editor.apply()
             finish()
         }
