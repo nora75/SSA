@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_login.*
@@ -42,7 +43,7 @@ class login : AppCompatActivity() {
                     val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
                     //url:基本的なURL
                     val requestAdapter = moshi.adapter(LoginRequest::class.java)
-                    "http://34.83.80.2:50112/Login"
+                    "http://34.83.80.2:50113/Login"
                         .httpPost()
                         .header(header)
                         .body(requestAdapter.toJson(loginRequest), Charset.defaultCharset())
@@ -57,8 +58,12 @@ class login : AppCompatActivity() {
                                     Toast.makeText(this, "正常", Toast.LENGTH_LONG).show()
                                     val res = data.toBoolean()
                                     if (!res) {
+                                        val requestAdapter = moshi.adapter(UserData::class.java)
+                                        val ad = requestAdapter.fromJson(data)
+
                                         val address = GetMailAddress1()+"@"+GetMailAddress2()
-                                        loginpre(address,GetPassWord())
+                                        loginpre(address,GetPassWord(),
+                                            ad?.user_id!!,ad?.group_id,ad?.user_name)
                                         finish()
                                     } else {
                                         Toast.makeText(
@@ -127,11 +132,14 @@ class login : AppCompatActivity() {
         return 0 //true
     }
 
-    private fun loginpre(Address:String,password:String){
+    private fun loginpre(Address:String,password:String,userid:String,groupid:String,Username:String){
         val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
         val editor = dataStore.edit()
         editor.putString("Address", Address)
         editor.putString("Pass", password)
+        editor.putInt("USER_ID",userid.toInt())
+        editor.putString("GROUP_ID",groupid)
+        editor.putString("USER_NAME",Username)
         editor.apply()
     }
 }

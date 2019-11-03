@@ -23,3 +23,9 @@ class GetDataResponse(
     var image_name:String,
     var title:String
 )
+
+class UserData(
+    var user_id: String,
+    var group_id: String,
+    var user_name:String
+)
