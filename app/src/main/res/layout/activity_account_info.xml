@@ -20,7 +20,6 @@
                     android:text="パスワード"/>
             <EditText
                     android:maxLength="4"
-                    android:inputType="numberPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_password"/>
