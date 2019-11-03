@@ -50,3 +50,7 @@ data class pick_up_data(
     val user_id: Int,
     val password: String
 )
+
+data class viewdata(
+    val title: String
+)

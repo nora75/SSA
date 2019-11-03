@@ -3,6 +3,7 @@ package com.example.ssa
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
 import com.squareup.moshi.JsonAdapter
+import com.squareup.moshi.JsonReader
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -29,6 +31,13 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
 import kotlin.collections.List
+import android.graphics.BitmapFactory
+import android.support.v4.app.SupportActivity
+import android.support.v4.app.SupportActivity.ExtraData
+import android.support.v4.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+
+
 
 data class ProtoTypeData(
     val names: String,
@@ -63,6 +72,9 @@ class Look : AppCompatActivity() {
 
 //viewクリックの時のリスナ
         myListView.setOnItemClickListener { adapterView, view, postion, id ->
+            val title = view.findViewById<TextView>(R.id.text2).text
+            var content = ""
+
             val prams = listOf(
                 "data_name" to dataNameList[postion],
                 "user_id" to sh_user_id(),
@@ -70,10 +82,13 @@ class Look : AppCompatActivity() {
             )
             //リクエストをここに書く
             val data_user_id = UserID[postion]
+            //メソッドに変更予定がんば
             "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
                 .httpGet(prams)
                 .download()
-                .fileDestination{response, request -> File.createTempFile("user_data_file",".txt") }
+                .fileDestination{response, request ->
+                    File.createTempFile("user_data_file",".txt")
+                }
                 .response { request, responce, result ->
                     when (result) {
                         is Result.Failure -> {
@@ -81,11 +96,11 @@ class Look : AppCompatActivity() {
                             Toast.makeText(this,"リクエストエラー",Toast.LENGTH_LONG).show()
                         }
                         is Result.Success ->{
+                            Log.d("result_result",result.toString())
+                            Log.d("response_response",responce.toString())
                             val cashname = applicationContext.cacheDir.listFiles()
                             val fileName = cashname[cashname.size-1].name
-                            //Log.d("FileNameOut",filename)
-                            var title= responce .get("title")
-                            var content = ""
+                            //Log.d("FileNameOut",a.toString())
 
                             val str = readFiles(fileName)
 
@@ -99,27 +114,60 @@ class Look : AppCompatActivity() {
                             Log.d("リクエスト成功","リクエスト成功")
 
                             //画面遷移する時にデータを渡す
+                                /*
                             var See = Intent(this,SeeDainay::class.java)
                             See.putExtra("title","$title")
                             See.putExtra("Data","$content")
                             See.putExtra("Image","")
                             startActivity(See)
+
+                                 */
                         }
                     }
                 }
-            //画面を遷移させパス等を送る
-            /*
-            選択されたdata_typeにより、画面を遷移する
-             */
-            /*if (){
-            // getData()
 
-            }else{
+            val prams2 = listOf(
+                "data_name" to ImageName[postion],
+                "user_id" to sh_user_id(),
+                "password" to sh_pass_id()
+            )
 
-            }
+                //写真取得
+                "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
+                    .httpGet(prams2)
+                    .download()
+                    .fileDestination { response, request ->
+                        File.createTempFile("pict", ".png", filesDir)
+                    }
+                    .response { request, responce, result ->
+                        when (result) {
+                            is Result.Failure -> {
+                                Log.d("リクエストエラー", result.getException().toString())
+                                Toast.makeText(this, "リクエストエラー", Toast.LENGTH_LONG).show()
+                            }
+                            is Result.Success -> {
+                                val cashname = applicationContext.filesDir.listFiles()
+                                val fileName = cashname[cashname.size - 1].name
+                                //上まであってる
+                                Log.d("FileNameOut", fileName.toString())
+                                val File = File(applicationContext.filesDir,fileName)
+                                val FIlebyte = File.readBytes()
+                                val bitmap = BitmapFactory.decodeByteArray(FIlebyte, 0,FIlebyte.size)
 
 
-*/
+                                //val str = readFiles(fileName)
+                                //Log.d("リクエスト成功","リクエスト成功")
+                                //Log.d("コンテンツ",content)
+                                //画面遷移する時にデータを渡す
+                                var See = Intent(this,SeeDainay::class.java)
+                                See.putExtra("title","$title")
+                                See.putExtra("Data","$content")
+                                See.putExtra("Image",FIlebyte)
+                                startActivity(See)
+                            }
+                        }
+                    }
+
         }
 //更新ボタンクリックのリスナ
         renewButton.setOnClickListener {
