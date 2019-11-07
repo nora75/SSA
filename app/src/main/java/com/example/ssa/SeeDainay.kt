@@ -1,6 +1,5 @@
 package com.example.ssa
 
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +10,7 @@ class SeeDainay : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_see_dainay)
+        setContentView(R.layout.activity_see_diary)
         val intent = getIntent()
         val taketitle = intent.getStringExtra("title")
         val takeContent = intent.getStringExtra("Data")
