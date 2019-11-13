@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Picture
 import android.graphics.drawable.BitmapDrawable
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -23,6 +24,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_write.*
+import kotlinx.android.synthetic.main.my_text_view.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.StringReader
@@ -37,8 +39,8 @@ class write : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
-        val imageID = findViewById<ImageView>(R.id.imageView)
-        //imageID.setImageResource(koko)
+        val a = applicationContext.filesDir
+            //Log.d("hello",a.toString())
         hozon_button.setOnClickListener(View.OnClickListener {
             val contentID = findViewById<EditText>(R.id.Memo_Content)
             val titleID = findViewById<EditText>(R.id.title)
@@ -47,7 +49,7 @@ class write : AppCompatActivity() {
             val contents = contentID.text.toString()
             val title = titleID.text.toString()
             val groupID = sh_group_id()
-            val imageFlag = ( imagePreview.drawable != null)//&& !(imageView.drawable.equals(koko) // 画像が無い : false 、 ある : true
+            val imageFlag = ( imagePreview.drawable != null) //&& !(imageView.drawable.equals(image)) // 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
                 val textFile = saveTextFile(contents)

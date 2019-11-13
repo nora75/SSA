@@ -54,10 +54,6 @@ data class SampleViewHolder(
 )
 
 class Look : AppCompatActivity() {
-    //private val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
-    //private val GROUPID: String = dataStore.getString("GROUP_ID", "NULL")
-    //private val USERID = dataStore.getInt("USER_ID", 1)
-    //private val PASSWORD: String = dataStore.getString("Pass", "")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look)
@@ -152,12 +148,7 @@ class Look : AppCompatActivity() {
                                 Log.d("FileNameOut", fileName.toString())
                                 val File = File(applicationContext.filesDir,fileName)
                                 val FIlebyte = File.readBytes()
-                                val bitmap = BitmapFactory.decodeByteArray(FIlebyte, 0,FIlebyte.size)
 
-
-                                //val str = readFiles(fileName)
-                                //Log.d("リクエスト成功","リクエスト成功")
-                                //Log.d("コンテンツ",content)
                                 //画面遷移する時にデータを渡す
                                 var See = Intent(this,SeeDainay::class.java)
                                 See.putExtra("title","$title")

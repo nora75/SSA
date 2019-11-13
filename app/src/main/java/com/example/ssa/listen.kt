@@ -23,8 +23,6 @@ class listen : AppCompatActivity() {
         listen_button.setOnClickListener {
             toggleListen()
         }
-
-
     }
 
     // flagを元に、再生の開始、または終了をする
@@ -62,6 +60,7 @@ class listen : AppCompatActivity() {
 
         if (mediaPlayer == null) {
             if (!audioSetup(R.raw.music)) {
+                //r.raw.musicのところにパスを設定
                 return
             }
         }
