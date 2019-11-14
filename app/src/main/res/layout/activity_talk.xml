@@ -10,7 +10,8 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10sp">
 
         <TextView
                 android:id="@+id/textView"
@@ -33,7 +34,7 @@
                     android:layout_width="320dp"
                     android:layout_height="320dp"
 
-                    android:background="@drawable/mic_icon_radius"
+                    android:background="@drawable/orange_radius"
                     android:src="@drawable/mic_icon"
                     android:contentDescription="@string/string_talk"
                     android:scaleType="center"
@@ -54,11 +55,5 @@
                     tools:layout_editor_absoluteX="147dp"
                     tools:layout_editor_absoluteY="600dp" />
         </LinearLayout>
-
-
-
     </LinearLayout>
-
-
-
 </android.support.constraint.ConstraintLayout>

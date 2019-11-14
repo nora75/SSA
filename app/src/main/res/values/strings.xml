@@ -14,4 +14,11 @@
     <string name="camera">カメラ</string>
     <string name="post">投稿</string>
     <string name="record">録音</string>
+    <string name="mail_addr">メールアドレス</string>
+    <string name="listen_timer">00:00</string>
+    <string name="playing_time">00:00</string>
+    <string name="register">新規登録</string>
+    <string name="login">ログイン</string>
+    <string name="add_group">グループ追加</string>
+    <string name="group_id">グループID</string>
 </resources>

@@ -5,6 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="#ffffff"
         tools:context=".Register">
 
 
@@ -13,6 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/register"
+                android:textSize="50sp"
+                android:gravity="center_horizontal"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
@@ -20,7 +29,10 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="メールアドレス"/>
+                    android:text="メールアドレス"
+                    android:textSize="30sp"
+                    android:textColor="#ffffff"
+                    android:background="#fcad03"/>
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -48,7 +60,10 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="名前"/>
+                    android:text="名前"
+                    android:textSize="30sp"
+                    android:textColor="#ffffff"
+                    android:background="#fcad03"/>
             <EditText
                     android:inputType="text"
                     android:layout_width="match_parent"
@@ -62,7 +77,10 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="パスワード"/>
+                    android:text="パスワード"
+                    android:textSize="30sp"
+                    android:textColor="#ffffff"
+                    android:background="#fcad03"/>
             <EditText
                     android:maxLength="4"
                     android:hint="4文字のパスワードを入力してください"
@@ -73,7 +91,10 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="パスワード"/>
+                    android:text="パスワード"
+                    android:textSize="30sp"
+                    android:textColor="#ffffff"
+                    android:background="#fcad03"/>
             <EditText
                     android:maxLength="4"
                     android:hint="4文字のパスワードを入力してください"
@@ -89,7 +110,10 @@
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="グループID"/>
+                    android:text="グループID"
+                    android:textSize="30sp"
+                    android:textColor="#ffffff"
+                    android:background="#fcad03"/>
             <EditText
                     android:hint="後から設定できます"
                     android:maxLength="100"
@@ -101,6 +125,9 @@
                 android:text="登録する"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/register_button"/>
+                android:id="@+id/register_button"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/orange_radius"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

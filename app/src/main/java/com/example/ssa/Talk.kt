@@ -1,8 +1,6 @@
 package com.example.ssa
 
 import android.Manifest
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -53,14 +51,14 @@ class Talk : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.RECORD_AUDIO)
     fun recordTalk() {
         if (recordPermission) {
-            listen_button.setBackgroundResource(R.drawable.mic_icon_radius_red)
+            listen_button.setBackgroundResource(R.drawable.red_radius)
             alert_listen.visibility = View.VISIBLE
             rec.startRecording(applicationContext.filesDir)
         }
     }
 
     private fun stopTalk() {
-        listen_button.setBackgroundResource(R.drawable.mic_icon_radius)
+        listen_button.setBackgroundResource(R.drawable.orange_radius)
         alert_listen.visibility = View.INVISIBLE
         rec.stopRecording()
     }
