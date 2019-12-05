@@ -21,4 +21,7 @@
     <string name="login">ログイン</string>
     <string name="add_group">グループ追加</string>
     <string name="group_id">グループID</string>
+    <string name="help">ヘルプ</string>
+    <string name="exit">終了</string>
+    <string name="about">このアプリについて</string>
 </resources>

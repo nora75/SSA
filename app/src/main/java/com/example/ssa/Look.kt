@@ -7,9 +7,6 @@ import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
@@ -36,7 +33,8 @@ import android.support.v4.app.SupportActivity
 import android.support.v4.app.SupportActivity.ExtraData
 import android.support.v4.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
+import android.support.v7.app.AlertDialog
+import android.view.*
 
 
 data class ProtoTypeData(
@@ -178,6 +176,23 @@ class Look : AppCompatActivity() {
             Log.d("[ssa]", json.toString())
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        AlertDialog.Builder(this)
+            .setTitle("見る/聞く画面")
+            .setMessage("グループに所属するユーザーが投稿した音声や日記の一覧を表示する画面です。" +
+                    "表示された項目をタップすると見る画面/聞く画面へ遷移します。")
+            .show()
+
+        return true
     }
 
     fun returnDataList(): JSONArray? {

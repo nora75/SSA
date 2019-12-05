@@ -13,7 +13,11 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -91,6 +95,23 @@ class write : AppCompatActivity() {
                 Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        AlertDialog.Builder(this)
+            .setTitle("日記画面")
+            .setMessage("日記を投稿する画面です。" +
+                    "タイトルと本文を記入、画像を添付して投稿することができます。")
+            .show()
+
+        return true
     }
 
     override fun onResume() {

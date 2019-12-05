@@ -2,7 +2,11 @@ package com.example.ssa
 
 import android.Manifest
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import kotlinx.android.synthetic.main.activity_talk.*
 import permissions.dispatcher.*
@@ -24,6 +28,25 @@ class Talk : AppCompatActivity() {
             toggleTalk()
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        AlertDialog.Builder(this)
+            .setTitle("話す画面")
+            .setMessage("音声チャットを投稿する画面です。" +
+                    "中央のボタンをタップすると録音開始し、" +
+                    "もう一度タップすると録音終了をして" +
+                    "投稿されます。")
+            .show()
+
+        return true
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
