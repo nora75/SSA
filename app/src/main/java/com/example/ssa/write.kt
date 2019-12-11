@@ -39,17 +39,14 @@ class write : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
-        val a = applicationContext.filesDir
-            //Log.d("hello",a.toString())
-        hozon_button.setOnClickListener(View.OnClickListener {
+        hozon_button.setOnClickListener{
             val contentID = findViewById<EditText>(R.id.Memo_Content)
             val titleID = findViewById<EditText>(R.id.title)
-
             //エディットテキストからテキストを得る
             val contents = contentID.text.toString()
             val title = titleID.text.toString()
             val groupID = sh_group_id()
-            val imageFlag = ( imagePreview.drawable != null) //&& !(imageView.drawable.equals(image)) // 画像が無い : false 、 ある : true
+            val imageFlag = ( imagePreview.drawable != null)// 画像が無い : false 、 ある : true
 
             if (contents.isNotEmpty() && title.isNotEmpty()) {
                 val textFile = saveTextFile(contents)
@@ -60,17 +57,18 @@ class write : AppCompatActivity() {
                 val info = listOf(
                     "user_id" to sh_user_id(),
                     "password" to sh_pass_id(),
-                    "data_name" to "${textFile.name}",
+                    "data_name" to textFile.name,
                     "data_type" to "1",
-                    "title" to "$title",
+                    "title" to title,
                     "image_name" to "${image?.name}")
-                Log.d("Content's name","${textFile.name}")
-                // POST to "http://34.83.80.2:8000/group/$group_id" with parameters
+                Log.d("Content's name", textFile.name)
                 val f = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
                     if (!(imagePreview.drawable.equals(koko))) {
-                        f.add(FileDataPart(File(image?.path), name = "Image"))
+                        if (image != null) {
+                            f.add(FileDataPart(File(image.path), name = "Image"))
+                        }
                     }
                 }
                 f.response{result ->
@@ -92,7 +90,7 @@ class write : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "タイトルと内容を入力してください。：保存に失敗しました", Toast.LENGTH_LONG).show()
             }
-        })
+        }
     }
 
     override fun onResume() {

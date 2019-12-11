@@ -48,7 +48,6 @@ class GetFile {
         return fl.absolutePath
     }
 
-
     /*
     * 書き込む親dirを確認して、無ければ作成する。
     */

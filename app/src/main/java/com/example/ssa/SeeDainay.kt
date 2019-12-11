@@ -1,6 +1,5 @@
 package com.example.ssa
 
-import android.content.Intent
 import android.graphics.BitmapFactory
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -17,15 +16,16 @@ class SeeDainay : AppCompatActivity() {
         val takeContent = intent.getStringExtra("Data")
         val takeImage = intent.getByteArrayExtra("Image")
         val bitmap = BitmapFactory.decodeByteArray(takeImage, 0,takeImage.size)
-
-
-        var mail_address = findViewById(R.id.Seetitle) as TextView
+        /*
+        *取得したデータを表示する
+         */
+        val mail_address = findViewById(R.id.Seetitle) as TextView
         mail_address.setText(taketitle)
 
-        var content = findViewById(R.id.See_Memo_Content) as TextView
+        val content = findViewById(R.id.See_Memo_Content) as TextView
         content.setText(takeContent)
 
-        var image = findViewById(R.id.See_imagePreview) as ImageView
+        val image = findViewById(R.id.See_imagePreview) as ImageView
         image.setImageBitmap(bitmap)
     }
 }

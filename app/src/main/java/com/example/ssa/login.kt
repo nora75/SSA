@@ -85,17 +85,17 @@ class login : AppCompatActivity() {
         }
     }
     private fun GetMailAddress1(): String {
-        var mail_address = findViewById(R.id.user_mailaddress3) as EditText
+        val mail_address = findViewById(R.id.user_mailaddress3) as EditText
         return mail_address.text.toString()
     }
 
     private fun GetMailAddress2():String{
-        var mail_address = findViewById(R.id.user_mailaddress4) as EditText
+        val mail_address = findViewById(R.id.user_mailaddress4) as EditText
         return mail_address.text.toString()
     }
 
     private fun GetPassWord(): String {
-        var password = findViewById(R.id.user_password) as EditText
+        val password = findViewById(R.id.user_password) as EditText
         return password.text.toString()
     }
 
@@ -112,7 +112,7 @@ class login : AppCompatActivity() {
     }
 
     private fun EmptyCheck(): Int {
-        var SpaceCheck = arrayListOf(GetMailAddress1(),GetMailAddress2(),GetPassWord())
+        val SpaceCheck = arrayListOf(GetMailAddress1(),GetMailAddress2(),GetPassWord())
         var checkpoint = 0
 
         for(checkitem in SpaceCheck){
@@ -124,7 +124,7 @@ class login : AppCompatActivity() {
     }
 
     private fun NumCheck(): Int {
-        var pass = GetPassWord()
+        val pass = GetPassWord()
 
         if(pass.length!=4){
             return 1 //error

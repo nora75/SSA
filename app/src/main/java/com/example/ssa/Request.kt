@@ -1,5 +1,6 @@
 package com.example.ssa
 
+import android.widget.ImageView
 import android.widget.TextView
 
 data class RegisterRequest(
@@ -14,28 +15,6 @@ data class LoginRequest(
     val password: String
 )
 
-data class WriteRequest(
-    val id:String,
-    val data_name:String,
-    val data_type:String
-)
-
-data class MultSampleRequest(
-//    val data_name: String,
-//    val data_type: String,
-    val title:String,
-    val user_id:String
-)
-
-data class DataRequest(
-    val user_id: String
-)
-
-data class RenewList(
-    val user_id: Int,
-    val password:String
-)
-
 data class LogoutRequest(
     val password: String
 )
@@ -45,12 +24,20 @@ data class Change_group(
     val password: String
 )
 
-data class pick_up_data(
-    val data_name: String,
-    val user_id: Int,
-    val password: String
+data class ProtoTypeData(
+    val names: String,
+    val title: String,
+    val date: String,
+    val data_type: Int
 )
 
-data class viewdata(
-    val title: String
+data class SampleViewHolder(
+    val imageView: ImageView,
+    val text1: TextView,
+    val text2: TextView,
+    val text3: TextView
+)
+
+data class ChangeGroup(
+    val user_name: String
 )
