@@ -5,6 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="#ffffff"
         tools:context=".write">
 
     <LinearLayout
@@ -16,7 +19,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/diary"
+            android:text="@string/diary_up"
             android:textSize="50sp"
             android:gravity="center_horizontal">
         </TextView>
@@ -80,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_gravity="center"
-                android:background="#fcad03"
+                android:background="@drawable/orange_radius"
                 android:text="@string/post"
                 android:textSize="20sp"
                 android:textColor="#FFFFFF" />

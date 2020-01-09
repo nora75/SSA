@@ -7,9 +7,6 @@ import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.*
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.Request
@@ -36,22 +33,58 @@ import android.support.v4.app.SupportActivity
 import android.support.v4.app.SupportActivity.ExtraData
 import android.support.v4.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.support.v7.app.AlertDialog
+import android.view.*
+
+/*
+data class ProtoTypeData(
+    val names: String,
+    val title: String,
+    val date: String,
+    val data_type: Int
+)
+
+data class SampleViewHolder(
+    val imageView: ImageView,
+    val text1: TextView,
+    val text2: TextView,
+    val text3: TextView
+)
+*/
 
 class Look : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_look)
-        //リストにデータを入れる
+
+//リストにデータを入れる
         val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], date[i], data_type[i]) }
-        //アダプターをせいせいし、viewにセットする
+//アダプターをせいせいし、viewにセットする
         val adapter = SampleListAdapter(this, test)
         myListView.adapter = adapter
         val json = returnDataList()
         Log.d("[ssa]", json.toString())
-        //viewクリックの時のリスナ
+
+        //val file = File("$applicationContext.filesDir/Record")
+        val test2 = applicationContext.filesDir.path + "/Record"
+        val files = File(test2)
+        val test3 = files.listFiles()
+        Log.d("lgo",files.name)
+        Log.d("lgo2",test3[0].toString())
+        //Log.d("log", test2.toString())
+        //val test3 = file.listFiles()
+        //Log.d("lgo",test3.size.toString())
+        //val test3 = test2.listFiles()
+        //Log.d("log2",test2.exists().toString())
+        //val cashname = applicationContext.filesDir.listFiles()
+        //val fileName = cashname[cashname.size - 1].name
+
+
+//viewクリックの時のリスナ
         myListView.setOnItemClickListener { adapterView, view, postion, id ->
             val title = view.findViewById<TextView>(R.id.text2).text
             var content = ""
+
             val prams = listOf(
                 "data_name" to dataNameList[postion],
                 "user_id" to sh_user_id(),
@@ -77,21 +110,38 @@ class Look : AppCompatActivity() {
                             Log.d("response_response",responce.toString())
                             val cashname = applicationContext.cacheDir.listFiles()
                             val fileName = cashname[cashname.size-1].name
+                            //Log.d("FileNameOut",a.toString())
+
                             val str = readFiles(fileName)
+
                             if (str != null) {
                                 content = str
                             } else {
                                 content = "取得失敗"
                             }
+
+
                             Log.d("リクエスト成功","リクエスト成功")
+
+                            //画面遷移する時にデータを渡す
+                                /*
+                            var See = Intent(this,SeeDainay::class.java)
+                            See.putExtra("title","$title")
+                            See.putExtra("Data","$content")
+                            See.putExtra("Image","")
+                            startActivity(See)
+
+                                 */
                         }
                     }
                 }
+
             val prams2 = listOf(
                 "data_name" to ImageName[postion],
                 "user_id" to sh_user_id(),
                 "password" to sh_pass_id()
             )
+
                 //写真取得
                 "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
                     .httpGet(prams2)
@@ -122,13 +172,34 @@ class Look : AppCompatActivity() {
                             }
                         }
                     }
+
         }
 //更新ボタンクリックのリスナ
         renewButton.setOnClickListener {
+            // val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+            // val header: HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
+            // val requestAdapter = moshi.adapter(GetDataListResponse::class.java)
             val json = returnDataList()
             Log.d("[ssa]", json.toString())
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        AlertDialog.Builder(this)
+            .setTitle("見る/聞く画面")
+            .setMessage("グループに所属するユーザーが投稿した音声や日記の一覧を表示する画面です。" +
+                    "表示された項目をタップすると見る画面/聞く画面へ遷移します。")
+            .show()
+
+        return true
     }
 
     fun returnDataList(): JSONArray? {
@@ -152,6 +223,7 @@ class Look : AppCompatActivity() {
                         Log.d("error_msg", ex.toString())
                     }
                     is Result.Success -> {
+//                        val data = result.get()
                         json = result.value.array()
                         for (i in 0..(json!!.length()-1)){
                             val data1 = json!![i] as JSONObject
@@ -178,15 +250,18 @@ class Look : AppCompatActivity() {
                             }
                         }
                         val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], date[i], data_type[i]) }
-                        //アダプターを生成、viewにセットする
+//アダプターをせいせいし、viewにセットする
                         val adapter = SampleListAdapter(this, test)
                         myListView.adapter = adapter
+
                         Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                     }
                 }
             }
         return json
+
     }
+
     //falseなら該当するものがある、trueならないから標示
     fun dataNameCheck(dataname:String): Boolean{
         for (i in 0..(dataNameList.size-1)){
@@ -195,6 +270,29 @@ class Look : AppCompatActivity() {
             }
         }
         return true
+    }
+
+
+    fun getData() {
+        //Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
+
+        val GROUPID = sh_group_id()
+        val USERID = sh_user_id()
+        Fuel.get("http://34.83.80.2:50113/group/${GROUPID}/${USERID}")
+            .responseJson { request, response, result ->
+                when (result) {
+                    is Result.Failure -> {
+                        val ex = result.getException()
+                        Toast.makeText(this, "失敗しました", Toast.LENGTH_LONG).show()
+                        Log.d("error_msg", ex.toString())
+                    }
+                    is Result.Success -> {
+                        val data = result.get()
+                        Log.d("成功データ取得", data.toString())
+                        Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
     }
 
     private fun sh_user_id():Int{
@@ -239,7 +337,7 @@ class SampleListAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var view = convertView
-        val holder: SampleViewHolder
+        var holder: SampleViewHolder
 
         if (view == null) {
             view = layoutInflater.inflate(R.layout.my_text_view, parent, false)
@@ -253,7 +351,7 @@ class SampleListAdapter(
         } else {
             holder = view.tag as SampleViewHolder
         }
-        val sample = getItem(position) as ProtoTypeData
+        var sample = getItem(position) as ProtoTypeData
         holder.text1.text = sample.names
         holder.text2.text = sample.title
         holder.text3.text = sample.date
