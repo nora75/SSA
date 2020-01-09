@@ -1,15 +1,23 @@
 package com.example.ssa
 
 import android.Manifest
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.util.Log
 import android.view.View
+import com.github.kittinunf.fuel.Fuel
+import com.github.kittinunf.fuel.core.FileDataPart
 import kotlinx.android.synthetic.main.activity_talk.*
 import permissions.dispatcher.*
+import java.io.File
 
 @RuntimePermissions
 class Talk : AppCompatActivity() {
@@ -98,4 +106,48 @@ class Talk : AppCompatActivity() {
         flag = false
     }
 
+/*
+*
+*
+*
+*
+ */
+    private fun sh_user_id():Int{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val user_id = dataStore.getInt("USER_ID",1)
+        return user_id
+    }
+
+    private fun sh_group_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val group_id = dataStore.getString("GROUP_ID","")
+        return group_id
+    }
+
+    private fun sh_pass_id():String{
+        val dataStore: SharedPreferences = getSharedPreferences("USER_DATA", Context.MODE_PRIVATE)
+        val pass = dataStore.getString("Pass","")
+        return pass
+    }
+/*
+
+
+
+ */
+fun recordSend(){
+    //グループIｄを取得
+    val groupID = sh_group_id()
+    //val fileName = cashname[cashname.size - 1].name
+    //Log.d("hello",cashname.toString())
+
+    //パラメータに入れてる
+    val info = listOf(
+        "user_id" to sh_user_id(),
+        "password" to sh_pass_id(),
+        //"data_name" to "${textFile.name}",
+        "data_type" to "0",
+        "title" to "$title",
+        "image_name" to null)
+
+    }
 }
