@@ -5,6 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="#ffffff"
         android:orientation="vertical"
         tools:context=".MainActivity">
 
@@ -29,7 +32,7 @@
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
-                        android:background="#ffaf00"
+                        android:background="@drawable/main_orange_radius"
                         android:textColor="#FFFFFF"
                         android:textSize="50sp"
                         android:text="@string/string_write"/>
@@ -41,7 +44,7 @@
                         android:layout_width="0dip"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
-                        android:background="#ffaf00"
+                        android:background="@drawable/main_orange_radius"
                         android:textColor="#FFFFFF"
                         android:textSize="50sp"
                         android:text="@string/string_talk"/>
@@ -61,7 +64,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
-                        android:background="#ffaf00"
+                        android:background="@drawable/main_orange_radius"
                         android:textColor="#FFFFFF"
                         android:textSize="40sp"
                         android:text="@string/string_look"/>
@@ -73,7 +76,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="fill_parent"
                         android:layout_weight="1"
-                        android:background="#ffaf00"
+                        android:background="@drawable/main_orange_radius"
                         android:textColor="#FFFFFF"
                         android:textSize="50sp"
                         android:text="@string/string_setting"/>

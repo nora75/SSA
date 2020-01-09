@@ -6,7 +6,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.util.Log
 import android.view.View
 import com.github.kittinunf.fuel.Fuel
@@ -34,6 +38,25 @@ class Talk : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        AlertDialog.Builder(this)
+            .setTitle("話す画面")
+            .setMessage("音声チャットを投稿する画面です。" +
+                    "中央のボタンをタップすると録音開始し、" +
+                    "もう一度タップすると録音終了をして" +
+                    "投稿されます。")
+            .show()
+
+        return true
+    }
+
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // 自動生成された関数にパーミッション・リクエストの結果に応じた処理の呼び出しを委譲
@@ -59,14 +82,14 @@ class Talk : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.RECORD_AUDIO)
     fun recordTalk() {
         if (recordPermission) {
-            listen_button.setBackgroundResource(R.drawable.mic_icon_radius_red)
+            listen_button.setBackgroundResource(R.drawable.red_radius)
             alert_listen.visibility = View.VISIBLE
             rec.startRecording(applicationContext.filesDir)
         }
     }
 
     private fun stopTalk() {
-        listen_button.setBackgroundResource(R.drawable.mic_icon_radius)
+        listen_button.setBackgroundResource(R.drawable.orange_radius)
         alert_listen.visibility = View.INVISIBLE
         rec.stopRecording()
     }

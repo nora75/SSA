@@ -7,10 +7,21 @@
     <string name="string_listen">聞く</string>
     <string name="string_look">聞く/見る</string>
     <string name="string_setting">設定</string>
-    <string name="diary">日記投稿</string>
+    <string name="diary_up">日記投稿</string>
+    <string name="diary">日記</string>
     <string name="title">タイトル</string>
     <string name="memo">メモ</string>
     <string name="camera">カメラ</string>
     <string name="post">投稿</string>
     <string name="record">録音</string>
+    <string name="mail_addr">メールアドレス</string>
+    <string name="listen_timer">00:00</string>
+    <string name="playing_time">00:00</string>
+    <string name="register">新規登録</string>
+    <string name="login">ログイン</string>
+    <string name="add_group">グループ追加</string>
+    <string name="group_id">グループID</string>
+    <string name="help">ヘルプ</string>
+    <string name="exit">終了</string>
+    <string name="about">このアプリについて</string>
 </resources>

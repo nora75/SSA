@@ -5,8 +5,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingTop="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="#ffffff"
         tools:context=".option">
-
 
     <LinearLayout
             android:orientation="vertical"
@@ -17,26 +20,54 @@
                 android:text="アカウント情報"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/account_info_button"/>
+                android:id="@+id/account_info_button"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/orange_radius"
+                />
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
         <Button
                 android:text="グループ変更"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/make_group"/>
+                android:id="@+id/make_group"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/orange_radius"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
         <Button
                 android:text="ヘルプ"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/help"/>
+                android:id="@+id/help"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/orange_radius"/>
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
         <Button
                 android:text="ログアウト"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/logout"/>
+                android:id="@+id/logout"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/orange_radius"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="5dp"/>
         <Button
                 android:text="アカウント削除"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/sample"/>
+                android:id="@+id/sample"
+                android:textSize="30sp"
+                android:textColor="#ffffff"
+                android:background="@drawable/orange_radius"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
