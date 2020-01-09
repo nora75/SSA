@@ -65,20 +65,16 @@ class Look : AppCompatActivity() {
         val json = returnDataList()
         Log.d("[ssa]", json.toString())
 
-        //val file = File("$applicationContext.filesDir/Record")
+
+        /*
+        *ファイルパスを取得するコードをレコードのほうに移行する
+        *
+         */
         val test2 = applicationContext.filesDir.path + "/Record"
         val files = File(test2)
         val test3 = files.listFiles()
         Log.d("lgo",files.name)
         Log.d("lgo2",test3[0].toString())
-        //Log.d("log", test2.toString())
-        //val test3 = file.listFiles()
-        //Log.d("lgo",test3.size.toString())
-        //val test3 = test2.listFiles()
-        //Log.d("log2",test2.exists().toString())
-        //val cashname = applicationContext.filesDir.listFiles()
-        //val fileName = cashname[cashname.size - 1].name
-
 
 //viewクリックの時のリスナ
         myListView.setOnItemClickListener { adapterView, view, postion, id ->
