@@ -114,7 +114,7 @@ class Look : AppCompatActivity() {
                                 val FIlebyte = File.readBytes()
 
                                 //画面遷移する時にデータを渡す
-                                var See = Intent(this,SeeDainay::class.java)
+                                val See = Intent(this,SeeDainay::class.java)
                                 See.putExtra("title","$title")
                                 See.putExtra("Data","$content")
                                 See.putExtra("Image",FIlebyte)
@@ -239,7 +239,7 @@ class SampleListAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var view = convertView
-        var holder: SampleViewHolder
+        val holder: SampleViewHolder
 
         if (view == null) {
             view = layoutInflater.inflate(R.layout.my_text_view, parent, false)
@@ -253,7 +253,7 @@ class SampleListAdapter(
         } else {
             holder = view.tag as SampleViewHolder
         }
-        var sample = getItem(position) as ProtoTypeData
+        val sample = getItem(position) as ProtoTypeData
         holder.text1.text = sample.names
         holder.text2.text = sample.title
         holder.text3.text = sample.date

@@ -37,7 +37,7 @@ class Talk : AppCompatActivity() {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         // 自動生成された関数にパーミッション・リクエストの結果に応じた処理の呼び出しを委譲
-        onRequestPermissionsResult(requestCode, grantResults)
+        onRequestPermissionsResult(requestCode, permissions ,grantResults)
     }
 
     // flagを元に、録音の開始、または終了をする
@@ -62,6 +62,8 @@ class Talk : AppCompatActivity() {
             listen_button.setBackgroundResource(R.drawable.mic_icon_radius_red)
             alert_listen.visibility = View.VISIBLE
             rec.startRecording(applicationContext.filesDir)
+            val a = applicationContext.filesDir.toString()
+            Log.d("FilesDir",a)
         }
     }
 
@@ -114,7 +116,8 @@ class Talk : AppCompatActivity() {
 fun recordSend(){
     //グループIｄを取得
     val groupID = sh_group_id()
-    //val fileName = cashname[cashname.size - 1].name
+    val fileName = filesDir.parentFile.lastModified()
+    System.out.println(fileName)
     //Log.d("hello",cashname.toString())
 
     //パラメータに入れてる
@@ -126,5 +129,9 @@ fun recordSend(){
         "title" to "$title",
         "image_name" to null)
 
+
+    val fuel = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
+        //.add(FileDataPart)
     }
+
 }
