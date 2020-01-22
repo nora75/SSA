@@ -83,7 +83,7 @@ class option : AppCompatActivity() {
             dataNameList.removeAll(dataNameList)
             ImageName.removeAll(ImageName)
             viewtitle.removeAll(viewtitle)
-            date.removeAll (date)
+            //date.removeAll (date)
             data_type.removeAll(data_type)
             editor.apply()
             finish()

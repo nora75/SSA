@@ -27,15 +27,13 @@ data class Change_group(
 data class ProtoTypeData(
     val names: String,
     val title: String,
-    val date: String,
     val data_type: Int
 )
 
 data class SampleViewHolder(
     val imageView: ImageView,
     val text1: TextView,
-    val text2: TextView,
-    val text3: TextView
+    val text2: TextView
 )
 
 data class ChangeGroup(

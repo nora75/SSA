@@ -3,23 +3,16 @@ package com.example.ssa
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.core.Request
-import com.github.kittinunf.fuel.core.Response
 import com.github.kittinunf.fuel.core.requests.download
-import com.github.kittinunf.fuel.httpDownload
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.json.responseJson
 import com.github.kittinunf.result.Result
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonReader
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import kotlinx.android.synthetic.main.activity_look.*
 import kotlinx.android.synthetic.main.my_text_view.view.*
@@ -28,29 +21,9 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.File
 import kotlin.collections.List
-import android.graphics.BitmapFactory
-import android.support.v4.app.SupportActivity
-import android.support.v4.app.SupportActivity.ExtraData
-import android.support.v4.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.support.v7.app.AlertDialog
 import android.view.*
 
-/*
-data class ProtoTypeData(
-    val names: String,
-    val title: String,
-    val date: String,
-    val data_type: Int
-)
-
-data class SampleViewHolder(
-    val imageView: ImageView,
-    val text1: TextView,
-    val text2: TextView,
-    val text3: TextView
-)
-*/
 
 class Look : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +31,7 @@ class Look : AppCompatActivity() {
         setContentView(R.layout.activity_look)
 
 //リストにデータを入れる
-        val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], date[i], data_type[i]) }
+        val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], data_type[i]) }
 //アダプターをせいせいし、viewにセットする
         val adapter = SampleListAdapter(this, test)
         myListView.adapter = adapter
@@ -239,13 +212,13 @@ class Look : AppCompatActivity() {
                                     GroupID.add(arraylist?.GroupID)
                                     dataNameList.add(arraylist.DataName)
                                     ImageName.add(arraylist.ImageName)
-                                    date.add("11月2日")
+                                    //date.add("11月2日")
                                     viewtitle.add(arraylist?.Title)
                                     data_type.add(arraylist?.DataType?.toInt())
                                 }
                             }
                         }
-                        val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i], date[i], data_type[i]) }
+                        val test = List(names.size) { i -> ProtoTypeData(names[i], viewtitle[i],data_type[i]) }
 //アダプターをせいせいし、viewにセットする
                         val adapter = SampleListAdapter(this, test)
                         myListView.adapter = adapter
@@ -340,9 +313,9 @@ class SampleListAdapter(
             holder = SampleViewHolder(
                 view.imageView,
                 view.text1,
-                view.text2,
-                view.text3
+                view.text2
             )
+
             view.tag = holder
         } else {
             holder = view.tag as SampleViewHolder
@@ -350,7 +323,6 @@ class SampleListAdapter(
         var sample = getItem(position) as ProtoTypeData
         holder.text1.text = sample.names
         holder.text2.text = sample.title
-        holder.text3.text = sample.date
         if (sample.data_type == 1) {
             holder.imageView.setImageResource(R.drawable.tabi_camera_nikki)
         } else {

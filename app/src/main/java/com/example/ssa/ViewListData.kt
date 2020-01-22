@@ -24,9 +24,10 @@ val ImageName:MutableList<String> = mutableListOf(
 
 val viewtitle:MutableList<String> = mutableListOf(
 )
-
+/*
 val date:MutableList<String> = mutableListOf(
 )
+*/
 
 val data_type:MutableList<Int> = mutableListOf(
 )
