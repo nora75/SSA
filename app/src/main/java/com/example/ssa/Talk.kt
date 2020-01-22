@@ -13,8 +13,10 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
+import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_talk.*
 import permissions.dispatcher.*
 import java.io.File
@@ -69,6 +71,8 @@ class Talk : AppCompatActivity() {
             if (recordPermission) {
                 try {
                     stopTalk()
+                    Log.d("owari","rokuonsyuuryou")
+                    recordSend()
                 } catch (e: Exception){ } // 録音が開始されていない時にエラーが起きるのでそれをキャッチするように。
             }
             false
@@ -137,24 +141,44 @@ class Talk : AppCompatActivity() {
 
  */
 fun recordSend(){
+    Log.d("Send","Send method")
     //グループIｄを取得
     val groupID = sh_group_id()
-    val fileName = filesDir.parentFile.lastModified()
-    System.out.println(fileName)
+    //Record file の取得
+    val filepath = applicationContext.filesDir.path + "/Record"
+    val files = File(filepath)
+    val listfile = files.listFiles()
+    val RecordFile = listfile[listfile.size-1]
     //Log.d("hello",cashname.toString())
 
     //パラメータに入れてる
     val info = listOf(
         "user_id" to sh_user_id(),
         "password" to sh_pass_id(),
-        //"data_name" to "${textFile.name}",
+        "data_name" to RecordFile.name,
         "data_type" to "0",
-        "title" to "$title",
-        "image_name" to null)
+        "title" to "title",
+        "image_name" to "")
 
+    Log.d("fuel","fuel before")
+    val fuel = Fuel.upload("http://34.83.80.2:50113/group/$groupID",parameters = info)
+        .add(FileDataPart(RecordFile))
+        .response { result ->
+            when(result){
+                is Result.Failure ->{
+                    //失敗した場合。
+                    Toast.makeText(this,"失敗しました", Toast.LENGTH_LONG).show()
+                    val ex = result.getException()
+                    Log.d("error msg", ex.toString())
+                }
 
-    val fuel = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
-        //.add(FileDataPart)
+                is Result.Success ->{
+                    // 成功した場合。
+                    Toast.makeText(this,"保存に成功しました",Toast.LENGTH_LONG).show()
+                    finish()
+                }
+            }
+        }
     }
 
 }

@@ -66,7 +66,8 @@ class write : AppCompatActivity() {
                     "title" to title,
                     "image_name" to "${image?.name}")
                 Log.d("Content's name", textFile.name)
-                val f = Fuel.upload("http://34.83.80.2:50112/group/$groupID",parameters = info)
+
+                val f = Fuel.upload("http://34.83.80.2:50113/group/$groupID",parameters = info)
                 .add(FileDataPart(File(textFile.path),name = "Data"))
                 if (imageFlag) {
                     if (!(imagePreview.drawable.equals(koko))) {
@@ -86,7 +87,7 @@ class write : AppCompatActivity() {
                         is Result.Success -> {
                             // 成功した場合。
                             val ex = result.get()
-                            Toast.makeText(this,"ほぞんに成功しました",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this,"保存に成功しました",Toast.LENGTH_LONG).show()
                             finish()
                         }
                     }
