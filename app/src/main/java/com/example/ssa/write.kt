@@ -68,7 +68,7 @@ class write : AppCompatActivity() {
                 Log.d("Content's name", textFile.name)
 
                 val f = Fuel.upload("http://34.83.80.2:50113/group/$groupID",parameters = info)
-                .add(FileDataPart(File(textFile.path),name = "Data"))
+                .add(FileDataPart(File(textFile.path),name = "data"))
                 if (imageFlag) {
                     if (!(imagePreview.drawable.equals(koko))) {
                         if (image != null) {

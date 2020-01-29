@@ -18,6 +18,7 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.fuel.core.FileDataPart
 import com.github.kittinunf.result.Result
 import kotlinx.android.synthetic.main.activity_talk.*
+import kotlinx.android.synthetic.main.activity_write.*
 import permissions.dispatcher.*
 import java.io.File
 
@@ -149,6 +150,8 @@ fun recordSend(){
     val files = File(filepath)
     val listfile = files.listFiles()
     val RecordFile = listfile[listfile.size-1]
+    val FilePath = listfile[listfile.size-1].path
+    Log.d("filecheck",RecordFile.isFile.toString())
     //Log.d("hello",cashname.toString())
 
     //パラメータに入れてる
@@ -161,9 +164,29 @@ fun recordSend(){
         "image_name" to "")
 
     Log.d("fuel","fuel before")
-    val fuel = Fuel.upload("http://34.83.80.2:50113/group/$groupID",parameters = info)
-        .add(FileDataPart(RecordFile))
-        .response { result ->
+    val f = Fuel.upload("http://34.83.80.2:50113/group/$groupID",parameters = info)
+        .add(FileDataPart(File(FilePath),name = "data"))
+    f.response{result ->
+        when(result){
+            is Result.Failure -> {
+                // 失敗した場合
+                Toast.makeText(this,"音声に失敗しました",Toast.LENGTH_LONG).show()
+                val ex = result.getException()
+                Log.d("error msg", ex.toString())
+            }
+            is Result.Success -> {
+                // 成功した場合。
+                val ex = result.get()
+                Toast.makeText(this,"音声保存に成功しました",Toast.LENGTH_LONG).show()
+                finish()
+            }
+        }
+    }
+
+    /*
+    val f = Fuel.upload("http://34.83.80.2:50113/group/$groupID",parameters = info)
+        .add(FileDataPart(RecordFile),name = "Data")
+        f.response { result ->
             when(result){
                 is Result.Failure ->{
                     //失敗した場合。
@@ -178,7 +201,7 @@ fun recordSend(){
                     finish()
                 }
             }
-        }
+        }*/
     }
 
 }

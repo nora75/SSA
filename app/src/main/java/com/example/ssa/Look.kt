@@ -61,55 +61,49 @@ class Look : AppCompatActivity() {
             )
             //リクエストをここに書く
             val data_user_id = UserID[postion]
-            //メソッドに変更予定がんば
-            "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
-                .httpGet(prams)
-                .download()
-                .fileDestination{response, request ->
-                    File.createTempFile("user_data_file",".txt")
-                }
-                .response { request, responce, result ->
-                    when (result) {
-                        is Result.Failure -> {
-                            Log.d("リクエストエラー",result.getException().toString())
-                            Toast.makeText(this,"リクエストエラー",Toast.LENGTH_LONG).show()
-                        }
-                        is Result.Success ->{
-                            Log.d("result_result",result.toString())
-                            Log.d("response_response",responce.toString())
-                            val cashname = applicationContext.cacheDir.listFiles()
-                            val fileName = cashname[cashname.size-1].name
-                            //Log.d("FileNameOut",a.toString())
-
-                            val str = readFiles(fileName)
-
-                            if (str != null) {
-                                content = str
-                            } else {
-                                content = "取得失敗"
+            //data_typeごとにで取得するデータが変わるためIF文で分岐
+            //data_type 1の時は書く画面のデータ　２の時は話す画面のデータ
+            if(data_type[postion]==1) {
+                //textファイル取得
+                "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
+                    .httpGet(prams)
+                    .download()
+                    .fileDestination { response, request ->
+                        File.createTempFile("user_data_file", ".txt")
+                    }
+                    .response { request, responce, result ->
+                        when (result) {
+                            is Result.Failure -> {
+                                Log.d("リクエストエラー", result.getException().toString())
+                                Toast.makeText(this, "リクエストエラー", Toast.LENGTH_LONG).show()
                             }
+                            is Result.Success -> {
+                                Log.d("result_result", result.toString())
+                                Log.d("response_response", responce.toString())
+                                val cashname = applicationContext.cacheDir.listFiles()
+                                val fileName = cashname[cashname.size - 1].name
+                                //Log.d("FileNameOut",a.toString())
+
+                                val str = readFiles(fileName)
+
+                                if (str != null) {
+                                    content = str
+                                } else {
+                                    content = "取得失敗"
+                                }
 
 
-                            Log.d("リクエスト成功","リクエスト成功")
+                                Log.d("リクエスト成功", "リクエスト成功")
 
-                            //画面遷移する時にデータを渡す
-                                /*
-                            var See = Intent(this,SeeDainay::class.java)
-                            See.putExtra("title","$title")
-                            See.putExtra("Data","$content")
-                            See.putExtra("Image","")
-                            startActivity(See)
-
-                                 */
+                            }
                         }
                     }
-                }
 
-            val prams2 = listOf(
-                "data_name" to ImageName[postion],
-                "user_id" to sh_user_id(),
-                "password" to sh_pass_id()
-            )
+                val prams2 = listOf(
+                    "data_name" to ImageName[postion],
+                    "user_id" to sh_user_id(),
+                    "password" to sh_pass_id()
+                )
 
                 //写真取得
                 "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
@@ -129,18 +123,51 @@ class Look : AppCompatActivity() {
                                 val fileName = cashname[cashname.size - 1].name
                                 //上まであってる
                                 Log.d("FileNameOut", fileName.toString())
-                                val File = File(applicationContext.filesDir,fileName)
+                                val File = File(applicationContext.filesDir, fileName)
                                 val FIlebyte = File.readBytes()
 
                                 //画面遷移する時にデータを渡す
-                                val See = Intent(this,SeeDainay::class.java)
-                                See.putExtra("title","$title")
-                                See.putExtra("Data","$content")
-                                See.putExtra("Image",FIlebyte)
+                                val See = Intent(this, SeeDainay::class.java)
+                                See.putExtra("title", "$title")
+                                See.putExtra("Data", "$content")
+                                See.putExtra("Image", FIlebyte)
                                 startActivity(See)
                             }
                         }
                     }
+            }
+            else{
+                val prams2 = listOf(
+                    "data_name" to dataNameList[postion],
+                    "user_id" to sh_user_id(),
+                    "password" to sh_pass_id()
+                )
+                //音声データを取得
+                "http://34.83.80.2:50113/group/${sh_group_id()}/$data_user_id"
+                    .httpGet(prams2)
+                    .download()
+                    .fileDestination { response, request ->
+                        File.createTempFile("record", ".mp3", filesDir)
+                    }
+                    .response { request, responce, result ->
+                        when (result) {
+                            is Result.Failure -> {
+                                Log.d("download failed", result.getException().toString())
+                                Toast.makeText(this, "音声データダウンロード失敗", Toast.LENGTH_LONG).show()
+                            }
+                            is Result.Success -> {
+                                //downloadしたデータのパスを取得する
+                                val cashname = applicationContext.filesDir.listFiles()
+                                val filePaht = cashname[cashname.size-1].path
+                                //画面遷移する時にデータを渡す
+                                val listen = Intent(this, listen::class.java)
+                                listen.putExtra("paht", filePaht)
+                                startActivity(listen)
+                            }
+                        }
+                    }
+
+            }
 
         }
 //更新ボタンクリックのリスナ
@@ -222,7 +249,6 @@ class Look : AppCompatActivity() {
 //アダプターをせいせいし、viewにセットする
                         val adapter = SampleListAdapter(this, test)
                         myListView.adapter = adapter
-
                         Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
                     }
                 }
@@ -239,29 +265,6 @@ class Look : AppCompatActivity() {
             }
         }
         return true
-    }
-
-
-    fun getData() {
-        //Toast.makeText(this,"トースト表示成功",Toast.LENGTH_LONG).show()
-
-        val GROUPID = sh_group_id()
-        val USERID = sh_user_id()
-        Fuel.get("http://34.83.80.2:50113/group/${GROUPID}/${USERID}")
-            .responseJson { request, response, result ->
-                when (result) {
-                    is Result.Failure -> {
-                        val ex = result.getException()
-                        Toast.makeText(this, "失敗しました", Toast.LENGTH_LONG).show()
-                        Log.d("error_msg", ex.toString())
-                    }
-                    is Result.Success -> {
-                        val data = result.get()
-                        Log.d("成功データ取得", data.toString())
-                        Toast.makeText(this, "成功しました", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
     }
 
     private fun sh_user_id():Int{
@@ -306,7 +309,7 @@ class SampleListAdapter(
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         var view = convertView
-        var holder: SampleViewHolder
+        val holder: SampleViewHolder
 
         if (view == null) {
             view = layoutInflater.inflate(R.layout.my_text_view, parent, false)
@@ -320,7 +323,7 @@ class SampleListAdapter(
         } else {
             holder = view.tag as SampleViewHolder
         }
-        var sample = getItem(position) as ProtoTypeData
+        val sample = getItem(position) as ProtoTypeData
         holder.text1.text = sample.names
         holder.text2.text = sample.title
         if (sample.data_type == 1) {
