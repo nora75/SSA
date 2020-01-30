@@ -3,6 +3,7 @@ package com.example.ssa
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -158,10 +159,11 @@ class Look : AppCompatActivity() {
                             is Result.Success -> {
                                 //downloadしたデータのパスを取得する
                                 val cashname = applicationContext.filesDir.listFiles()
-                                val filePaht = cashname[cashname.size-1].path
+                                val filePath = cashname[cashname.size-1].path
+                                Log.d("path",filePath)
                                 //画面遷移する時にデータを渡す
                                 val listen = Intent(this, listen::class.java)
-                                listen.putExtra("paht", filePaht)
+                                listen.putExtra("path", filePath)
                                 startActivity(listen)
                             }
                         }

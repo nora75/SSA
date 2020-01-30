@@ -4,16 +4,17 @@ import android.content.Intent
 import android.graphics.Color
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import kotlinx.android.synthetic.main.activity_talk.*
+import java.io.File
 
 class listen : AppCompatActivity() {
 
     private var flag: Boolean = false // True : 再生中, False : 再生されていない
     private var mediaPlayer: MediaPlayer? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,26 +41,28 @@ class listen : AppCompatActivity() {
         }
     }
 
-    private fun audioSetup(path: Int): Boolean {
+    private fun audioSetup(path: Uri): Boolean {
 
         var fileFlag = true
         try {
-            mediaPlayer = MediaPlayer.create(this, path)
+            mediaPlayer = MediaPlayer.create(this,path)
 
             // 音量調整を端末のボタンに任せる
             setVolumeControlStream(AudioManager.STREAM_MUSIC);
         } catch (e: Exception) {
             fileFlag = false
         }
-
         return fileFlag
-
     }
 
     private fun audioPlay() {
 
         if (mediaPlayer == null) {
-            if (!audioSetup(R.raw.music)) {
+            val datapath = intent.getStringExtra("path")
+            val File = File(datapath)
+            val fileuri = Uri.fromFile(File)
+            System.out.println(fileuri)
+            if (!audioSetup(fileuri)) {
                 //r.raw.musicのところにパスを設定
                 return
             }
@@ -99,4 +102,5 @@ class listen : AppCompatActivity() {
         listen_button.setBackgroundResource(android.R.drawable.btn_default)
         alert_listen.visibility = View.INVISIBLE
     }
+
 }
