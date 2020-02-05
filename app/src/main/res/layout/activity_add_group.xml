@@ -35,30 +35,18 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            <TextView
+            <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/add_group_id"
-                    android:hint="ここにIDが表示されます"
+                    android:hint="ここにIDを入力してください"
                     android:textSize="30sp"/>
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="5dp"/>
-            <Button
-                    android:layout_gravity="right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="発行"
-                    android:textSize="20sp"
-                    android:textColor="#ffffff"
-                    android:background="@drawable/main_orange_radius"
-                    android:id="@+id/change_button"/>
         </LinearLayout>
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="5dp"/>
         <Button
-                android:text="グループ作成"
+                android:text="グループ変更"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/add_groupid_button"

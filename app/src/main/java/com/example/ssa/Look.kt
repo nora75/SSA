@@ -39,10 +39,8 @@ class Look : AppCompatActivity() {
         val json = returnDataList()
         Log.d("[ssa]", json.toString())
 
-
         /*
         *ファイルパスを取得するコードをレコードのほうに移行する
-        *
          */
         val test2 = applicationContext.filesDir.path + "/Record"
         val files = File(test2)
@@ -92,10 +90,7 @@ class Look : AppCompatActivity() {
                                 } else {
                                     content = "取得失敗"
                                 }
-
-
                                 Log.d("リクエスト成功", "リクエスト成功")
-
                             }
                         }
                     }
@@ -180,7 +175,6 @@ class Look : AppCompatActivity() {
             val json = returnDataList()
             Log.d("[ssa]", json.toString())
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

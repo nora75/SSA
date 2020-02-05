@@ -28,43 +28,35 @@ class option : AppCompatActivity() {
         val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
 
         account_info_button.setOnClickListener{
-            var info_intent = Intent(this,account_info::class.java)
+            val info_intent = Intent(this,account_info::class.java)
             startActivity(info_intent)
         }
-
+        //グループ変更機能
         make_group.setOnClickListener{
-            //var makegroup_intent = Intent(this,add_group::class.java)
-            //startActivity(makegroup_intent)
+            val intent = Intent(this,add_group::class.java)
+            startActivity(intent)
             /*
             val requestAdapter = moshi.adapter(Change_group::class.java)
-            var request = Change_group(
-                password = sh_pass_id(),
-                group_id = sh_group_id()
-
+            val changegroup = Change_group(
+                group_id = sh_group_id(),
+                password = sh_pass_id()
             )
-
-            "http://34.83.80.2:8000/users/${sh_user_id()}"
+            "http://34.83.80.2:50112/users"
                 .httpPost()
                 .header(header)
-                .body(requestAdapter.toJson(request))
-                .responseString{ request, response, result ->
-                    when(result){
-                        is Result.Failure ->{
+                .body(requestAdapter.toJson(changegroup), Charset.defaultCharset())
+                .responseString { request, response, result ->
+                    when (result) {
+                        is Result.Failure<*> -> {
                             val ex = result.getException()
-                            Log.d("error_msg","${ex.toString()}")
-                            Toast.makeText(this,"しっぱい",Toast.LENGTH_LONG).show()
+                            Toast.makeText(this, ex.toString(), Toast.LENGTH_LONG).show()
                         }
-                        is Result.Success ->{
-                            val data = result.get()
-                            Toast.makeText(this,"成功",Toast.LENGTH_LONG).show()
+                        is Result.Success<*> -> {
+                            Toast.makeText(this,"グループIDの変更が完了しました",Toast.LENGTH_LONG).show()
                         }
                     }
                 }
-
              */
-        }
-        help.setOnClickListener {
-
         }
         //ログアウトするための機能
         //
@@ -73,9 +65,6 @@ class option : AppCompatActivity() {
             val editor = dataStore.edit()
             editor.putString("Pass","")
             editor.putString("Address","")
-            //editor.putString("USER_ID","")
-            //editor.putString("GROUP_ID","")
-            //editor.putString("USER_NAME","")
             //テストデータ UserID,UserName,GroupID,DataName,ImageName,Title,DataType
             UserID.removeAll(UserID)
             names.removeAll(names)
@@ -87,37 +76,6 @@ class option : AppCompatActivity() {
             data_type.removeAll(data_type)
             editor.apply()
             finish()
-        }
-        sample.setOnClickListener {
-            //header:ヘッダー
-            val header : HashMap<String, String> = hashMapOf("Content-Type" to "application/json")
-            //url:基本的なURL
-            val requestAdapter = moshi.adapter(LogoutRequest::class.java)
-
-            val LogoutRequest = LogoutRequest(
-                password = sh_pass_id()
-            )
-            /*
-            val user_id = "1111"
-            "http://34.83.80.2:8000/users/${sh_user_id()}"
-                .httpDelete()
-                .header()
-                .body(requestAdapter.toJson(LogoutRequest), Charset.defaultCharset())
-                .responseString{ request, response, result ->
-                    when(result){
-                        is Result.Failure ->{
-                            val ex = result.getException()
-                            Log.d("error_msg","${ex.toString()}")
-                            Toast.makeText(this,"しっぱい",Toast.LENGTH_LONG).show()
-                        }
-                        is Result.Success ->{
-                            val data = result.get()
-                            Toast.makeText(this,"成功",Toast.LENGTH_LONG).show()
-                        }
-                    }
-                }
-
-             */
         }
     }
     private fun sh_user_id():String{

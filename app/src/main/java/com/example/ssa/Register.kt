@@ -76,7 +76,7 @@ class Register : AppCompatActivity() {
 
     //メールアドレスの入力欄に入力されているモノを取得する
     private fun GetMailAddress1(): String {
-        var mail_address = findViewById(R.id.user_mailaddress1) as EditText
+        val mail_address = findViewById(R.id.user_mailaddress1) as EditText
         return mail_address.text.toString()
     }
 
@@ -128,7 +128,7 @@ class Register : AppCompatActivity() {
 
     //数値が入っているかのチェック
     private fun EmptyCheck(): Int {
-        var SpaceCheck = arrayListOf(GetMailAddress1(),GetMailAddress2(),GetName(),GetPassWord())
+        val SpaceCheck = arrayListOf(GetMailAddress1(),GetMailAddress2(),GetName(),GetPassWord())
         var checkpoint = 0
 
         for(checkitem in SpaceCheck){
@@ -140,7 +140,7 @@ class Register : AppCompatActivity() {
     }
     //数値が4桁あるのを確認する機能
     private fun NumCheck(): Int {
-        var pass = GetPassWord()
+        val pass = GetPassWord()
 
         if(pass.length!=4){
             return 1

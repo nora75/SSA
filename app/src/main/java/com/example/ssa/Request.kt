@@ -37,5 +37,5 @@ data class SampleViewHolder(
 )
 
 data class ChangeGroup(
-    val user_name: String
+    val user_id: String
 )
