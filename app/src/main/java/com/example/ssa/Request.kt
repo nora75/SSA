@@ -26,7 +26,7 @@ data class Change_group(
 
 data class ProtoTypeData(
     val names: String,
-    val title: String,
+    var title: String,
     val data_type: Int
 )
 

@@ -45,8 +45,6 @@ class Look : AppCompatActivity() {
         val test2 = applicationContext.filesDir.path + "/Record"
         val files = File(test2)
         val test3 = files.listFiles()
-        Log.d("lgo",files.name)
-        Log.d("lgo2",test3[0].toString())
 
 //viewクリックの時のリスナ
         myListView.setOnItemClickListener { adapterView, view, postion, id ->
@@ -321,6 +319,9 @@ class SampleListAdapter(
         }
         val sample = getItem(position) as ProtoTypeData
         holder.text1.text = sample.names
+        if(sample.title == "title") {
+            sample.title = ""
+        }
         holder.text2.text = sample.title
         if (sample.data_type == 1) {
             holder.imageView.setImageResource(R.drawable.tabi_camera_nikki)
